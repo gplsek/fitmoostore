@@ -1,0 +1,26 @@
+<?php
+
+
+function fitmoo_product_create_item($items){
+	
+	//this is a test for event product item - will need to generalize the function or create subfunctions to handle other product types
+	$product = commerce_product_new($items['type']);
+	$product->title = $items['title'];
+	$product->uid = $items['uid']; //id of logged in user
+	$product->sku = $items['sku']; //this nees to be unique
+	$prodict->status = 1;
+	$product->created = $product->changed = time();
+	commerce_product_save($product);
+	return $product->product_id;
+	
+	
+	
+	
+}
+
+function fitmoo_product_load_item($produtID){
+	
+	$product = commerce_product_load($productID);
+	print_r($product);
+	die();
+}
