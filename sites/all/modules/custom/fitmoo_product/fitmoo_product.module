@@ -1,26 +1,88 @@
 <?php
+function fitmoo_product_menu() {
+  $items = array();
 
+
+  $items['fitmoo/product/%'] = array(
+    'page callback' => 'fitmoo_product_load_item',
+    'page arguments' => array(2),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  
+  $items['fitmoo/product_node/%'] = array(
+    'page callback' => 'fitmoo_product_load_product',
+    'page arguments' => array(2),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+
+
+  return $items;
+}
 
 function fitmoo_product_create_item($items){
-	
+	//$items is an array that you get from the API request with the product attributes
 	//this is a test for event product item - will need to generalize the function or create subfunctions to handle other product types
-	$product = commerce_product_new($items['type']);
-	$product->title = $items['title'];
-	$product->uid = $items['uid']; //id of logged in user
-	$product->sku = $items['sku']; //this nees to be unique
-	$prodict->status = 1;
-	$product->created = $product->changed = time();
-	commerce_product_save($product);
-	return $product->product_id;
+	$product_item = commerce_product_new($items['type']);
+	$product_item->title = $items['title'];
+	$product_item->uid = $items['uid']; //id of logged in user
+	$product_item->sku = $items['sku']; //this nees to be unique
+	$prodict_item->status = 1;
+	$product_item->created = $product_item->changed = time();
+	$product_item->commerce_price['und'][0]['amount'] = $items['amount']; //in cents, ie $20.00 = 2000
+	$product_item->commerce_price['und'][0]['currency_code'] = $items['currency_code']; //set default to USD
+	$product_item->field_date['und'][0]['value'] = $items['start_date']; //2014-02-18 14:30:00
+	$product_item->field_date['und'][0]['value2'] = $items['end_date']; //2014-02-18 15:30:00
+	$product_item->field_date['und'][0]['timezone'] = $items['timezone']; //America/Los_Angeles
+	$product_item->field_date['und'][0]['timezone_db'] = $items['timezone_db']; //UTC -- we probably dont have to set it and leave it get set by default
+	$product_item->field_location['und'][0]['value'] = $items['location']; //text for now might become coordinates later
+	$product_item->commerce_stock['und'][0]['value'] = $items['stock']; //needs to be decimal
+	$product_item->field_description['und'][0]['value'] = $items['description']; //plain text
+	$product_item->field_fitmooid['und'][0]['value'] = $items['fitmooID']; //integer for now, might be a string must be unique
+	commerce_product_save($product_item);
+	return $product_item->product_id;
 	
 	
 	
 	
 }
 
-function fitmoo_product_load_item($produtID){
+function fitmoo_product_create_product($product){
+	
+	//product is an array or object you get from API request
+	
+	$product_node = new stdClass();
+	$product_node->type = $product['type']; //could be event at this test point
+    $product_node->title = $product['title'];
+    $product_node->uid = $product['uid'];  //product owner drupal user id - should the the logged in user uid $user->uid;
+    $product_node->status = 1;
+    $product_node->language = 'und';
+	$product_node->body['und'][0]['value'] = $product['description'];
+	$i = 0;
+	foreach($product['items'] as $items){
+    $product_node->field_product['und'][$i]['product_id'] = fitmoo_product_create_item($items);
+	$i++;
+    }
+    node_save($product_node);
+	
+	
+}
+
+function fitmoo_product_load_item($productID){
 	
 	$product = commerce_product_load($productID);
 	print_r($product);
 	die();
 }
+
+
+function fitmoo_product_load_product($nodeID){
+	
+	$product = node_load($nodeID);
+	print_r($product);
+	die();
+}
+
+
+
