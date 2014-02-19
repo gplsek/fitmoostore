@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Fitmoo Store feature.
+ */
+
+include_once 'fitmoo_store.features.inc';
