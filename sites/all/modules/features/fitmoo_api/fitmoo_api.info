@@ -1,0 +1,10 @@
+name = fitmoo api
+description = test feature
+core = 7.x
+package = Fitmoo
+php = 5.2.4
+dependencies[] = ctools
+dependencies[] = services
+features[ctools][] = services:services:3
+features[features_api][] = api:1
+features[services_endpoint][] = fit_store
