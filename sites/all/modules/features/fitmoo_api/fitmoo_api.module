@@ -1,7 +1,0 @@
-<?php
-/**
- * @file
- * Code for the fitmoo api feature.
- */
-
-include_once 'fitmoo_api.features.inc';
