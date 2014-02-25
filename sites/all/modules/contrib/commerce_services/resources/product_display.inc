@@ -66,7 +66,7 @@ function commerce_services_product_display_index($fields, $expand_entities, $fla
   $nodes = array();
 
   if (!empty($result['node'])) {
-      $nodes = node_load_multiple(array_keys($result['node']));
+    $nodes = node_load_multiple(array_keys($result['node']));
 
     foreach ($nodes as $nid => &$node) {
       // Add simplified fields to the entity object for certain field types.
