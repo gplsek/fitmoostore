@@ -38,7 +38,7 @@ Example Call:
       {
         "name": "testuser",
         "pass": "testuser",
-         "mail" : "sabre+1@tut.by"
+        "mail" : "sabre+1@tut.by"
       }
     - 
       -- response --
