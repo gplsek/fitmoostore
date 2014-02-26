@@ -120,6 +120,63 @@ Response:
     - sku
     - productID
     
+Example API"
+
+      ===============CREATE PRODUCT============== //these are the product variations
+      POST http://fitmoo.plsekwerks.com/fit_store/product
+      Cookie: SESSe889a326a5c093a77c387b336cb83f72=pIuj9EEex7MoJ2AEGctHKvFCIFSMcDRTheU2HevpYUM
+      X-CSRF-Token: frGgOzjJPzrQBHi-5ghxVs43rDtGEVDMxNGjgW717mA
+      Content-Type: application/json
+      {
+            "title": "shoes_1",
+            "sku": "shoes_1sku",
+            "commerce_price_amount": "1000",
+            "commerce_price_currency_code": "USD",
+            "type": "shoes",
+            "field_shoe_size": "10"
+      }
+      
+      -- response --
+      {"type":"shoes","product_id":"8","sku":"shoes_1sku","revision_id":"9","title":"shoes_1","uid":"","status":1,"created":1392904311,"changed":1392904311,"commerce_price":{"amount":"1000","currency_code":"USD","data":{"components":[]}},"field_shoe_size":"10","revision_timestamp":1392904311,"revision_uid":"4","log":"","language":"","attribute_fields":["field_shoe_size"],"commerce_price_formatted":"$10.00","field_image_url":null,"commerce_stock":null}
+      
+      ===============GET PRODUCT==============
+      GET http://fitmoo.plsekwerks.com/fit_store/product?sku=shoes_1sku
+      Cookie: SESSe889a326a5c093a77c387b336cb83f72=pIuj9EEex7MoJ2AEGctHKvFCIFSMcDRTheU2HevpYUM
+      X-CSRF-Token: frGgOzjJPzrQBHi-5ghxVs43rDtGEVDMxNGjgW717mA
+      -- response --
+      {"8":{"revision_id":"9","sku":"shoes_1sku","title":"shoes_1","revision_uid":"4","status":"1","log":"","revision_timestamp":"1392904311","data":false,"product_id":"8","type":"shoes","language":"","uid":"0","created":"1392904311","changed":"1392904311","commerce_price":{"amount":"1000","currency_code":"USD","data":{"components":[]}},"field_image_url":null,"field_shoe_size":"10","commerce_stock":null,"rdf_mapping":[],"attribute_fields":["field_shoe_size"],"commerce_price_formatted":"$10.00","field_shoe_size_entities":{"10":{"tid":"10","vid":"3","name":"6","description":"","format":"filtered_html","weight":"0","vocabulary_machine_name":"shoe_size","rdf_mapping":{"rdftype":["skos:Concept"],"name":{"predicates":["rdfs:label","skos:prefLabel"]},"description":{"predicates":["skos:definition"]},"vid":{"predicates":["skos:inScheme"],"type":"rel"},"parent":{"predicates":["skos:broader"],"type":"rel"}}}}}}
+      
+      ===============CREATE NODE PRODUCT==========  node product is the main container that holds all variations
+      ids = prodct ids from call aboce CREATE product
+      
+      POST http://fitmoo.plsekwerks.com/fit_store/product
+      Cookie: SESSe889a326a5c093a77c387b336cb83f72=pIuj9EEex7MoJ2AEGctHKvFCIFSMcDRTheU2HevpYUM
+      X-CSRF-Token: frGgOzjJPzrQBHi-5ghxVs43rDtGEVDMxNGjgW717mA
+      Content-Type: application/json
+      {
+            "title": "title21",
+            "sku": "sku21",
+            "node": "true",  (!!!!!!!!!!STRING!!!!!!!!!! don't need "false" you create simple commerce_product) 
+            "description": "description", 
+            "type": "shoes",
+            "ids": [
+                  {
+                   "0": "10",
+                  "1": "11"
+                  }
+            ]
+      }
+      
+       -- response --
+      {"type":"shoes","title":"title21","uid":"4","status":1,"language":"und","body":{"und":[{"value":"description"}]},"field_product":{"und":[{"product_id":"11"}]},"created":1393331960,"changed":1393331960,"timestamp":1393331960,"log":"","nid":"6","comment":0,"promote":0,"sticky":0,"tnid":0,"translate":0,"vid":"6"}
+      
+      =================GET NODE PRODUCT============
+      GET http://fitmoo.plsekwerks.com/fit_store/node/6
+      Cookie: SESSe889a326a5c093a77c387b336cb83f72=pIuj9EEex7MoJ2AEGctHKvFCIFSMcDRTheU2HevpYUM
+      X-CSRF-Token: frGgOzjJPzrQBHi-5ghxVs43rDtGEVDMxNGjgW717mA
+      -- response --
+      {"vid":"6","uid":"4","title":"title21","log":"","status":"1","comment":"0","promote":"0","sticky":"0","nid":"6","type":"shoes","language":"und","created":"1393331960","changed":"1393331960","tnid":"0","translate":"0","revision_timestamp":"1393331960","revision_uid":"4","body":{"und":[{"value":"description","summary":null,"format":null,"safe_value":"description","safe_summary":""}]},"field_gender":[],"field_brand":[],"field_product":{"und":[{"product_id":"11"}]},"rdf_mapping":{"rdftype":["sioc:Item","foaf:Document"],"title":{"predicates":["dc:title"]},"created":{"predicates":["dc:date","dc:created"],"datatype":"xsd:dateTime","callback":"date_iso8601"},"changed":{"predicates":["dc:modified"],"datatype":"xsd:dateTime","callback":"date_iso8601"},"body":{"predicates":["content:encoded"]},"uid":{"predicates":["sioc:has_creator"],"type":"rel"},"name":{"predicates":["foaf:name"]},"comment_count":{"predicates":["sioc:num_replies"],"datatype":"xsd:integer"},"last_activity":{"predicates":["sioc:last_activity_date"],"datatype":"xsd:dateTime","callback":"date_iso8601"}},"cid":0,"last_comment_timestamp":"1393331960","last_comment_name":"","last_comment_uid":"4","comment_count":0,"name":"testuser","picture":"0","data":"b:0;","path":"http://fitmoo.plsekwerks.com/node/6"}
+    
 
 **Edit Product**
 
