@@ -53,6 +53,33 @@ Example Call:
 User needs to be logged in when products are pushed to drupal so products are created as that user.
 User needs to be logget in when creating order
 
+Example Call:
+
+          
+      ==================LOGIN===================
+      POST http://fitmoo.plsekwerks.com/fit_store/user/login
+      Content-Type: application/json
+      {"username": "testuser","password": "testuser"}
+      -- response --
+      ["The username <em class=\"placeholder\">testuser</em> has not been activated or is blocked."]
+      
+      We will setup drupal to auto activate users on API call create user
+      
+      ==========LOGIN AFTER MANUALY ACTIVATING=============
+      POST http://fitmoo.plsekwerks.com/fit_store/user/login
+      Content-Type: application/json
+      {"username": "testuser","password": "testuser"}
+      -- response --
+      Set-Cookie:  SESSe889a326a5c093a77c387b336cb83f72=pIuj9EEex7MoJ2AEGctHKvFCIFSMcDRTheU2HevpYUM; expires=Sat, 15-Mar-2014 17:09:19 GMT; path=/; domain=.fitmoo.plsekwerks.com; httponly
+      {"sessid":"pIuj9EEex7MoJ2AEGctHKvFCIFSMcDRTheU2HevpYUM","session_name":"SESSe889a326a5c093a77c387b336cb83f72","user":{"uid":"4","name":"testuser","theme":"","signature":"","signature_format":"filtered_html","created":"1392903024","access":"0","login":1392903359,"status":"1","timezone":"America/Los_Angeles","language":"","picture":null,"data":false,"roles":{"2":"authenticated user"},"rdf_mapping":{"rdftype":["sioc:UserAccount"],"name":{"predicates":["foaf:name"]},"homepage":{"predicates":["foaf:page"],"type":"rel"}}}}
+      
+      ====================GET TOKEN========================
+      GET http://fitmoo.plsekwerks.com/services/session/token
+      Cookie:  SESSe889a326a5c093a77c387b336cb83f72=pIuj9EEex7MoJ2AEGctHKvFCIFSMcDRTheU2HevpYUM
+      -- response --
+      frGgOzjJPzrQBHi-5ghxVs43rDtGEVDMxNGjgW717mA
+
+
 **Create Product**
 
 After user creates a product in fitmoo, API call to Drupal to create same product
