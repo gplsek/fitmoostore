@@ -39,7 +39,7 @@ Example Call:
         "name": "testuser",
         "pass": "testuser",
          "mail" : "sabre+1@tut.by"
-    }
+      }
     - 
       -- response --
       Set-Cookie:  SESSe889a326a5c093a77c387b336cb83f72=E1juSPMd0fUOg3j_esS2G1MwU1jodrDpBjl0KHfli08; expires=Sat, 15-Mar-2014 17:03:45 GMT; path=/; domain=.fitmoo.plsekwerks.com; HttpOnly
