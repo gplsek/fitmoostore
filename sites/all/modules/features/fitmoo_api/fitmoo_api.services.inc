@@ -21,25 +21,193 @@ function fitmoo_api_default_services_endpoint() {
   );
   $endpoint->server_settings = array(
     'formatters' => array(
-      'bencode' => TRUE,
       'json' => TRUE,
-      'php' => TRUE,
-      'xml' => TRUE,
+      'bencode' => FALSE,
       'jsonp' => FALSE,
+      'php' => FALSE,
+      'xml' => FALSE,
     ),
     'parsers' => array(
       'application/json' => TRUE,
-      'application/vnd.php.serialized' => TRUE,
       'application/x-www-form-urlencoded' => TRUE,
-      'application/xml' => TRUE,
-      'multipart/form-data' => TRUE,
-      'text/xml' => TRUE,
+      'application/vnd.php.serialized' => FALSE,
+      'application/xml' => FALSE,
+      'multipart/form-data' => FALSE,
+      'text/xml' => FALSE,
     ),
   );
   $endpoint->resources = array(
+    'product-display' => array(
+      'operations' => array(
+        'index' => array(
+          'enabled' => '1',
+        ),
+        'retrieve' => array(
+          'enabled' => '1',
+        ),
+      ),
+    ),
+    'product' => array(
+      'operations' => array(
+        'index' => array(
+          'enabled' => '1',
+        ),
+        'retrieve' => array(
+          'enabled' => '1',
+        ),
+        'create' => array(
+          'enabled' => '1',
+        ),
+        'update' => array(
+          'enabled' => '1',
+        ),
+        'delete' => array(
+          'enabled' => '1',
+        ),
+      ),
+    ),
+    'cart' => array(
+      'operations' => array(
+        'index' => array(
+          'enabled' => '1',
+        ),
+        'create' => array(
+          'enabled' => '1',
+        ),
+      ),
+    ),
+    'order' => array(
+      'operations' => array(
+        'index' => array(
+          'enabled' => '1',
+        ),
+        'retrieve' => array(
+          'enabled' => '1',
+        ),
+        'update' => array(
+          'enabled' => '1',
+        ),
+        'delete' => array(
+          'enabled' => '1',
+        ),
+      ),
+      'relationships' => array(
+        'line-items' => array(
+          'enabled' => '1',
+        ),
+      ),
+    ),
+    'line-item' => array(
+      'operations' => array(
+        'index' => array(
+          'enabled' => '1',
+        ),
+        'retrieve' => array(
+          'enabled' => '1',
+        ),
+        'create' => array(
+          'enabled' => '1',
+        ),
+        'update' => array(
+          'enabled' => '1',
+        ),
+        'delete' => array(
+          'enabled' => '1',
+        ),
+      ),
+    ),
+    'node' => array(
+      'operations' => array(
+        'retrieve' => array(
+          'enabled' => '1',
+        ),
+        'create' => array(
+          'enabled' => '1',
+        ),
+        'update' => array(
+          'enabled' => '1',
+        ),
+        'delete' => array(
+          'enabled' => '1',
+        ),
+        'index' => array(
+          'enabled' => '1',
+        ),
+      ),
+      'relationships' => array(
+        'files' => array(
+          'enabled' => '1',
+        ),
+        'comments' => array(
+          'enabled' => '1',
+        ),
+      ),
+      'targeted_actions' => array(
+        'attach_file' => array(
+          'enabled' => '1',
+        ),
+      ),
+    ),
     'system' => array(
       'actions' => array(
         'connect' => array(
+          'enabled' => '1',
+        ),
+        'get_variable' => array(
+          'enabled' => '1',
+        ),
+        'set_variable' => array(
+          'enabled' => '1',
+        ),
+        'del_variable' => array(
+          'enabled' => '1',
+        ),
+      ),
+    ),
+    'taxonomy_term' => array(
+      'operations' => array(
+        'retrieve' => array(
+          'enabled' => '1',
+        ),
+        'create' => array(
+          'enabled' => '1',
+        ),
+        'update' => array(
+          'enabled' => '1',
+        ),
+        'delete' => array(
+          'enabled' => '1',
+        ),
+        'index' => array(
+          'enabled' => '1',
+        ),
+      ),
+      'actions' => array(
+        'selectNodes' => array(
+          'enabled' => '1',
+        ),
+      ),
+    ),
+    'taxonomy_vocabulary' => array(
+      'operations' => array(
+        'retrieve' => array(
+          'enabled' => '1',
+        ),
+        'create' => array(
+          'enabled' => '1',
+        ),
+        'update' => array(
+          'enabled' => '1',
+        ),
+        'delete' => array(
+          'enabled' => '1',
+        ),
+        'index' => array(
+          'enabled' => '1',
+        ),
+      ),
+      'actions' => array(
+        'getTree' => array(
           'enabled' => '1',
         ),
       ),
