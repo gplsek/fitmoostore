@@ -78,6 +78,24 @@ Example Call:
       Cookie:  SESSe889a326a5c093a77c387b336cb83f72=pIuj9EEex7MoJ2AEGctHKvFCIFSMcDRTheU2HevpYUM
       -- response --
       frGgOzjJPzrQBHi-5ghxVs43rDtGEVDMxNGjgW717mA
+      
+      
+      Other available USER calls
+      
+      ===============GET USER LIST==================
+      GET http://fitmoo.plsekwerks.com/fit_store/user
+      Cookie: SESSe889a326a5c093a77c387b336cb83f72=pIuj9EEex7MoJ2AEGctHKvFCIFSMcDRTheU2HevpYUM
+      X-CSRF-Token: frGgOzjJPzrQBHi-5ghxVs43rDtGEVDMxNGjgW717mA
+      
+       -- response --
+      [{"uid":"4","name":"testuser","theme":"","signature":"","signature_format":"filtered_html","created":"1392903024","access":"1392903648","login":"1392903359","status":"1","timezone":"America/Los_Angeles","language":"","picture":"0","data":"b:0;","uri":"http://fitmoo.plsekwerks.com/fit_store/user/4"},{"uid":"3","name":"jiri","theme":"","signature":"","signature_format":"filtered_html","created":"1392649287","access":"1392649302","login":"1392649302","status":"1","timezone":"America/Los_Angeles","language":"","picture":"0","data":null,"uri":"http://fitmoo.plsekwerks.com/fit_store/user/3"},{"uid":"1","name":"admin","theme":"","signature":"","signature_format":null,"created":"1391997056","access":"1392903302","login":"1392894035","status":"1","timezone":"America/Los_Angeles","language":"","picture":"0","data":"b:0;","uri":"http://fitmoo.plsekwerks.com/fit_store/user/1"},{"uid":"0","name":"","theme":"","signature":"","signature_format":null,"created":"0","access":"0","login":"0","status":"0","timezone":null,"language":"","picture":"0","data":null,"uri":"http://fitmoo.plsekwerks.com/fit_store/user/0"}]
+      
+      ===============GET USER==================
+      GET http://fitmoo.plsekwerks.com/fit_store/user/1
+      Cookie: SESSe889a326a5c093a77c387b336cb83f72=pIuj9EEex7MoJ2AEGctHKvFCIFSMcDRTheU2HevpYUM
+      X-CSRF-Token: frGgOzjJPzrQBHi-5ghxVs43rDtGEVDMxNGjgW717mA
+      -- response --
+      {"uid":"1","name":"admin","theme":"","signature":"","signature_format":null,"created":"1391997056","access":"1392903302","login":"1392894035","status":"1","timezone":"America/Los_Angeles","language":"","picture":null,"data":false,"roles":{"2":"authenticated user","3":"administrator"},"rdf_mapping":{"rdftype":["sioc:UserAccount"],"name":{"predicates":["foaf:name"]},"homepage":{"predicates":["foaf:page"],"type":"rel"}}}
 
 
 **Create Product**
