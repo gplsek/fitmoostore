@@ -1745,6 +1745,7 @@ function commerce_services_retrieve_entity($entity_type, $entity_id, $expand_ent
  */
 function commerce_services_update_entity($entity_type, $entity_id, $data, $flatten_fields) {
   // Load the entity.
+    // Ensure the request specifies a unique, valid SKU.
   $entity = entity_load_single($entity_type, $entity_id);
 
   // Set field values using the data provided.
@@ -1807,6 +1808,11 @@ function commerce_services_set_field_values($entity_type, $entity, $data, $flatt
 
         // If the key was a log message, ensure a new revision is triggered.
         $entity->revision = TRUE;
+      }
+      //====poor style of hardcoding
+      elseif ($key=='uid' and is_numeric($value)) {
+          $entity->{$key} = $value;
+          $entity->revision = TRUE;
       }
       else {
         return services_error(t('Invalid @property value given', array('@property' => $key)), 400);
