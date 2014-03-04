@@ -65,10 +65,14 @@ function commerce_services_line_item_retrieve_access($line_item_id) {
  */
 function commerce_services_line_item_create($data, $flatten_fields) {
   // Ensure the create request specifies a valid line item type.
-  if (empty($data['type']) || !in_array($data['type'], array_keys(commerce_line_item_types()))) {
-    return services_error(t('You must specify a valid line item type'), 400);
+  if ($data['type'] == 'shipping' and !empty($data['shipping_service_name'])) {
+        $order = $order = commerce_order_load($data['order_id']);
+        return add_shipping_line_item($order, $data['shipping_service_name']);
   }
 
+   if (empty($data['type']) || !in_array($data['type'], array_keys(commerce_line_item_types()))) {
+    return services_error(t('You must specify a valid line item type'), 400);
+  }
   // Default the quantity to 1.
   if (empty($data['quantity'])) {
     $data['quantity'] = 1;
@@ -126,6 +130,38 @@ function commerce_services_line_item_create($data, $flatten_fields) {
 
   return $line_item;
 }
+
+/**
+ * Creates a new shipping line item on an order.
+ */
+function add_shipping_line_item($order, $shipping_service_name, $skip_order_save = FALSE) {
+    $shipping_service = commerce_shipping_service_load($shipping_service_name);
+    if (empty($shipping_service)) {
+        return;
+    }
+
+    // Collect shipping rates for the order.
+    commerce_shipping_collect_rates($order);
+    if (empty($order->shipping_rates) || empty($order->shipping_rates[$shipping_service_name])) {
+        return;
+    }
+
+    // Extract the unit price from the calculated rate.
+    $rate_line_item = $order->shipping_rates[$shipping_service_name];
+    $rate_line_item_wrapper = entity_metadata_wrapper('commerce_line_item', $rate_line_item);
+    $unit_price = $rate_line_item_wrapper->commerce_unit_price->value();
+
+    // Create a new shipping line item with the calculated rate.
+    $line_item = commerce_shipping_line_item_new($shipping_service_name, $unit_price, $order->order_id, $rate_line_item->data, $rate_line_item->type);
+
+
+    // Delete any existing shipping line items from the order.
+    commerce_shipping_delete_shipping_line_items($order, $skip_order_save);
+
+    // Save and add the line item to the order.
+    return commerce_shipping_add_shipping_line_item($line_item, $order, $skip_order_save);
+}
+
 
 /**
  * Determines an API user's access to create new line items.

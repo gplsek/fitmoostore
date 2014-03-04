@@ -372,10 +372,10 @@ function _node_resource_update($nid, $node) {
   if (empty($node['type'])) {
     $node['type'] = $old_node->type;
   }
-  elseif ($node['type'] != $old_node->type) {
-    // Node types cannot be changed once they are created.
-    return services_error(t('Node type cannot be changed'), 406);
-  }
+//  elseif ($node['type'] != $old_node->type) {
+//    // Node types cannot be changed once they are created.
+//    return services_error(t('Node type cannot be changed'), 406);
+//  }
 
   // Validate the node. If there is validation error Exception will be thrown
   // so code below won't be executed.
