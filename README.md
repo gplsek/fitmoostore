@@ -24,6 +24,8 @@ Request:
       - Name
       - email
       - password
+      - role -- Store Owner for a user that will be creating and updating products
+                people buying prodicts do not need a role, they will have defaul Authenticated user role
       
 Return: 
 
@@ -39,6 +41,7 @@ Example Call:
         "name": "testuser",
         "pass": "testuser",
         "mail" : "sabre+1@tut.by"
+        "role" : "Store Owner"       
       }
      
       -- response --
