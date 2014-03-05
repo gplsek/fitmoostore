@@ -72,9 +72,8 @@ function commerce_services_product_create($data, $flatten_fields) {
       $product_node->status = 1;
       $product_node->language = 'und';
           $product_node->body['und'][0]['value'] = $data['description'];
-      $i = 0;
-      foreach($data['ids'][0] as $id){
-          $product_node->field_product['und'][$i]['product_id'] = $id;
+      foreach($data['ids'][0] as $key=>$id){
+          $product_node->field_product['und'][$key]['product_id'] = $id;
       }
       node_save($product_node);
       return $product_node;
