@@ -361,6 +361,8 @@ function _node_resource_update($nid, $node) {
   // Adds backwards compatability with regression fixed in #1083242
   $node = _services_arg_value($node, 'node');
 
+  if (is_array($node['products'][0])) {$products = $node['products'][0];}
+
   $node['nid'] = $nid;
 
   $old_node = node_load($nid);
@@ -401,6 +403,14 @@ function _node_resource_update($nid, $node) {
   $node = array('nid' => $nid);
   if ($uri = services_resource_uri(array('node', $nid))) {
     $node['uri'] = $uri;
+  }
+  if(is_array($products)) {
+    foreach($products as $key => $items){
+      $array[] = commerce_services_update_entity('commerce_product', $key, $items, false);
+    }
+
+    return array('node_product'=>$node, 'items'=>$array);
+
   }
   return $node;
 }
