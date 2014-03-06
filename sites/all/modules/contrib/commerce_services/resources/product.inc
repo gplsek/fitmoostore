@@ -64,16 +64,99 @@ function commerce_services_product_retrieve_access($product_id) {
 function commerce_services_product_create($data, $flatten_fields) {
   // Ensure the request specifies a unique, valid SKU.
   global $user;
-  if ($data['node'] == "true" and is_array($data['ids'][0])) {
+  if ($data['node'] == "true" and is_array($data['products'][0])) {
       $product_node = new stdClass();
       $product_node->type = $data['type']; //could be event at this test point
       $product_node->title = $data['title'];
       $product_node->uid = $user->uid;  //product owner drupal user id - should the the logged in user uid $user->uid;
       $product_node->status = 1;
       $product_node->language = 'und';
-          $product_node->body['und'][0]['value'] = $data['description'];
-      foreach($data['ids'][0] as $key=>$id){
-          $product_node->field_product['und'][$key]['product_id'] = $id;
+      $product_node->body['und'][0]['value'] = $data['description'];
+      foreach($data['products'] as $key=>$prod){
+          //========CREATE_PRODUCT_ITEM
+          if (isset($prod['sku'])) {
+              $prod['sku'] = trim($prod['sku']);
+          }
+          $prod['uid'] = $user->uid;
+          if (empty($prod['sku'])) {
+              return services_error(t('You must specify a sku value'), 400);
+          }
+          elseif (!commerce_product_validate_sku($prod['sku'])) {
+              return services_error(t('Invalid sku value given'), 400);
+          }
+          elseif (!commerce_product_validate_sku_unique($prod['sku'], NULL)) {
+              return services_error(t('You must specify a unique sku value'), 400);
+          }
+
+          // Ensure the request specifies a title.
+          if (empty($prod['title'])) {
+              return services_error(t('You must specify a title value'), 400);
+          }
+
+          // Ensure the request specifies a commerce_price amount and currency_code.
+          $amount = NULL;
+          $currency_code = NULL;
+
+          // If the commerce_price field is set in the data array, examine its values
+          // for a price amount and currency code.
+          if (!empty($prod['commerce_price'])) {
+              if ($flatten_fields == 'true') {
+                  if (isset($prod['commerce_price']['amount']) && is_numeric($prod['commerce_price']['amount'])) {
+                      $amount = $prod['commerce_price']['amount'];
+                  }
+                  if (!empty($prod['commerce_price']['currency_code']) && commerce_currency_load($prod['commerce_price']['currency_code'])) {
+                      $currency_code = $prod['commerce_price']['currency_code'];
+                  }
+              }
+              else {
+                  $langcode = key($prod['commerce_price']);
+
+                  if (isset($prod['commerce_price'][$langcode][0]['amount']) && is_numeric($prod['commerce_price'][$langcode][0]['amount'])) {
+                      $amount = $prod['commerce_price'][$langcode][0]['amount'];
+                  }
+                  if (!empty($prod['commerce_price'][$langcode][0]['currency_code']) && commerce_currency_load($prod['commerce_price'][$langcode][0]['currency_code'])) {
+                      $currency_code = $prod['commerce_price'][$langcode][0]['currency_code'];
+                  }
+              }
+          }
+
+          // If not, look also in the column specific properties.
+          if (isset($prod['commerce_price_amount']) && is_numeric($prod['commerce_price_amount'])) {
+              $amount = $prod['commerce_price_amount'];
+          }
+          if (!empty($prod['commerce_price_currency_code']) && commerce_currency_load($prod['commerce_price_currency_code'])) {
+              $currency_code = $prod['commerce_price_currency_code'];
+          }
+
+          if (is_null($amount)) {
+              return services_error(t('You must specify a numeric commerce_price_amount value'), 400);
+          }
+          elseif (is_null($currency_code)) {
+              return services_error(t('You must specify a valid commerce_price_currency_code value'), 400);
+          }
+
+          // Create the new product.
+          $product_item = commerce_product_new($prod['type']);
+
+          // Remove the type from the data array since it's been set.
+          unset($prod['type']);
+
+          // Set the field and property data and save the product.
+          commerce_services_set_field_values('commerce_product', $product_item, $prod, $flatten_fields);
+          commerce_product_save($product_item);
+
+          // Add simplified fields to the product object for certain field types.
+          commerce_services_decorate_entity('commerce_product', $product_item);
+
+          // Flatten field value arrays if specified. This must be the last operation
+          // performed as it breaks the standard field data model. An entity whose
+          // fields have thus been flattened is no longer wrappable or writable.
+          if ($flatten_fields == 'true') {
+              $product_item = clone($product_item);
+              commerce_services_flatten_fields('commerce_product', $product_item);
+          }
+          //========END_CREATE_PRODUCT_ITEM
+          $product_node->field_product['und'][$key]['product_id'] = $product_item->product_id;
       }
       node_save($product_node);
       return $product_node;
@@ -197,9 +280,9 @@ function commerce_services_product_update($product_id, $data, $flatten_fields) {
           $array[] = commerce_services_update_entity('commerce_product', $key, $items[0], $flatten_fields);
       }
       return $array;
-  } else {
+ } else {
       return commerce_services_update_entity('commerce_product', $product_id, $data, $flatten_fields);
-  }
+ }
 }
 
 /**
