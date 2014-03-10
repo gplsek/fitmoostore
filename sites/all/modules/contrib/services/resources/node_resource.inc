@@ -449,6 +449,18 @@ function _node_resource_update($nid, $node) {
     if (!empty($node['title'])) {$product_node->title = $node['title'];unset($node['title']);}
     if (!empty($node['sku'])) {$product_node->sku = $node['sku'];  unset($node['sku']);}
     if (!empty($node['description'])) {$product_node->body['und'][0]['value'] = $node['description']; unset($node['description']);}
+    if (!empty($node['field_brand'])) {
+        $brand_id = commerce_services_get_term_from_name($node['field_brand'], 'brand', $parent_tid = null);
+        if ($brand_id){$product_node->field_brand['und'][0]['tid']= $brand_id;}
+        unset($node['field_brand']);
+    }
+    if (!empty($node['field_gender'])) {
+        $gender_id = commerce_services_get_term_from_name($node['field_gender'], 'brand', $parent_tid = null);
+        if ($gender_id){$product_node->field_gender['und'][0]['tid']= $gender_id;}
+        unset($node['field_gender']);
+    }
+
+
     if (is_array($node['products'][0])) {$products = $node['products'][0];}
     unset($node['products']);
     foreach($node as $key=>$value){

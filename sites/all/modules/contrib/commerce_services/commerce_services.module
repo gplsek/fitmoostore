@@ -2189,3 +2189,45 @@ function commerce_services_decorate_entity($entity_type, $entity) {
     }
   }
 }
+
+function commerce_services_get_term_from_name($term_name, $vocabulary_name, $parent_tid = null) {
+
+    static $cache_list;
+    if (!is_array($cache_list))
+        $cache_list = array();
+    //print $term_name." \n";
+    $parent_tid = (int) $parent_tid;
+    if (!isset($cache_list[$vocabulary_name]))
+        $cache_list[$vocabulary_name] = array();
+    if (!isset($cache_list[$vocabulary_name][$parent_tid]))
+        $cache_list[$vocabulary_name][$parent_tid] = array();
+    if (isset($cache_list[$vocabulary_name][$parent_tid][$term_name]))
+        return $cache_list[$vocabulary_name][$parent_tid][$term_name];
+    if ($vocabulary = taxonomy_vocabulary_machine_name_load($vocabulary_name)) {
+
+        $tree = taxonomy_get_tree($vocabulary->vid, (int) $parent_tid);
+        foreach ($tree as $term) {
+            if (strtolower($term->name) == strtolower($term_name)) {
+                $tid =  $term->tid;
+                //print "found: ".$term->tid." \n";
+                $cache_list[$vocabulary_name][$parent_tid][$term_name] = $term->tid;
+                return $term->tid;
+            }
+        }
+        if(!$tid){
+            //create if it does not exist
+            //print "creating: ".$term_name." \n";
+            $term = new stdClass();
+            $term->name = $term_name;
+            $term->vid = $vocabulary->vid;
+            if ($parent_tid) {
+                $term->parent = array($parent_tid);
+            }
+            taxonomy_term_save($term);
+            //print "created: ".$term->tid." \n";
+            $cache_list[$vocabulary_name][$parent_tid][$term_name] = $term->tid;
+            return $term->tid;
+        }
+    }
+    return false;
+}
