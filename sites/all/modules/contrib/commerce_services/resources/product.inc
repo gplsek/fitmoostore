@@ -73,6 +73,18 @@ function commerce_services_product_create($data, $flatten_fields) {
       unset($data['title']);
       $product_node->sku = $data['sku'];
       unset($data['sku']);
+
+      if (!empty($data['field_brand'])) {
+          $brand_id = commerce_services_get_term_from_name($data['field_brand'], 'brand', $parent_tid = null);
+          if ($brand_id){$product_node->field_brand['und'][0]['tid']= $brand_id;}
+          unset($data['field_brand']);
+      }
+      if (!empty($data['field_gender'])) {
+          $gender_id = commerce_services_get_term_from_name($data['field_gender'], 'brand', $parent_tid = null);
+          if ($gender_id){$product_node->field_gender['und'][0]['tid']= $gender_id;}
+          unset($data['field_gender']);
+      }
+
       $product_node->uid = $user->uid;  //product owner drupal user id - should the the logged in user uid $user->uid;
       $product_node->status = 1;
       $product_node->language = 'und';
@@ -304,8 +316,16 @@ function commerce_services_product_update($product_id, $data, $flatten_fields) {
      $products = $data['products'];
      unset($data['products']);
      foreach($data as $key=>$value){
-         $product_node->{$key}= $value;
+
+         $name = taxonomy_vocabulary_machine_name_load($value);
+
+         //exit();
+
+         //$product_node->{$key}= $value;
      }
+
+     exit();
+
      node_save($product_node);
      if(is_array($products)) {
          foreach($products as $key => $items){
