@@ -64,15 +64,28 @@ function commerce_services_product_retrieve_access($product_id) {
 function commerce_services_product_create($data, $flatten_fields) {
   // Ensure the request specifies a unique, valid SKU.
   global $user;
-  if ($data['node'] == "true" and is_array($data['products'][0])) {
+  if ($data['node'] == "true") {
+      unset($data['node']);
       $product_node = new stdClass();
       $product_node->type = $data['type']; //could be event at this test point
+      unset($data['type']);
       $product_node->title = $data['title'];
+      unset($data['title']);
+      $product_node->sku = $data['sku'];
+      unset($data['sku']);
       $product_node->uid = $user->uid;  //product owner drupal user id - should the the logged in user uid $user->uid;
       $product_node->status = 1;
       $product_node->language = 'und';
       $product_node->body['und'][0]['value'] = $data['description'];
-      foreach($data['products'] as $key=>$prod){
+      unset($data['description']);
+      $prod_array = $data['products'];
+      unset($data['products']);
+      foreach($data as $key=>$value){
+          $product_node->{$key}= $value;
+      }
+
+
+      foreach($prod_array as $key=>$prod){
           //========CREATE_PRODUCT_ITEM
           if (isset($prod['sku'])) {
               $prod['sku'] = trim($prod['sku']);
@@ -280,6 +293,28 @@ function commerce_services_product_update($product_id, $data, $flatten_fields) {
           $array[] = commerce_services_update_entity('commerce_product', $key, $items[0], $flatten_fields);
       }
       return $array;
+ } else if ($data['node'] == "true") {
+     unset($data['node']);
+     $product_node = node_load($product_id);
+     if (!empty($data['type'])) {$product_node->type = $data['type']; unset($data['type']);}
+     if (!empty($data['title'])) {$product_node->title = $data['title'];unset($data['title']);}
+     if (!empty($data['sku'])) {$product_node->sku = $data['sku'];  unset($data['sku']);}
+     if (!empty($data['description'])) {$product_node->body['und'][0]['value'] = $data['description']; unset($data['description']);}
+     if (is_array($data['products'][0])) {$products = $data['products'][0];}
+     $products = $data['products'];
+     unset($data['products']);
+     foreach($data as $key=>$value){
+         $product_node->{$key}= $value;
+     }
+     node_save($product_node);
+     if(is_array($products)) {
+         foreach($products as $key => $items){
+             $array[] = commerce_services_update_entity('commerce_product', $key, $items, false);
+         }
+         return array('node_product'=>$product_node, 'items'=>$array);
+
+     }
+     return $product_node;
  } else {
       return commerce_services_update_entity('commerce_product', $product_id, $data, $flatten_fields);
  }
