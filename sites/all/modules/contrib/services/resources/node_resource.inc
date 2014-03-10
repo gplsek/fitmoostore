@@ -280,6 +280,11 @@ function _node_resource_retrieve($nid) {
 function _node_resource_create($node) {
   // Adds backwards compatability with regression fixed in #1083242
   $node = _services_arg_value($node, 'node');
+  if (is_array($node['products'])) {
+      $products = $node['products'];
+      unset($node['products']);
+  }
+
 
   if (!isset($node['name'])) {
     // Assign username to the node from $user created at auth step.
@@ -301,6 +306,7 @@ function _node_resource_create($node) {
   // Setup form_state
   $form_state = array();
   $form_state['values'] = $node;
+
   $form_state['values']['op'] = variable_get('services_node_save_button_' . $node_type . '_resource_create', t('Save'));
 
   drupal_form_submit($node_type . '_node_form', $form_state, (object)$node);
@@ -315,6 +321,86 @@ function _node_resource_create($node) {
   if ($uri = services_resource_uri(array('node', $nid))) {
     $node['uri'] = $uri;
   }
+
+  if(is_array($products)) {
+        foreach($products as $key => $prod){
+            //========CREATE_PRODUCT_ITEM
+            if (isset($prod['sku'])) {
+                $prod['sku'] = trim($prod['sku']);
+            }
+            $prod['uid'] = $user->uid;
+            if (empty($prod['sku'])) {
+                return services_error(t('You must specify a sku value'), 400);
+            }
+            elseif (!commerce_product_validate_sku($prod['sku'])) {
+                return services_error(t('Invalid sku value given'), 400);
+            }
+            elseif (!commerce_product_validate_sku_unique($prod['sku'], NULL)) {
+                return services_error(t('You must specify a unique sku value'), 400);
+            }
+
+            // Ensure the request specifies a title.
+            if (empty($prod['title'])) {
+                return services_error(t('You must specify a title value'), 400);
+            }
+
+            // Ensure the request specifies a commerce_price amount and currency_code.
+            $amount = NULL;
+            $currency_code = NULL;
+
+            // If the commerce_price field is set in the data array, examine its values
+            // for a price amount and currency code.
+            if (!empty($prod['commerce_price'])) {
+                    $langcode = key($prod['commerce_price']);
+
+                    if (isset($prod['commerce_price'][$langcode][0]['amount']) && is_numeric($prod['commerce_price'][$langcode][0]['amount'])) {
+                        $amount = $prod['commerce_price'][$langcode][0]['amount'];
+                    }
+                    if (!empty($prod['commerce_price'][$langcode][0]['currency_code']) && commerce_currency_load($prod['commerce_price'][$langcode][0]['currency_code'])) {
+                        $currency_code = $prod['commerce_price'][$langcode][0]['currency_code'];
+                    }
+            }
+
+            // If not, look also in the column specific properties.
+            if (isset($prod['commerce_price_amount']) && is_numeric($prod['commerce_price_amount'])) {
+                $amount = $prod['commerce_price_amount'];
+            }
+            if (!empty($prod['commerce_price_currency_code']) && commerce_currency_load($prod['commerce_price_currency_code'])) {
+                $currency_code = $prod['commerce_price_currency_code'];
+            }
+
+            if (is_null($amount)) {
+                return services_error(t('You must specify a numeric commerce_price_amount value'), 400);
+            }
+            elseif (is_null($currency_code)) {
+                return services_error(t('You must specify a valid commerce_price_currency_code value'), 400);
+            }
+
+            // Create the new product.
+            $product_item = commerce_product_new($prod['type']);
+
+            // Remove the type from the data array since it's been set.
+            unset($prod['type']);
+
+            // Set the field and property data and save the product.
+            commerce_services_set_field_values('commerce_product', $product_item, $prod, false);
+            commerce_product_save($product_item);
+
+            // Add simplified fields to the product object for certain field types.
+            commerce_services_decorate_entity('commerce_product', $product_item);
+            //========END_CREATE_PRODUCT_ITEM
+
+        }
+
+        $node->field_product['und']['product_id'] = $product_item->product_id;
+
+  }
+
+  //$nid = $node->nid;
+
+
+
+
   return $node;
 }
 
@@ -358,61 +444,25 @@ function _node_resource_validate_type($node) {
  * @see drupal_form_submit()
  */
 function _node_resource_update($nid, $node) {
-  // Adds backwards compatability with regression fixed in #1083242
-  $node = _services_arg_value($node, 'node');
-
-  if (is_array($node['products'][0])) {$products = $node['products'][0];}
-
-  $node['nid'] = $nid;
-
-  $old_node = node_load($nid);
-  if (empty($old_node->nid)) {
-    return services_error(t('Node @nid not found', array('@nid' => $old_node->nid)), 404);
-  }
-
-  // If no type is provided use the existing node type.
-  if (empty($node['type'])) {
-    $node['type'] = $old_node->type;
-  }
-//  elseif ($node['type'] != $old_node->type) {
-//    // Node types cannot be changed once they are created.
-//    return services_error(t('Node type cannot be changed'), 406);
-//  }
-
-  // Validate the node. If there is validation error Exception will be thrown
-  // so code below won't be executed.
-  _node_resource_validate_type($node);
-
-  // Load the required includes for drupal_form_submit
-  module_load_include('inc', 'node', 'node.pages');
-
-  $node_type = $node['type'];
-  node_object_prepare($old_node);
-
-  // Setup form_state.
-  $form_state = array();
-  $form_state['values'] = $node;
-  $form_state['values']['op'] = variable_get('services_node_save_button_' . $node_type . '_resource_update', t('Save'));
-  $form_state['node'] = $old_node;
-  drupal_form_submit($node_type . '_node_form', $form_state, $old_node);
-
-  if ($errors = form_get_errors()) {
-    return services_error(implode(" ", $errors), 406, array('form_errors' => $errors));
-  }
-
-  $node = array('nid' => $nid);
-  if ($uri = services_resource_uri(array('node', $nid))) {
-    $node['uri'] = $uri;
-  }
-  if(is_array($products)) {
-    foreach($products as $key => $items){
-      $array[] = commerce_services_update_entity('commerce_product', $key, $items, false);
+    $product_node = node_load($nid);
+    if (!empty($node['type'])) {$product_node->type = $node['type']; unset($node['type']);}
+    if (!empty($node['title'])) {$product_node->title = $node['title'];unset($node['title']);}
+    if (!empty($node['sku'])) {$product_node->sku = $node['sku'];  unset($node['sku']);}
+    if (!empty($node['description'])) {$product_node->body['und'][0]['value'] = $node['description']; unset($node['description']);}
+    if (is_array($node['products'][0])) {$products = $node['products'][0];}
+    unset($node['products']);
+    foreach($node as $key=>$value){
+        $product_node->{$key}= $value;
     }
+    node_save($product_node);
+    if(is_array($products)) {
+        foreach($products as $key => $items){
+            $array[] = commerce_services_update_entity('commerce_product', $key, $items, false);
+        }
+        return array('node_product'=>$product_node, 'items'=>$array);
 
-    return array('node_product'=>$node, 'items'=>$array);
-
-  }
-  return $node;
+    }
+    return $product_node;
 }
 
 /**
