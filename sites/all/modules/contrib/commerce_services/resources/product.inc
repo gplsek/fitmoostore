@@ -80,7 +80,7 @@ function commerce_services_product_create($data, $flatten_fields) {
           unset($data['field_brand']);
       }
       if (!empty($data['field_gender'])) {
-          $gender_id = commerce_services_get_term_from_name($data['field_gender'], 'brand', $parent_tid = null);
+          $gender_id = commerce_services_get_term_from_name($data['field_gender'], 'gender', $parent_tid = null);
           if ($gender_id){$product_node->field_gender['und'][0]['tid']= $gender_id;}
           unset($data['field_gender']);
       }
