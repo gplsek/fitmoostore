@@ -87,6 +87,8 @@ function commerce_services_product_create($data, $flatten_fields) {
 
       $product_node->uid = $user->uid;  //product owner drupal user id - should the the logged in user uid $user->uid;
       $product_node->status = 1;
+      $product_node->promote = 1;
+      $product_node->sticky = 1;
       $product_node->language = 'und';
       $product_node->body['und'][0]['value'] = $data['description'];
       unset($data['description']);
