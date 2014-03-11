@@ -455,7 +455,7 @@ function _node_resource_update($nid, $node) {
         unset($node['field_brand']);
     }
     if (!empty($node['field_gender'])) {
-        $gender_id = commerce_services_get_term_from_name($node['field_gender'], 'brand', $parent_tid = null);
+        $gender_id = commerce_services_get_term_from_name($node['field_gender'], 'gender', $parent_tid = null);
         if ($gender_id){$product_node->field_gender['und'][0]['tid']= $gender_id;}
         unset($node['field_gender']);
     }
