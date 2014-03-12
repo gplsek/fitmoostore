@@ -9,9 +9,43 @@ function fitmoo_checkout_menu() {
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
+  
+  $items['userlogin/%'] = array(
+    'page callback' => 'fitmoo_checkout_user_login',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
 
 
   return $items;
+}
+
+function fitmoo_checkout_user_login($sessionID){
+	global $user;
+	
+	
+	$result = db_select('sessions', 's')
+	    ->fields('s', array('uid'))
+	    ->condition('s.sid', $sessionID)
+	    ->execute()
+	    ->fetchAssoc();
+	
+	if($result){
+		$uid = $result['uid'];
+		
+		$user = user_load($uid);
+		drupal_session_regenerate();
+	
+		drupal_goto('checkout');
+	}else{
+		
+		//invalid user goaway
+		
+	}
+	
+	
+	
 }
 
 function _create_order($id,$uid,$qty = 1){
