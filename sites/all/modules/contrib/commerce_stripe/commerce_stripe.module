@@ -7,8 +7,8 @@
  * straight from you Commerce shop.
  */
 
-define('STRIPE_PUBLIC_KEY', '');
-define('STRIPE_SECRET_KEY', '');
+define('STRIPE_PUBLIC_KEY', 'pk_test_eaWg6f1YmyxGeZFTH0Cadq5s');
+define('STRIPE_SECRET_KEY', 'sk_test_6CqGmjhClo4SrDQdQWdlHhLI');
 
 /**
  * Implements hook_libraries_info().
@@ -160,7 +160,7 @@ function commerce_stripe_submit_form($payment_method, $pane_values, $checkout_pa
 function commerce_stripe_submit_form_submit($payment_method, $pane_form, $pane_values, $order, $charge) {
 
   // Require needed Stripe library.
-  $name = "stripe-php";
+  $name = "stripe";
   // Try to load the library and check if that worked.
   if (!($library = libraries_load($name)) || empty($library['loaded'])) {
     watchdog('commerce_stripe', 'Failure to load Stripe API PHP Client Library.', array(), WATCHDOG_CRITICAL);

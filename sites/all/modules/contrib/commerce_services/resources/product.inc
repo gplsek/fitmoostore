@@ -80,13 +80,15 @@ function commerce_services_product_create($data, $flatten_fields) {
           unset($data['field_brand']);
       }
       if (!empty($data['field_gender'])) {
-          $gender_id = commerce_services_get_term_from_name($data['field_gender'], 'brand', $parent_tid = null);
+          $gender_id = commerce_services_get_term_from_name($data['field_gender'], 'gender', $parent_tid = null);
           if ($gender_id){$product_node->field_gender['und'][0]['tid']= $gender_id;}
           unset($data['field_gender']);
       }
 
       $product_node->uid = $user->uid;  //product owner drupal user id - should the the logged in user uid $user->uid;
       $product_node->status = 1;
+      $product_node->promote = 1;
+      $product_node->sticky = 1;
       $product_node->language = 'und';
       $product_node->body['und'][0]['value'] = $data['description'];
       unset($data['description']);
