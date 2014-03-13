@@ -633,9 +633,17 @@ function _taxonomy_vocabulary_resource_index($page, $fields, $parameters, $page_
     ->orderBy('weight', 'DESC')
     ->orderBy('name', 'DESC');
 
-  services_resource_build_index_query($taxonomy_select, $page, $fields, $parameters, $page_size, 'taxonomy_vocabulary');
-
+  services_resource_build_index_query($taxonomy_select, $page, $fields, $parameters, 10000, 'taxonomy_vocabulary');
   $results = $taxonomy_select->execute();
 
-  return services_resource_build_index_list($results, 'taxonomy_vocabulary', 'vid');
+  $zzz = services_resource_build_index_list($results, 'taxonomy_vocabulary', 'vid');
+  foreach($zzz as $key=>$value) {
+      $parameters = array('vid'=>$value->vid);
+      $result = _taxonomy_term_resource_index($page, $fields, $parameters, 10000);
+      $result = services_resource_build_index_list($result, 'taxonomy_term', 'vid');
+      $zzz[$key]->listing = $result;
+  }
+
+
+  return $zzz;
 }
