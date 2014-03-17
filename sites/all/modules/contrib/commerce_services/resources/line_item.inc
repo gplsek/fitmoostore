@@ -59,14 +59,73 @@ function commerce_services_line_item_retrieve_access($line_item_id) {
     return services_error(t('Line item not found'), 404);
   }
 }
+/**
+ * Creates a new cart order for the current API user. (IMPORTED from cart.inc)
+ */
+function commerce_services_cart_create($data, $flatten_fields) {
+    global $user;
+    $uid = !empty($user->uid) ? $user->uid : 0;
+
+    // Even though the data array could technically accept a uid value, since the
+    // resource is designed to work for the current API user this value will be
+    // ignored and result in an error.
+    if (isset($data['uid'])) {
+        return services_error(t('Creating a cart does not permit you to set a uid value'), 400);
+    }
+
+    // Create the new order with the customer's uid and the cart order status.
+    // Instead of using commerce_cart_order_new() directly, its contents have been
+    // copied here to allow for setting field and property data before saving so
+    // any errors in the data prevent saving a new order.
+    $order = commerce_order_new($uid, 'cart');
+    $order->log = t('Created as a shopping cart order.');
+
+    // Set the field and property data and save the new order.
+    commerce_services_set_field_values('commerce_order', $order, $data, $flatten_fields);
+    commerce_order_save($order);
+
+    // Reset the cart cache
+    commerce_cart_order_ids_reset();
+
+    // If the user is not logged in, ensure the order ID is stored in the session.
+    if (!$uid && empty($user->uid)) {
+        commerce_cart_order_session_save($order->order_id);
+    }
+
+    // Add simplified fields to the order object for certain field types.
+    commerce_services_decorate_entity('commerce_order', $order);
+
+    // Flatten field value arrays if specified. This must be the last operation
+    // performed as it breaks the standard field data model. An entity whose
+    // fields have thus been flattened is no longer wrappable or writable.
+    if ($flatten_fields == 'true') {
+        $order = clone($order);
+        commerce_services_flatten_fields('commerce_order', $order);
+    }
+
+    return $order;
+}
+
 
 /**
  * Creates a new line item on an order.
  */
 function commerce_services_line_item_create($data, $flatten_fields) {
-  // Ensure the create request specifies a valid line item type.
+
+    global $user;
+//====check&create order
+    $uid = !empty($user->uid) ? $user->uid : 0;
+    $order_id = db_query('SELECT order_id FROM {commerce_order} WHERE uid = :uid AND status IN (:status_ids) ORDER BY order_id DESC', array(':uid' => $uid, ':status_ids' => 'cart'))->fetchField();
+
+    if (empty($order_id)) {
+      $order =  commerce_services_cart_create(array(), $flatten_fields);
+      $order_id = $order->order_id;
+    }
+  $data['order_id'] = $order_id;
+  commerce_services_line_item_create_access($data);
+
   if ($data['type'] == 'shipping' and !empty($data['shipping_service_name'])) {
-        $order = $order = commerce_order_load($data['order_id']);
+        $order = commerce_order_load($data['order_id']);
         return add_shipping_line_item($order, $data['shipping_service_name']);
   }
 
@@ -171,21 +230,21 @@ function commerce_services_line_item_create_access($data) {
   // on it.
   $order = NULL;
 
-  if (!empty($data['order_id'])) {
-    $order = commerce_order_load($data['order_id']);
-  }
-
-  if (empty($order)) {
-    return services_error(t('You must specify a valid order ID', 400));
-  }
-
-  // If the user has access to update the order...
-  if (commerce_order_access('update', $order)) {
+//  if (!empty($data['order_id'])) {
+//    $order = commerce_order_load($data['order_id']);
+//  }
+//
+//  if (empty($order)) {
+//    return services_error(t('You must specify a valid order ID', 400));
+//  }
+//
+//  // If the user has access to update the order...
+//  if (commerce_order_access('update', $order)) {
     return TRUE;
-  }
-  else {
-    return services_error(t('Access to this operation not granted'), 401);
-  }
+//  }
+//  else {
+//    return services_error(t('Access to this operation not granted'), 401);
+//  }
 }
 
 /**

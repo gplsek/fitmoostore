@@ -106,6 +106,12 @@ function services_menu() {
     'type' => MENU_CALLBACK,
   );
 
+  $items['services/session/login'] = array(
+        'page callback' => '_services_session_token',
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+  );
+
   return $items;
 }
 
@@ -827,7 +833,31 @@ if (!function_exists('getallheaders')) {
  * Page callback to generate token.
  */
 function _services_session_token() {
-  drupal_add_http_header('Content-Type', 'text/plain');
-  print drupal_get_token('services');
-  drupal_exit();
+    drupal_add_http_header('Content-Type', 'text/plain');
+    print drupal_get_token('services');
+    drupal_exit();
+}
+
+/**
+ * Page callback to generate token.
+ */
+function _services_login_user() {
+    $uid = 1;
+
+    if ($uid) {
+        $user = user_load($uid);
+        if ($user->uid) {
+            user_login_finalize();
+
+            $return = new stdClass();
+            $return->sessid = session_id();
+            $return->session_name = session_name();
+
+            services_remove_user_data($user);
+
+            $return->user = $user;
+
+            return $return;
+        }
+    }
 }
