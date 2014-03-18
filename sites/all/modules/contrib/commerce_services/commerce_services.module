@@ -917,7 +917,7 @@ function commerce_services_services_resources() {
           'help' => 'Creates a new line item for an existing order.',
           'callback' => 'commerce_services_line_item_create',
           'file' => array('type' => 'inc', 'module' => 'commerce_services', 'name' => 'resources/line_item'),
-          'access callback' => TRUE,
+          'access callback' => 'commerce_services_line_item_create_access',
           'args' => array(
             // The data array must include at least an order_id and type or it
             // will result in an error. Individual line item types may require
