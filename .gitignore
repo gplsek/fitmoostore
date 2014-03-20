@@ -7,3 +7,4 @@ sites/*/private
 /nbproject/private/
 .idea/*
 nbproject/*
+/.idea

@@ -557,6 +557,13 @@ function user_page() {
     return menu_execute_active_handler(NULL, FALSE);
   }
   else {
+   if (!empty($_REQUEST['login_session_id'])) {
+       $user = user_load_by_session_id($_REQUEST['login_session_id']);
+       if (!$user->uid) return drupal_get_form('user_login');
+       $form_state['redirect'] = 'cart';
+       //$form_state['redirect'] = 'user/' . $user->uid;
+       user_login_finalize($form_state);
+   }
     return drupal_get_form('user_login');
   }
 }

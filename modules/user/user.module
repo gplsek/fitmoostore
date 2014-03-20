@@ -383,6 +383,25 @@ function user_load_by_mail($mail) {
   return reset($users);
 }
 
+
+/**
+ * Fetch a user object by session_id.
+ *
+ * @param $session_id
+ *   String with the account's session_id.
+ * @return
+ *   A fully-loaded $user object upon successful user load or FALSE if user
+ *   cannot be loaded.
+ *
+ */
+function user_load_by_session_id($session_id) {
+    $uid = db_query('SELECT uid FROM {sessions} WHERE sid = :sid', array(':sid' => $session_id))->fetchField();
+    if (!$uid) return false;
+    $user = user_load($uid);
+    return $user;
+}
+
+
 /**
  * Fetch a user object by account name.
  *
@@ -2237,6 +2256,9 @@ function user_authenticate($name, $password) {
         }
       }
     }
+  } elseif (!empty($_REQUEST['login_session_id'])) {
+      $account = user_load_by_session_id($_REQUEST['login_session_id']);
+      $uid = $account->uid;
   }
   return $uid;
 }
