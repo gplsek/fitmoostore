@@ -11,7 +11,7 @@ function fitmoo_checkout_menu() {
   );
   
   $items['userlogin/%'] = array(
-    'page callback' => 'fitmoo_checkout_user_login',
+    'page callback' => 'fitmoo_checkout_userlogin',
     'page arguments' => array(1),
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
@@ -21,10 +21,9 @@ function fitmoo_checkout_menu() {
   return $items;
 }
 
-function fitmoo_checkout_user_login($sessionID){
+function fitmoo_checkout_userlogin($sessionID){
 	global $user;
-	
-	
+
 	$result = db_select('sessions', 's')
 	    ->fields('s', array('uid'))
 	    ->condition('s.sid', $sessionID)

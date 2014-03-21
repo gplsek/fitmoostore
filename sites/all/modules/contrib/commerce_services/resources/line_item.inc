@@ -166,6 +166,23 @@ function commerce_services_line_item_create($data, $flatten_fields) {
     commerce_product_line_item_populate($line_item, $product);
   }
 
+  // images saving
+//  if ($data['image']) {
+//        $image_file = file_get_contents($data['image']);
+//        $filename = basename($data['image']);
+//        $file = commerce_get_managed_file('public://stylus/'.$filename);
+//
+//        if (empty($file)) {
+//            $file = migrate_billboard_load_file($article['image'], 'stylus', $article['title'], $article['title'], $article['image_tags']);
+//        }
+//        if (!empty($file)) {
+//            $node->field_image['und'][0] = (array)$file;
+//        }
+//  }
+//  unset($file);
+
+
+
   // Set the field and property data and save the line item.
   commerce_services_set_field_values('commerce_line_item', $line_item, $data, $flatten_fields);
   commerce_line_item_save($line_item);
@@ -188,6 +205,19 @@ function commerce_services_line_item_create($data, $flatten_fields) {
   }
 
   return $line_item;
+}
+/**
+ * FUNCTION FOR save image
+ */
+
+function migrate_billboard_get_managed_file($uri) {
+    $fid = db_query('SELECT fid FROM {file_managed} WHERE uri = :uri', array(':uri' => $uri))->fetchField();
+
+    if (!empty($fid)) {
+        $file_object = file_load($fid);
+        return $file_object;
+    }
+    return FALSE;
 }
 
 /**
