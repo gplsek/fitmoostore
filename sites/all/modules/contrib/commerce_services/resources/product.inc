@@ -64,7 +64,7 @@ function commerce_services_product_retrieve_access($product_id) {
 function commerce_services_product_create($data, $flatten_fields) {
   // Ensure the request specifies a unique, valid SKU.
   global $user;
-  if ($data['node'] == "true") {
+  if (!empty($data['node']) and ($data['node'] == "true")) {
       unset($data['node']);
       $product_node = new stdClass();
       $product_node->type = $data['type']; //could be event at this test point
@@ -168,6 +168,17 @@ function commerce_services_product_create($data, $flatten_fields) {
           // Remove the type from the data array since it's been set.
           unset($prod['type']);
 
+          //images saving
+          if ($data['image'] && (filter_var($data['image'], FILTER_VALIDATE_URL) === FALSE)) {
+              $filename = basename($data['image']);
+              // $filename = commerce_services_check_file('public://',$filename);
+              $image_file = system_retrieve_file($data['image'], 'public://'.$filename, TRUE);
+              $data['field_image']['und'][0] = (array) $image_file;
+              $data['field_image_url'] = file_create_url($image_file->uri);
+              unset($data['image-url']);
+              unset($data['image']);
+          }
+
           // Set the field and property data and save the product.
           commerce_services_set_field_values('commerce_product', $product_item, $prod, $flatten_fields);
           commerce_product_save($product_item);
@@ -254,6 +265,18 @@ function commerce_services_product_create($data, $flatten_fields) {
 
       // Remove the type from the data array since it's been set.
       unset($data['type']);
+
+      //images saving
+      if ($data['image'] && (filter_var($data['image'], FILTER_VALIDATE_URL) === FALSE)) {
+          $filename = basename($data['image']);
+          // $filename = commerce_services_check_file('public://',$filename);
+          $image_file = system_retrieve_file($data['image'], 'public://'.$filename, TRUE);
+          $data['field_image']['und'][0] = (array) $image_file;
+          $data['field_image_url'] = file_create_url($image_file->uri);
+          unset($data['image-url']);
+          unset($data['image']);
+      }
+
 
       // Set the field and property data and save the product.
       commerce_services_set_field_values('commerce_product', $product, $data, $flatten_fields);

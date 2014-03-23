@@ -1841,8 +1841,12 @@ function commerce_services_set_field_values($entity_type, $entity, $data, $flatt
               unset($field_info['columns']['format']);
             }
           }
-
-          if ($field_name == $key) {
+          if ($key=='field_image' and is_array($value)) {
+              $entity->{$key} = $value;
+              $entity->revision = TRUE;
+              $known_field = TRUE;
+          }
+          elseif ($field_name == $key) {
             // If the update request sent fields in a flattened format...
             if ($flatten_fields == 'true') {
               // Update the field value without specifying a language code.
