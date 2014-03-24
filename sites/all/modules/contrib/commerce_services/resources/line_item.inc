@@ -121,8 +121,17 @@ function commerce_services_line_item_create($data, $flatten_fields) {
       $order =  commerce_services_cart_create(array(), $flatten_fields);
       $order_id = $order->order_id;
     }
-  $data['order_id'] = $order_id;
   commerce_services_line_item_create_access($data);
+  $order = commerce_order_load($order_id);
+  foreach ($order->commerce_line_items['und'] as $key=>$value) {
+      $line_item =  $entity = entity_load_single('commerce_line_item', $value['line_item_id']);
+      if ($data['commerce_product'] == $line_item->commerce_product['und'][0]['product_id']) {
+            $data['quantity'] = $line_item->quantity + $data['quantity'];
+            $line = commerce_services_line_item_update($value['line_item_id'], $data,false);
+            return $line;
+            break;
+      }
+  }
 
   if ($data['type'] == 'shipping' and !empty($data['shipping_service_name'])) {
         $order = commerce_order_load($data['order_id']);
