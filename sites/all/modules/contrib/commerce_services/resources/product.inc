@@ -169,7 +169,7 @@ function commerce_services_product_create($data, $flatten_fields) {
           unset($prod['type']);
 
           //images saving
-          if ($prod['image'] && (filter_var($prod['image'], FILTER_VALIDATE_URL) === FALSE)) {
+          if ($prod['image']) {
               $filename = basename($prod['image']);
               // $filename = commerce_services_check_file('public://',$filename);
               $image_file = system_retrieve_file($prod['image'], 'public://'.$filename, TRUE);
@@ -267,7 +267,7 @@ function commerce_services_product_create($data, $flatten_fields) {
       unset($data['type']);
 
       //images saving
-      if ($data['image'] && (filter_var($data['image'], FILTER_VALIDATE_URL) === FALSE)) {
+      if ($data['image']) {
           $filename = basename($data['image']);
           // $filename = commerce_services_check_file('public://',$filename);
           $image_file = system_retrieve_file($data['image'], 'public://'.$filename, TRUE);
