@@ -169,14 +169,14 @@ function commerce_services_product_create($data, $flatten_fields) {
           unset($prod['type']);
 
           //images saving
-          if ($data['image'] && (filter_var($data['image'], FILTER_VALIDATE_URL) === FALSE)) {
-              $filename = basename($data['image']);
+          if ($prod['image'] && (filter_var($prod['image'], FILTER_VALIDATE_URL) === FALSE)) {
+              $filename = basename($prod['image']);
               // $filename = commerce_services_check_file('public://',$filename);
-              $image_file = system_retrieve_file($data['image'], 'public://'.$filename, TRUE);
-              $data['field_image']['und'][0] = (array) $image_file;
-              $data['field_image_url'] = file_create_url($image_file->uri);
-              unset($data['image-url']);
-              unset($data['image']);
+              $image_file = system_retrieve_file($prod['image'], 'public://'.$filename, TRUE);
+              $prod['field_image']['und'][0] = (array) $image_file;
+              $prod['field_image_url'] = file_create_url($image_file->uri);
+              unset($prod['image-url']);
+              unset($prod['image']);
           }
 
           // Set the field and property data and save the product.
