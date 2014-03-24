@@ -12,8 +12,45 @@
  * @see commerce_services_index_entities()
  */
 function commerce_services_order_index($fields, $expand_entities, $flatten_fields, $filter, $filter_op, $sort_by, $sort_order, $limit, $offset) {
-  return commerce_services_index_entities('commerce_order', $fields, $expand_entities, $flatten_fields, $filter, $filter_op, $sort_by, $sort_order, $limit, $offset);
+  if (!empty($_REQUEST['seller'])) {
+      $order_ids = commerce_services_order_seller();
+      foreach ($order_ids as $key=>$value) {
+          $temp[]= commerce_services_order_retrieve($value->order_id, false, false);
+      }
+      return $temp;
+  } elseif (!empty($_REQUEST['buyer'])) {
+      $order_ids = commerce_services_order_buyer();
+      foreach ($order_ids as $key=>$value) {
+          $temp[]= commerce_services_order_retrieve($value->order_id, false, false);
+      }
+      return $temp;
+  } else {
+    return commerce_services_index_entities('commerce_order', $fields, $expand_entities, $flatten_fields, $filter, $filter_op, $sort_by, $sort_order, $limit, $offset);
+  }
 }
+function commerce_services_order_seller() {
+  global $user;
+  $user->uid=28;
+  $order = db_query('SELECT * FROM {commerce_lineitem_x_seller} WHERE seller_id = :user_id', array(':user_id' => $user->uid))->fetchAllAssoc('language');
+  return $order;
+}
+
+
+function commerce_services_order_buyer() {
+    global $user;
+
+    $query = db_select('commerce_lineitem_x_seller', 'c');
+    $query->condition('buyer_id', $user->uid);
+    $order = $query
+        ->fields('c', array('order_id'))
+        ->execute();
+
+    foreach ($order as $row) {
+        $result[] = $row;
+    }
+    return $result;
+}
+
 
 /**
  * Determines an API user's access to index orders.

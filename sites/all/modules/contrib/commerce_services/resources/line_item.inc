@@ -12,7 +12,7 @@
  * @see commerce_services_index_entities()
  */
 function commerce_services_line_item_index($fields, $expand_entities, $flatten_fields, $filter, $filter_op, $sort_by, $sort_order, $limit, $offset) {
-  return commerce_services_index_entities('commerce_line_item', $fields, $expand_entities, $flatten_fields, $filter, $filter_op, $sort_by, $sort_order, $limit, $offset);
+   return commerce_services_index_entities('commerce_line_item', $fields, $expand_entities, $flatten_fields, $filter, $filter_op, $sort_by, $sort_order, $limit, $offset);
 }
 
 /**
@@ -138,7 +138,7 @@ function commerce_services_line_item_create($data, $flatten_fields) {
         return add_shipping_line_item($order, $data['shipping_service_name']);
   }
 
-   if (empty($data['type']) || !in_array($data['type'], array_keys(commerce_line_item_types()))) {
+  if (empty($data['type']) || !in_array($data['type'], array_keys(commerce_line_item_types()))) {
     return services_error(t('You must specify a valid line item type'), 400);
   }
   // Default the quantity to 1.
@@ -174,24 +174,6 @@ function commerce_services_line_item_create($data, $flatten_fields) {
     // Populate the line item.
     commerce_product_line_item_populate($line_item, $product);
   }
-
-  // images saving
-//  if ($data['image']) {
-//        $image_file = file_get_contents($data['image']);
-//        $filename = basename($data['image']);
-//        $file = commerce_get_managed_file('public://stylus/'.$filename);
-//
-//        if (empty($file)) {
-//            $file = migrate_billboard_load_file($article['image'], 'stylus', $article['title'], $article['title'], $article['image_tags']);
-//        }
-//        if (!empty($file)) {
-//            $node->field_image['und'][0] = (array)$file;
-//        }
-//  }
-//  unset($file);
-
-
-
   // Set the field and property data and save the line item.
   commerce_services_set_field_values('commerce_line_item', $line_item, $data, $flatten_fields);
   commerce_line_item_save($line_item);
@@ -212,6 +194,15 @@ function commerce_services_line_item_create($data, $flatten_fields) {
     $line_item = clone($line_item);
     commerce_services_flatten_fields('commerce_line_item', $line_item);
   }
+    //===insert data to lineitem_x_seller
+  if ($line_item->type != 'shipping') {
+      $data['product_id'] = $product->product_id;
+      $data['seller_id'] = $product->uid;
+      $data['buyer_id'] = $uid;
+      $data['line_id'] = $line_item->line_item_id;
+      $data['order_id'] = $line_item->order_id;
+      commerce_lineitem_seller_insert($data);
+  }
 
   return $line_item;
 }
@@ -227,6 +218,30 @@ function migrate_billboard_get_managed_file($uri) {
         return $file_object;
     }
     return FALSE;
+}
+
+
+/**
+ * line_item_seller insert row
+ */
+
+function commerce_lineitem_seller_insert($data) {
+    $id = db_query('SELECT id FROM {commerce_lineitem_x_seller} WHERE product_id = :product_id and line_id = :line_id', array(':product_id' => $data['product_id'],':line_id' => $data['line_id']))->fetchField();
+    if (empty($id)) {
+      return db_insert('commerce_lineitem_x_seller')
+        ->fields(array('line_id', 'product_id', 'seller_id', 'buyer_id', 'order_id'), array($data['line_id'], $data['product_id'], $data['seller_id'], $data['buyer_id'], $data['order_id']))
+        ->execute();
+    } else {
+        return FALSE;
+    }
+}
+
+/**
+ * FUNCTION delete lineitem_seller
+ */
+
+function commerce_lineitem_seller_delete($line_id) {
+   return db_delete('commerce_lineitem_x_seller')->condition('line_id', $line_id)->execute();
 }
 
 /**
