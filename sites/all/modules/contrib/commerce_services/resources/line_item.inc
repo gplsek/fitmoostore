@@ -132,7 +132,7 @@ function commerce_services_line_item_create($data, $flatten_fields) {
             break;
       }
   }
-
+  $data['order_id'] = $order_id;
   if ($data['type'] == 'shipping' and !empty($data['shipping_service_name'])) {
         $order = commerce_order_load($data['order_id']);
         return add_shipping_line_item($order, $data['shipping_service_name']);
