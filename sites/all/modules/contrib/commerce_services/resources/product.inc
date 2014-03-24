@@ -30,7 +30,8 @@ function commerce_services_product_index_access() {
  * @see commerce_services_retrieve_entity()
  */
 function commerce_services_product_retrieve($product_id, $expand_entities, $flatten_fields) {
-  return commerce_services_retrieve_entity('commerce_product', $product_id, $expand_entities, $flatten_fields);
+
+    return commerce_services_retrieve_entity('commerce_product', $product_id, $expand_entities, $flatten_fields);
 }
 
 /**
@@ -101,6 +102,16 @@ function commerce_services_product_create($data, $flatten_fields) {
 
       foreach($prod_array as $key=>$prod){
           //========CREATE_PRODUCT_ITEM
+          if (!empty($prod['size'])) {
+            $res = field_info_instances('commerce_product', $prod['type']);
+            foreach ($res as $key1=>$value1){
+               if (preg_match('/(.*)(field)(.*)(size)(.*)/ism',$key1,$matches)) {
+                   $prod[$matches[0]]=$prod['size'];
+               }
+            }
+          unset($prod['size']);
+          }
+
           if (isset($prod['sku'])) {
               $prod['sku'] = trim($prod['sku']);
           }
@@ -199,6 +210,15 @@ function commerce_services_product_create($data, $flatten_fields) {
       node_save($product_node);
       return $product_node;
   } else {
+      if (!empty($data['size'])) {
+          $res = field_info_instances('commerce_product', $data['type']);
+          foreach ($res as $key1=>$value1){
+              if (preg_match('/(.*)(field)(.*)(size)(.*)/ism',$key1,$matches)) {
+                  $data[$matches[0]]=$data['size'];
+              }
+          }
+          unset($data['size']);
+      }
       if (isset($data['sku'])) {
           $data['sku'] = trim($data['sku']);
       }
