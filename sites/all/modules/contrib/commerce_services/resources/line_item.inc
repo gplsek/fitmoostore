@@ -115,6 +115,9 @@ function commerce_services_line_item_create($data, $flatten_fields) {
     global $user;
 //====check&create order
     $uid = !empty($user->uid) ? $user->uid : 0;
+    if ($uid == 0) {
+        return services_error(t('Access to this operation not granted'), 401);
+    }
     $order_id = db_query('SELECT order_id FROM {commerce_order} WHERE uid = :uid AND status IN (:status_ids) ORDER BY order_id DESC', array(':uid' => $uid, ':status_ids' => 'cart'))->fetchField();
 
     if (empty($order_id)) {
