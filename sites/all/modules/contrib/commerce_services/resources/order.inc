@@ -29,10 +29,18 @@ function commerce_services_order_index($fields, $expand_entities, $flatten_field
   }
 }
 function commerce_services_order_seller() {
-  global $user;
-  $user->uid=28;
-  $order = db_query('SELECT * FROM {commerce_lineitem_x_seller} WHERE seller_id = :user_id', array(':user_id' => $user->uid))->fetchAllAssoc('language');
-  return $order;
+    global $user;
+
+    $query = db_select('commerce_lineitem_x_seller', 'c');
+    $query->condition('seller_id', $user->uid);
+    $order = $query
+        ->fields('c', array('order_id'))
+        ->execute();
+
+    foreach ($order as $row) {
+        $result[] = $row;
+    }
+    return $result;
 }
 
 
