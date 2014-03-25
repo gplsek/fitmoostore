@@ -37,8 +37,8 @@ function commerce_services_order_seller() {
         ->fields('c', array('order_id'))
         ->execute();
 
-    foreach ($order as $row) {
-        $result[] = $row;
+    foreach ($order as $key=>$row) {
+        $result[$key] = $row;
     }
     return $result;
 }
@@ -53,8 +53,8 @@ function commerce_services_order_buyer() {
         ->fields('c', array('order_id'))
         ->execute();
 
-    foreach ($order as $row) {
-        $result[] = $row;
+    foreach ($order as $key=>$row) {
+        $result[$key] = $row;
     }
     return $result;
 }
