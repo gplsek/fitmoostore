@@ -15,13 +15,13 @@ function commerce_services_order_index($fields, $expand_entities, $flatten_field
   if (!empty($_REQUEST['seller'])) {
       $order_ids = commerce_services_order_seller();
       foreach ($order_ids as $key=>$value) {
-          $temp[]= commerce_services_order_retrieve($value->order_id, false, false);
+          $temp[]= commerce_services_order_retrieve($value, false, false);
       }
       return $temp;
   } elseif (!empty($_REQUEST['buyer'])) {
       $order_ids = commerce_services_order_buyer();
       foreach ($order_ids as $key=>$value) {
-          $temp[]= commerce_services_order_retrieve($value->order_id, false, false);
+          $temp[]= commerce_services_order_retrieve($value, false, false);
       }
       return $temp;
   } else {
@@ -38,7 +38,7 @@ function commerce_services_order_seller() {
         ->execute();
 
     foreach ($order as $key=>$row) {
-        $result[$key] = $row;
+        $result[$row->order_id] = $row->order_id;
     }
     return $result;
 }
@@ -54,7 +54,7 @@ function commerce_services_order_buyer() {
         ->execute();
 
     foreach ($order as $key=>$row) {
-        $result[$key] = $row;
+        $result[$row->order_id] = $row->order_id;
     }
     return $result;
 }
