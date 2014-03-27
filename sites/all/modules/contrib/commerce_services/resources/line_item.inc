@@ -197,15 +197,6 @@ function commerce_services_line_item_create($data, $flatten_fields) {
     $line_item = clone($line_item);
     commerce_services_flatten_fields('commerce_line_item', $line_item);
   }
-    //===insert data to lineitem_x_seller
-  if ($line_item->type != 'shipping') {
-      $data['product_id'] = $product->product_id;
-      $data['seller_id'] = $product->uid;
-      $data['buyer_id'] = $uid;
-      $data['line_id'] = $line_item->line_item_id;
-      $data['order_id'] = $line_item->order_id;
-      commerce_lineitem_seller_insert($data);
-  }
 
   return $line_item;
 }
@@ -224,20 +215,7 @@ function migrate_billboard_get_managed_file($uri) {
 }
 
 
-/**
- * line_item_seller insert row
- */
 
-function commerce_lineitem_seller_insert($data) {
-    $id = db_query('SELECT id FROM {commerce_lineitem_x_seller} WHERE product_id = :product_id and line_id = :line_id', array(':product_id' => $data['product_id'],':line_id' => $data['line_id']))->fetchField();
-    if (empty($id)) {
-      return db_insert('commerce_lineitem_x_seller')
-        ->fields(array('line_id', 'product_id', 'seller_id', 'buyer_id', 'order_id'), array($data['line_id'], $data['product_id'], $data['seller_id'], $data['buyer_id'], $data['order_id']))
-        ->execute();
-    } else {
-        return FALSE;
-    }
-}
 
 /**
  * FUNCTION delete lineitem_seller
