@@ -142,50 +142,57 @@ function commerce_services_product_retrieve_access($product_id) {
  * @see commerce_services_update_entity()
  */
 function commerce_services_order_update($order_id, $data, $flatten_fields) {
-//    global $user;
-//
-//
-//    if(!empty($data['commerce_customer_shipping'])) {
-//      //  $profiles = commerce_customer_profile_load_multiple(array(), array('type' => 'shipping','uid' => $user->uid,'status'=> TRUE));
-////        if ($profiles) {
-////// Prepare the options for supplying to a select box
-////            $shipping_options = array();
-////            $find = false;
-////            foreach ($profiles as $id => $profile) {
-////                $field_values = field_get_items('commerce_customer_profile', $profile, 'commerce_customer_address');
-////                $current_find = false;
-////                foreach ($field_values as $key=>$value) {
-////                    if($data['commerce_customer_shipping']['key'] != $value) { break;}
-////                }
-//          //  }
-//          $profilenew = commerce_customer_profile_new('shipping', $user->uid);
-//          foreach ($data['commerce_customer_shipping'] as $key=>$value) {
-//              $profilenew[$key] = $value;
-//          }
-//          $result = commerce_customer_profile_save($profilenew);
-//        //$a=$a+1;
-//       // exit();
-//        unset($data['commerce_customer_shipping']);
-//    }
-//    if(!empty($data['commerce_customer_billing'])) {
-////        $profiles = commerce_customer_profile_load_multiple(array(), array('type' => 'billing','uid' => $user->uid,'status'=> TRUE));
-////        if ($profiles) {
-////// Prepare the options for supplying to a select box
-////            $billing_options = array();
-////            foreach ($profiles as $id => $profile) {
-////                $field_values = field_get_items('commerce_customer_profile', $profile, 'commerce_customer_address');
-////                $billing_options[$id] = $field_values[0]['thoroughfare'];
-////            }
-////        }
-////       // $a=$a+1;
-////        //exit();
-//        unset($data['commerce_customer_billing']);
-//    }
-//
-//exit();
+    global $user;
+
+
+    if(!empty($data['commerce_customer_shipping'])) {
+      //  $profiles = commerce_customer_profile_load_multiple(array(), array('type' => 'shipping','uid' => $user->uid,'status'=> TRUE));
+//        if ($profiles) {
+//// Prepare the options for supplying to a select box
+//            $shipping_options = array();
+//            $find = false;
+//            foreach ($profiles as $id => $profile) {
+//                $field_values = field_get_items('commerce_customer_profile', $profile, 'commerce_customer_address');
+//                $current_find = false;
+//                foreach ($field_values as $key=>$value) {
+//                    if($data['commerce_customer_shipping']['key'] != $value) { break;}
+//                }
+          //  }
+          $profilenew = commerce_customer_profile_new('shipping', $user->uid);
+          foreach ($data['commerce_customer_shipping'] as $key=>$value) {
+              $profilenew->commerce_customer_address['und'][0][$key] = $value;
+          }
+          $result = commerce_customer_profile_save($profilenew);
+
+        unset($data['commerce_customer_shipping']);
+        if ($result) {
+            $data['commerce_customer_shipping'] = $profilenew->profile_id;
+        }
+    }
+    if(!empty($data['commerce_customer_billing'])) {
+        $profilenew2 = commerce_customer_profile_new('billing', $user->uid);
+        foreach ($data['commerce_customer_billing'] as $key=>$value) {
+            $profilenew2->commerce_customer_address['und'][0][$key] = $value;
+        }
+        $result2 = commerce_customer_profile_save($profilenew2);
+
+        unset($data['commerce_customer_billing']);
+        if ($result2) {
+            $data['commerce_customer_billing'] = $profilenew2->profile_id;
+        }
+    }
   $order = commerce_services_update_entity('commerce_order', $order_id, $data, $flatten_fields);
+  if ($result or $result2) {
+     $order->commerce_customer_shipping_entities[$profilenew->profile_id] = $profilenew;
+     commerce_order_save($order);
+  }
+  if ($result2) {
+     $order->commerce_customer_billing_entities[$profilenew2->profile_id] = $profilenew2;
+     commerce_order_save($order);
+  }
   return $order;
 }
+
 
 /**
  * Determines an API user's access to update a given order.
