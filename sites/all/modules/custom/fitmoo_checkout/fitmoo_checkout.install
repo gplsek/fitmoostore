@@ -44,6 +44,22 @@ function fitmoo_checkout_schema() {
   				  'not null' => TRUE,
   				  'default' => '',
   			   ),
+	  		   'orderID' => array(
+	  			 	'description' => 'order ID',
+	  		 		'type' => 'int',
+	  		 		'length' => '11',
+	  			 	'unsigned' => TRUE,
+	  			 	'not null' => TRUE,
+					'default' => '0',
+	  			    ),
+	    		'productID' => array(
+	    	    	'description' => 'product ID',
+	    	 		'type' => 'int',
+	    	 		'length' => '11',
+	   			 	'unsigned' => TRUE,
+	   			 	'not null' => TRUE,
+					'default' => '0',
+	   			    ),
 			  'created' => array(
 			       'type' => 'int',
 			       'not null' => true,
@@ -65,7 +81,7 @@ function fitmoo_checkout_schema() {
 
 
 
-function fitmoo_checkout_update_6004() {
+function fitmoo_checkout_update_6008() {
 	
 	$fitmoo_user_accounting = array(
 		'description' => 'Accounting Logs for moola account.',
@@ -111,6 +127,22 @@ function fitmoo_checkout_update_6004() {
   				  'not null' => TRUE,
   				  'default' => '',
   			   ),
+	  		   'orderID' => array(
+	  			 	'description' => 'order ID',
+	  		 		'type' => 'int',
+	  		 		'length' => '11',
+	  			 	'unsigned' => TRUE,
+	  			 	'not null' => TRUE,
+					'default' => '0',
+	  			    ),
+	    		'productID' => array(
+	    	    	'description' => 'product ID',
+	    	 		'type' => 'int',
+	    	 		'length' => '11',
+	   			 	'unsigned' => TRUE,
+	   			 	'not null' => TRUE,
+					'default' => '0',
+	   			    ),
 			  'created' => array(
 			       'type' => 'int',
 			       'not null' => true,
@@ -134,34 +166,5 @@ function fitmoo_checkout_update_6004() {
 	return t('The update ran successfully. Created table fitmoo_user_accounting');
 }
 
-/**
- * Add newcol field to {mytable1} table.
- */
-function fitmoo_checkout_update_6005() {
-  $ret = array();
-  $spec = array(
-    'type' => 'int',
-    'description' => "Order ID",
-    'length' => 11,
-    'not null' => FALSE,
-  );
-  db_add_field($ret, 'fitmoo_user_accounting', 'orderID', $spec);
-  return $ret;
-}
-
-/**
- * Add newcol field to {mytable1} table.
- */
-function fitmoo_checkout_update_6006() {
-  $ret = array();
-  $spec = array(
-    'type' => 'int',
-    'description' => "Product ID",
-    'length' => 11,
-    'not null' => FALSE,
-  );
-  db_add_field($ret, 'fitmoo_user_accounting', 'productID', $spec);
-  return $ret;
-}
 
 

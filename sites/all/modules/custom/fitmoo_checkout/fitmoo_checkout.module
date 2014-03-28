@@ -153,6 +153,8 @@ function fitmoo_checkout_calc_comisions($params){
         'type' => 'seller', // buyer, seller, reference, fitmoo
         'ammount' => $sell_com, // 20.00
   	    'percentage' => variable_get("seller_perc", ""), // commisions percent example seller now is 80
+		'orderID' => $params['orderID'],
+		'productID' => $params['productID'],
 		'status' => 'pending', //pending, cleared, credit , withdrawn
         'created' => REQUEST_TIME,
 		'updated' => REQUEST_TIME,
@@ -168,10 +170,12 @@ function fitmoo_checkout_calc_comisions($params){
           'uid' => $params['buyer_uid'],   //user ID
           'type' => 'buyer', // buyer, seller, reference, fitmoo
           'ammount' => $buyer_com, // 20.00
-    	    'percentage' => variable_get("buyer_perc", ""), // commisions percent example seller now is 80
-  		'status' => 'pending', //pending, cleared, credit , withdrawn
+    	  'percentage' => variable_get("buyer_perc", ""), // commisions percent example seller now is 80
+		  'orderID' => $params['orderID'],
+		  'productID' => $params['productID'],
+  		  'status' => 'pending', //pending, cleared, credit , withdrawn
           'created' => REQUEST_TIME,
-  		'updated' => REQUEST_TIME,
+  		  'updated' => REQUEST_TIME,
         ))
         ->execute(); 
 		
@@ -181,12 +185,14 @@ function fitmoo_checkout_calc_comisions($params){
 	
 	      $id = db_insert('fitmoo_user_accounting')
 	        ->fields(array(
-	          'uid' => 1,   //user ID
-	          'type' => 'fitmoo', // buyer, seller, reference, fitmoo
-	          'ammount' => $fitmoo_com, // 20.00
-	    	    'percentage' => variable_get("fitmoo_perc", ""), // commisions percent example seller now is 80
+	        'uid' => 1,   //user ID
+	        'type' => 'fitmoo', // buyer, seller, reference, fitmoo
+	        'ammount' => $fitmoo_com, // 20.00
+	    	'percentage' => variable_get("fitmoo_perc", ""), // commisions percent example seller now is 80
+			'orderID' => $params['orderID'],
+			'productID' => $params['productID'],
 	  		'status' => 'pending', //pending, cleared, credit , withdrawn
-	          'created' => REQUEST_TIME,
+	        'created' => REQUEST_TIME,
 	  		'updated' => REQUEST_TIME,
 	        ))
 	        ->execute(); 
@@ -215,7 +221,9 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
         'seller_uid' => $product->uid,  //seller uid
         'total' => commerce_currency_amount_to_decimal(field_get_items('commerce_line_item', $line_item, 'commerce_total')[0]['amount'], field_get_items('commerce_line_item', $line_item, 'commerce_total')[0]['currency_code']),
 		'buyer_uid' => $order->uid,
-      );
+		'orderID' => $order->order_id,
+		'productID' => $product->product_id,
+	      );
 
       // Grant userpoints programmatically.
       fitmoo_checkout_calc_comisions($params);
