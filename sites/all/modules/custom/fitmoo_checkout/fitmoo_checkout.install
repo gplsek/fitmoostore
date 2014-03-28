@@ -131,7 +131,7 @@ function fitmoo_checkout_update_6004() {
     if (!db_table_exists('fitmoo_user_accounting')) {
       db_create_table('fitmoo_user_accounting', $fitmoo_user_accounting);
     }
-	
+	return t('The update ran successfully. Created table fitmoo_user_accounting');
 }
 
 
