@@ -208,12 +208,13 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
     // We do not want to include shipping cost in userpoints.
     if ($line_item->type != 'shipping') {
       // Load commerce product by product id.
-      $product = commerce_product_load(field_get_items('commerce_line_item', $line_item, 'commerce_product')[0]['product_id']);
+      $temp = field_get_items('commerce_line_item', $line_item, 'commerce_product');
+      $product = commerce_product_load($temp[0]['product_id']);
 
       // Create parameters.
       $params = array(
         'seller_uid' => $product->uid,  //seller uid
-        'total' => commerce_currency_amount_to_decimal(field_get_items('commerce_line_item', $line_item, 'commerce_total')[0]['amount'], field_get_items('commerce_line_item', $line_item, 'commerce_total')[0]['currency_code']),
+        'total' => commerce_currency_amount_to_decimal($temp[0]['amount'], $temp[0]['currency_code']),
 		'buyer_uid' => $order->uid,
       );
 
