@@ -145,7 +145,7 @@ function fitmoo_checkout_calc_comisions($params){
 	
 	
 	//seller
-	$sell_com = ($params['seller_uid']/100)*variable_get("seller_perc", "");
+	$sell_com = ($params['total']/100)*variable_get("seller_perc", "");
 	
     $id = db_insert('fitmoo_user_accounting')
       ->fields(array(
@@ -161,7 +161,7 @@ function fitmoo_checkout_calc_comisions($params){
 	  
 	  
   	//buyer
-  	$buyer_com = ($params['seller_uid']/100)*variable_get("buyer_perc", "");
+  	$buyer_com = ($params['total']/100)*variable_get("buyer_perc", "");
 	
       $id = db_insert('fitmoo_user_accounting')
         ->fields(array(
@@ -177,7 +177,7 @@ function fitmoo_checkout_calc_comisions($params){
 		
 		
 	  	//buyer
-	  	$fitmoo_com = ($params['seller_uid']/100)*variable_get("fitmoo_perc", "");
+	  	$fitmoo_com = ($params['total']/100)*variable_get("fitmoo_perc", "");
 	
 	      $id = db_insert('fitmoo_user_accounting')
 	        ->fields(array(
