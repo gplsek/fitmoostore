@@ -141,6 +141,88 @@ function fitmoo_checkout_commisions_submit($form, &$form_state) {
  return $form;
 }
 
+function fitmoo_checkout_calc_comisions($params){
+	
+	
+	//seller
+	$sell_com = ($params['seller_uid']/100)*variable_get("seller_perc", "");
+	
+    $id = db_insert('fitmoo_user_accounting')
+      ->fields(array(
+        'uid' => $params['seller_uid'],   //user ID
+        'type' => 'seller', // buyer, seller, reference, fitmoo
+        'ammount' => $sell_com, // 20.00
+  	    'percentage' => variable_get("seller_perc", ""), // commisions percent example seller now is 80
+		'status' => 'pending', //pending, cleared, credit , withdrawn
+        'created' => REQUEST_TIME,
+		'updated' => REQUEST_TIME,
+      ))
+      ->execute(); 
+	  
+	  
+  	//buyer
+  	$buyer_com = ($params['seller_uid']/100)*variable_get("buyer_perc", "");
+	
+      $id = db_insert('fitmoo_user_accounting')
+        ->fields(array(
+          'uid' => $params['buyer_uid'],   //user ID
+          'type' => 'buyer', // buyer, seller, reference, fitmoo
+          'ammount' => $buyer_com, // 20.00
+    	    'percentage' => variable_get("buyer_perc", ""), // commisions percent example seller now is 80
+  		'status' => 'pending', //pending, cleared, credit , withdrawn
+          'created' => REQUEST_TIME,
+  		'updated' => REQUEST_TIME,
+        ))
+        ->execute(); 
+		
+		
+	  	//buyer
+	  	$fitmoo_com = ($params['seller_uid']/100)*variable_get("fitmoo_perc", "");
+	
+	      $id = db_insert('fitmoo_user_accounting')
+	        ->fields(array(
+	          'uid' => 1,   //user ID
+	          'type' => 'fitmoo', // buyer, seller, reference, fitmoo
+	          'ammount' => $fitmoo_com, // 20.00
+	    	    'percentage' => variable_get("fitmoo_perc", ""), // commisions percent example seller now is 80
+	  		'status' => 'pending', //pending, cleared, credit , withdrawn
+	          'created' => REQUEST_TIME,
+	  		'updated' => REQUEST_TIME,
+	        ))
+	        ->execute(); 
+	
+	
+	
+}
+
+/**                                                                             
+ * Implements hook_commerce_checkout_complete().                                
+ */                                                                             
+function fitmoo_checkout_commerce_checkout_complete($order) {
+  // Iterate through every commerce line item added in product.
+  foreach (field_get_items('commerce_order', $order, 'commerce_line_items') as $line_item_id) {
+
+    // Load commerce line item by line item id.
+    $line_item = commerce_line_item_load($line_item_id['line_item_id']);
+
+    // We do not want to include shipping cost in userpoints.
+    if ($line_item->type != 'shipping') {
+      // Load commerce product by product id.
+      $product = commerce_product_load(field_get_items('commerce_line_item', $line_item, 'commerce_product')[0]['product_id']);
+
+      // Create parameters.
+      $params = array(
+        'seller_uid' => $product->uid,  //seller uid
+        'total' => commerce_currency_amount_to_decimal(field_get_items('commerce_line_item', $line_item, 'commerce_total')[0]['amount'], field_get_items('commerce_line_item', $line_item, 'commerce_total')[0]['currency_code']),
+		'buyer_uid' => $order->uid,
+      );
+
+      // Grant userpoints programmatically.
+      fitmoo_checkout_calc_comisions($params);
+    }
+  }
+}
+
 
 
 
