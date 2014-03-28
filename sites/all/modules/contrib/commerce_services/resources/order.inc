@@ -15,13 +15,13 @@ function commerce_services_order_index($fields, $expand_entities, $flatten_field
   if (!empty($_REQUEST['seller'])) {
       $order_ids = commerce_services_order_seller();
       foreach ($order_ids as $key=>$value) {
-          $temp[]= commerce_services_order_retrieve($value, false, false);
+          $temp[]= commerce_services_order_retrieve($value, 1, true);
       }
       return $temp;
   } elseif (!empty($_REQUEST['buyer'])) {
       $order_ids = commerce_services_order_buyer();
       foreach ($order_ids as $key=>$value) {
-          $temp[]= commerce_services_order_retrieve($value, false, false);
+          $temp[]= commerce_services_order_retrieve($value, 1, true);
       }
       return $temp;
   } else {
