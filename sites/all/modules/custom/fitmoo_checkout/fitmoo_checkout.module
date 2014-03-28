@@ -222,7 +222,7 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
       // Create parameters.
       $params = array(
         'seller_uid' => $product->uid,  //seller uid
-        'total' => commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amaount'], $product->commerce_price['und'][0]['currency_code']),
+        'total' => commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount'], $product->commerce_price['und'][0]['currency_code']),
 		'buyer_uid' => $order->uid,
 		'orderID' => $order->order_id,
 		'productID' => $product->product_id,
