@@ -1,0 +1,137 @@
+<?php
+function fitmoo_checkout_schema() {
+	$schema['fitmoo_user_accounting'] = array(
+		'description' => 'Accounting Logs for moola account.',
+		'fields' => array(
+		 	'id' => array(
+		 		'description' => 'The primary identifier',
+		 		'type' => 'serial',
+		 		'unsigned' => TRUE,
+		 		'not null' => TRUE
+		    	),
+  			  'uid' => array(
+  			 	'description' => 'user id',
+  		 		'type' => 'int',
+  		 		'length' => '11',
+  			 	'unsigned' => TRUE,
+  			 	'not null' => TRUE
+  			    ),
+			 'type' => array(
+				  'description' => 'buyer or seller',
+				  'type' => 'varchar',
+				  'length' => 255,
+				  'not null' => TRUE,
+				  'default' => '',
+			   ),
+  			 'ammount' => array(
+  				  'description' => 'total amount of the transaction result',
+  				  'type' => 'float',
+  				  'length' => 'big',
+  				  'not null' => TRUE,
+  				  'default' => '0',
+  			   ),
+  			 'percentage' => array(
+  				  'description' => 'percentage slipt at the time',
+  				  'type' => 'float',
+  				  'length' => 'big',
+  				  'not null' => TRUE,
+  				  'default' => '0',
+  			   ),
+  			 'status' => array(
+  				  'description' => 'status of the transaction',
+  				  'type' => 'varchar',
+  				  'length' => 255,
+  				  'not null' => TRUE,
+  				  'default' => '',
+  			   ),
+			  'created' => array(
+			       'type' => 'int',
+			       'not null' => true,
+			       'length' => '11',
+			  ),
+			  'updated' => array(
+			       'type' => 'int',
+			       'not null' => true,
+			       'length' => '11',
+			  ),
+        ),
+	  'primary key' => array('id'),
+      'indexes' => array(
+        'uid' => array('uid'),
+	 ),
+	);
+ return $schema;
+}
+
+
+
+function fitmoo_checkout_update_6004() {
+	
+	$fitmoo_user_accounting = array(
+		'description' => 'Accounting Logs for moola account.',
+		'fields' => array(
+		 	'id' => array(
+		 		'description' => 'The primary identifier',
+		 		'type' => 'serial',
+		 		'unsigned' => TRUE,
+		 		'not null' => TRUE
+		    	),
+  			  'uid' => array(
+  			 	'description' => 'user id',
+  		 		'type' => 'int',
+  		 		'length' => '11',
+  			 	'unsigned' => TRUE,
+  			 	'not null' => TRUE
+  			    ),
+			 'type' => array(
+				  'description' => 'buyer or seller',
+				  'type' => 'varchar',
+				  'length' => 255,
+				  'not null' => TRUE,
+				  'default' => '',
+			   ),
+  			 'ammount' => array(
+  				  'description' => 'total amount of the transaction result',
+  				  'type' => 'float',
+  				  'length' => 'big',
+  				  'not null' => TRUE,
+  				  'default' => '0',
+  			   ),
+  			 'percentage' => array(
+  				  'description' => 'percentage slipt at the time',
+  				  'type' => 'float',
+  				  'length' => 'big',
+  				  'not null' => TRUE,
+  				  'default' => '0',
+  			   ),
+  			 'status' => array(
+  				  'description' => 'status of the transaction',
+  				  'type' => 'varchar',
+  				  'length' => 255,
+  				  'not null' => TRUE,
+  				  'default' => '',
+  			   ),
+			  'created' => array(
+			       'type' => 'int',
+			       'not null' => true,
+			       'length' => '11',
+			  ),
+			  'updated' => array(
+			       'type' => 'int',
+			       'not null' => true,
+			       'length' => '11',
+			  ),
+        ),
+	  'primary key' => array('id'),
+      'indexes' => array(
+        'uid' => array('uid'),
+      ),
+	);
+	
+    if (!db_table_exists('fitmoo_user_accounting')) {
+      db_create_table('fitmoo_user_accounting', $fitmoo_user_accounting);
+    }
+	
+}
+
+
