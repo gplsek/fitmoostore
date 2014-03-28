@@ -134,4 +134,34 @@ function fitmoo_checkout_update_6004() {
 	return t('The update ran successfully. Created table fitmoo_user_accounting');
 }
 
+/**
+ * Add newcol field to {mytable1} table.
+ */
+function fitmoo_checkout_update_6005() {
+  $ret = array();
+  $spec = array(
+    'type' => 'int',
+    'description' => "Order ID",
+    'length' => 11,
+    'not null' => FALSE,
+  );
+  db_add_field($ret, 'fitmoo_user_accounting', 'orderID', $spec);
+  return $ret;
+}
+
+/**
+ * Add newcol field to {mytable1} table.
+ */
+function fitmoo_checkout_update_6006() {
+  $ret = array();
+  $spec = array(
+    'type' => 'int',
+    'description' => "Product ID",
+    'length' => 11,
+    'not null' => FALSE,
+  );
+  db_add_field($ret, 'fitmoo_user_accounting', 'productID', $spec);
+  return $ret;
+}
+
 
