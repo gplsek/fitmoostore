@@ -10,12 +10,12 @@ function fitmoo_checkout_menu() {
     'type' => MENU_CALLBACK,
   );
   
-  $items['userlogin/%'] = array(
-    'page callback' => 'fitmoo_checkout_userlogin',
-    'page arguments' => array(1),
-    'access callback' => TRUE,
-    'type' => MENU_CALLBACK,
-  );
+//  $items['userlogin/%'] = array(
+//    'page callback' => 'fitmoo_checkout_userlogin',
+//    'page arguments' => array(1),
+//    'access callback' => TRUE,
+//    'type' => MENU_CALLBACK,
+//  );
   $items['admin/config/commissions'] = array(
   'title' => 'Set Commisions',
   'description' => 'Manage commision amount',
@@ -29,31 +29,31 @@ function fitmoo_checkout_menu() {
   return $items;
 }
 
-function fitmoo_checkout_userlogin($sessionID){
-	global $user;
-
-	$result = db_select('sessions', 's')
-	    ->fields('s', array('uid'))
-	    ->condition('s.sid', $sessionID)
-	    ->execute()
-	    ->fetchAssoc();
-	
-	if($result){
-		$uid = $result['uid'];
-		
-		$user = user_load($uid);
-		drupal_session_regenerate();
-	
-		drupal_goto('checkout');
-	}else{
-		
-		//invalid user goaway
-		
-	}
-	
-	
-	
-}
+//function fitmoo_checkout_userlogin($sessionID){
+//	global $user;
+//
+//	$result = db_select('sessions', 's')
+//	    ->fields('s', array('uid'))
+//	    ->condition('s.sid', $sessionID)
+//	    ->execute()
+//	    ->fetchAssoc();
+//
+//	if($result){
+//		$uid = $result['uid'];
+//
+//		$user = user_load($uid);
+//		drupal_session_regenerate();
+//
+//		drupal_goto('checkout');
+//	}else{
+//
+//		//invalid user goaway
+//
+//	}
+//
+//
+//
+//}
 
 function _create_order($id,$uid,$qty = 1){
 	global $user;

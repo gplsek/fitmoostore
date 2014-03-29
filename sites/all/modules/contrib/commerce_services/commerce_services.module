@@ -1003,6 +1003,30 @@ function commerce_services_services_resources() {
     );
   }
 
+  $resources['score'] = array(
+     '#api_version' => 3002,
+     'operations' => array(
+         // Define the retrieve callback for a GET to /score.
+         'retrieve' => array(
+             'help' => 'Returns a users score',
+             'callback' => 'commerce_services_score_retrieve',
+             'file' => array('type' => 'inc', 'module' => 'commerce_services', 'name' => 'resources/score'),
+             'access callback' => 'commerce_services_score_retrieve_access',
+             'access arguments append' => TRUE,
+             'args' => array(
+                 array(
+                   'name' => 'user_id',
+                   'type' => 'int',
+                   'description' => 'The user',
+                   'optional' => TRUE,
+                   'source' => array('path' => 0),
+                 ),
+             ),
+         ),
+     ),
+  );
+
+
   return $resources;
 }
 
