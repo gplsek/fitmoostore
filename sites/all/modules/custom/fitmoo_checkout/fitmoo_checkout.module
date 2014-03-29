@@ -215,12 +215,14 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
     if ($line_item->type != 'shipping') {
       // Load commerce product by product id.
       $temp = field_get_items('commerce_line_item', $line_item, 'commerce_product');
+	  
       $product = commerce_product_load($temp[0]['product_id']);
+	 
 
       // Create parameters.
       $params = array(
         'seller_uid' => $product->uid,  //seller uid
-        'total' => commerce_currency_amount_to_decimal($temp[0]['amount'], $temp[0]['currency_code']),
+        'total' => commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount'], $product->commerce_price['und'][0]['currency_code']),
 		'buyer_uid' => $order->uid,
 		'orderID' => $order->order_id,
 		'productID' => $product->product_id,
