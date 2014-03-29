@@ -19,7 +19,7 @@ function commerce_services_score_create($data) {
     if (!empty($data['from'])) {$from = " and created >= '{$data['from']}' ";  } else {$from = '';}
     if (!empty($data['till'])) {$till = " and created <= '{$data['till']}' ";  } else {$till = '';}
 
-    $result = db_query("SELECT SUM( ammount ) , type, orderID, productID FROM `fitmoo_user_accounting` WHERE uid = $uid $status $type $orderID $productID $from $till $group");
+    $result = db_query("SELECT SUM( ammount ) as ammount, type, orderID, productID FROM `fitmoo_user_accounting` WHERE uid = $uid $status $type $orderID $productID $from $till $group");
     foreach($result as $key=>$value){
         $temp[] = $value;
     }
