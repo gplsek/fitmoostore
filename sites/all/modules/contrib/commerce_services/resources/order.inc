@@ -14,14 +14,25 @@
 function commerce_services_order_index($fields, $expand_entities, $flatten_fields, $filter, $filter_op, $sort_by, $sort_order, $limit, $offset) {
   if (!empty($_REQUEST['seller'])) {
       $order_ids = commerce_services_order_seller();
+      global $user;
       foreach ($order_ids as $key=>$value) {
-          $temp[]= commerce_services_order_retrieve($value, 1, true);
+          $item = commerce_services_order_retrieve($value, 1, true);
+          foreach ($item->commerce_line_items_data as $keyitem=>$valueitem) {
+              if ($valueitem->commerce_product_entities[$valueitem->commerce_product]->uid != $user->uid) {
+                  $delkey = array_search($keyitem,$item->commerce_line_items);
+                  unset($item->commerce_line_items_data[$keyitem]);
+                  unset($item->commerce_line_items[$delkey]);
+
+              }
+          }
+          $temp[] = $item;
       }
       return $temp;
   } elseif (!empty($_REQUEST['buyer'])) {
       $order_ids = commerce_services_order_buyer();
       foreach ($order_ids as $key=>$value) {
-          $temp[]= commerce_services_order_retrieve($value, 1, true);
+          $item = commerce_services_order_retrieve($value, 1, true);
+          $temp[] = $item;
       }
       return $temp;
   } else {
