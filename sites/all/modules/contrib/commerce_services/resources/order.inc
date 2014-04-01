@@ -15,13 +15,23 @@ function commerce_services_order_index($fields, $expand_entities, $flatten_field
   if (!empty($_REQUEST['seller'])) {
       $order_ids = commerce_services_order_seller();
       foreach ($order_ids as $key=>$value) {
-          $temp[]= commerce_services_order_retrieve($value, 1, true);
+          $item = commerce_services_order_retrieve($value, 1, true);
+          foreach ($item->commerce_line_items as $itemkey=>$itemvalue) {
+              unset($item->commerce_line_items[$itemkey]);
+              $item->commerce_line_items[$itemvalue] = commerce_services_retrieve_entity('commerce_line_item', $itemvalue, 1, true);
+          }
+          $temp[]=$item;
       }
       return $temp;
   } elseif (!empty($_REQUEST['buyer'])) {
       $order_ids = commerce_services_order_buyer();
       foreach ($order_ids as $key=>$value) {
-          $temp[]= commerce_services_order_retrieve($value, 1, true);
+          $item = commerce_services_order_retrieve($value, 1, true);
+          foreach ($item->commerce_line_items as $itemkey=>$itemvalue) {
+              unset($item->commerce_line_items[$itemkey]);
+              $item->commerce_line_items[$itemvalue] = commerce_services_retrieve_entity('commerce_line_item', $itemvalue, 1, true);
+          }
+          $temp[]=$item;
       }
       return $temp;
   } else {
