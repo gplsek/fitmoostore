@@ -1034,9 +1034,9 @@ function commerce_services_services_resources() {
           'access arguments append' => TRUE,
           'args' => array(
               array(
-                  'name' => 'uid',
-                  'type' => 'int',
-                  'description' => 'User_id',
+                  'name' => 'tracking',
+                  'type' => 'string',
+                  'description' => 'tracking number',
                   'optional' => TRUE,
                   'source' => array('path' => 0),
               ),

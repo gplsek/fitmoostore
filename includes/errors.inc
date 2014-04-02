@@ -52,6 +52,7 @@ function drupal_error_levels() {
  *   An array that points to the active symbol table at the point the error
  *   occurred.
  */
+
 function _drupal_error_handler_real($error_level, $message, $filename, $line, $context) {
   if ($error_level & error_reporting()) {
     $types = drupal_error_levels();
