@@ -171,7 +171,22 @@ function commerce_services_services_resources() {
                 ),
             ),
 
-
+            'delete' => array(
+                'help' => 'Deletes a single address specified by its address ID.',
+                'callback' => 'commerce_services_address_delete',
+                'file' => array('type' => 'inc', 'module' => 'commerce_services', 'name' => 'resources/address'),
+                'access callback' => 'commerce_services_address_delete_access',
+                'access arguments append' => TRUE,
+                'args' => array(
+                    array(
+                        'name' => 'pid',
+                        'type' => 'int',
+                        'description' => 'The address ID of the address to delete.',
+                        'optional' => FALSE,
+                        'source' => array('path' => 0),
+                    ),
+                ),
+            ),
             // Define the create callback for a POST to /address.
             'create' => array(
                 'help' => 'Creates a new address for the current API user.',

@@ -114,8 +114,13 @@ function commerce_services_address_update_access() {
  * @param $address_id
  *   The ID of the address to be deleted.
  */
-function commerce_services_address_delete($address_id) {
-    commerce_address_delete($address_id);
+function commerce_services_address_delete($pid) {
+    global $user;
+    $profile = commerce_customer_profile_load($pid);
+    if ($profile->uid != $user->uid) {
+        return services_error(t('Access to this operation not granted'), 401);
+    }
+    return commerce_customer_profile_delete($pid, array());
 }
 
 /**
@@ -128,23 +133,5 @@ function commerce_services_address_delete($address_id) {
  *   Boolean indicating the user's access to delete the address.
  */
 function commerce_services_address_delete_access($address_id) {
-    // Attempt to load the address.
-    if ($address = commerce_address_load($address_id)) {
-        // If the user has access to perform the operation...
-        if (commerce_address_access('delete', $address)) {
-            // And the address can safely be deleted...
-            if (commerce_address_can_delete($address)) {
-                return TRUE;
-            }
-            else {
-                return services_error(t('address cannot be deleted'), 403);
-            }
-        }
-        else {
-            return services_error(t('Access to this operation not granted'), 401);
-        }
-    }
-    else {
-        return services_error(t('address not found'), 404);
-    }
+   return TRUE;
 }
