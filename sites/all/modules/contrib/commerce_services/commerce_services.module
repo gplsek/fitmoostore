@@ -148,6 +148,100 @@ function commerce_services_services_resources() {
     );
   }
 
+    $resources['address'] = array(
+        '#api_version' => 3002,
+        'operations' => array(
+            // Define the index callback for a GET to /product-display.
+            'index' => array(
+                'help' => 'Returns a pageable list of address.',
+                'callback' => 'commerce_services_address_index',
+                'file' => array('type' => 'inc', 'module' => 'commerce_services', 'name' => 'resources/address'),
+                'access arguments' => array('access content'),
+                'args' => array(
+                    array(
+                        'name' => 'fields',
+                        'type' => 'string',
+                        'description' => 'A comma separated list of field or property names from address nodes to include in the result set. Will be converted to an array before being passed to the operation callback.',
+                        'optional' => TRUE,
+                        'source' => array('param' => 'fields'),
+                        'default value' => '',
+                        'commerce_services_explode' => ',',
+                        'commerce_services_required_fields' => array('nid'),
+                    ),
+                ),
+            ),
+
+
+            // Define the create callback for a POST to /address.
+            'create' => array(
+                'help' => 'Creates a new address for the current API user.',
+                'callback' => 'commerce_services_address_create',
+                'file' => array('type' => 'inc', 'module' => 'commerce_services', 'name' => 'resources/address'),
+                'access callback' => 'commerce_services_address_create_access',
+                'args' => array(
+                    array(
+                        'name' => 'data',
+                        'type' => 'array',
+                        'description' => 'The address data to set on create.',
+                        'optional' => FALSE,
+                        'source' => 'data',
+                    ),
+                ),
+            ),
+
+            'update' => array(
+                'help' => 'Updates a single address.',
+                'callback' => 'commerce_services_address_update',
+                'file' => array('type' => 'inc', 'module' => 'commerce_services', 'name' => 'resources/address'),
+                'access callback' => 'commerce_services_address_update_access',
+                'access arguments append' => TRUE,
+                'args' => array(
+                    array(
+                        'name' => 'address_id',
+                        'type' => 'int',
+                        'description' => 'The address ID of the address to delete.',
+                        'optional' => FALSE,
+                        'source' => array('path' => 0),
+                    ),
+                    array(
+                        'name' => 'data',
+                        'type' => 'array',
+                        'description' => 'The address data to update.',
+                        'optional' => FALSE,
+                        'source' => 'data',
+                    ),
+                    array(
+                        'name' => 'flatten_fields',
+                        'type' => 'string',
+                        'description' => 'A string indicating whether or not field value arrays are flattened; accepts true or false.',
+                        'optional' => TRUE,
+                        'source' => array('param' => 'flatten_fields'),
+                        'default value' => 'true',
+                    ),
+                ),
+            ),
+
+            // Define the retrieve callback for a GET to /address/%node.
+            'retrieve' => array(
+                'help' => 'Returns a single address specified by its node ID.',
+                'callback' => 'commerce_services_address_retrieve',
+                'file' => array('type' => 'inc', 'module' => 'commerce_services', 'name' => 'resources/address'),
+                'access callback' => 'commerce_services_address_retrieve_access',
+                'access arguments' => array('view'),
+                'access arguments append' => TRUE,
+                'args' => array(
+                    array(
+                        'name' => 'pid',
+                        'type' => 'int',
+                        'description' => 'The node ID of the address to retrieve.',
+                        'optional' => FALSE,
+                        'source' => array('path' => 0),
+                    ),
+                ),
+            ),
+        ),
+    );
+
   if (module_exists('commerce_product')) {
     // Define a resource for actual Commerce Product entities.
     $resources['product'] = array(
