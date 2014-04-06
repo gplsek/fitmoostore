@@ -1,0 +1,172 @@
+// base
+
+input, .field-item,
+a, p, span, h1, h2, h3, h4, h5, h6 {
+  -webkit-font-smoothing:antialiased;
+}
+
+table {
+    border-collapse:collapse;
+    border-spacing:0;
+}
+
+body {
+    @include size(100%, 100%);
+    color:#333;
+    font-family:arial, helvetica, sans-serif;
+}
+
+/* Header Styles */
+h1, h2, h3, h4, h5, h6 {
+  font-weight:normal;
+  margin-bottom:5px;
+
+  &,
+  .header1,
+  .header2,
+  .header3 {
+
+  }
+
+}
+
+.header1,
+.header2,
+.header3 {
+
+}
+
+h1,
+.header1 {
+
+}
+
+h2,
+.header2 {
+
+}
+
+h3,
+.header3 {
+
+}
+
+h4, h5, h6 {
+
+}
+
+.front h1 {
+
+}
+
+/* link styles */
+
+
+a, a:visited, a:link, a.active {
+
+}
+
+a:hover {
+
+}
+
+
+.content,
+p {
+
+}
+
+p {
+
+  strong {
+
+  }
+}
+
+ul,
+.item-list ul,
+.item-list ul li,
+ul.menu li,
+ ul li.leaf {
+  list-style:none;
+  margin:0;
+  padding:0;
+  #sidebar-first &,
+  #sidebar-second & {
+    list-style:square;
+    list-style-position:inside;
+    margin-bottom:10px;
+  }
+}
+
+.form-checkboxes .form-item,
+.form-radios .form-item {
+  margin:0;
+  padding-top:2px;
+}
+
+/* wysiwyg settings */
+
+p, blockquote {
+  margin-bottom:20px;
+}
+
+img {
+    display:block;
+}
+
+button,
+fieldset,
+img {
+    border:0;
+}
+input,
+textarea {
+
+}
+input.form-submit:hover {
+    cursor:pointer;
+}
+
+button {
+    cursor:pointer;
+}
+
+.field-type-social-buttons {
+  .field-label {
+    display:none;
+  }
+}
+
+
+/* admin */
+#admin-toolbar h2 {
+    text-transform:none;
+}
+
+ul.action-links,
+div.tabs {
+  
+}
+
+
+ul.action-links {
+  li {
+
+  }
+}
+
+div.tabs {
+  
+}
+
+html.js fieldset.collapsed {
+  height:auto;
+}
+
+.messages.error {
+  display:none;
+  form & {
+    display:block;
+  }
+}

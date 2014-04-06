@@ -1,0 +1,22 @@
+name = fitmoo
+description = fitmoo subtheme
+package = Core
+version = 1.0
+core = 7.x
+
+; stylesheets
+stylesheets[all][] = css/styles.css
+
+;Javascript
+
+scripts[] = js/jquery.sb.js
+scripts[] = js/scripts.js
+
+regions[header_top] = Header Top
+regions[header] = Header
+regions[content_top] = Content Top
+regions[sidebar_first] = Sidebar First
+regions[content] = Content
+regions[sidebar_second] = Sidebar Second
+regions[content_bottom] = Content Bottom
+regions[footer] = Footer

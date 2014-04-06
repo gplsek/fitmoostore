@@ -1,0 +1,127 @@
+@mixin blockCenter($width:100%, $margin-bottom:0) {
+  margin:0 auto $margin-bottom;
+  display:block;
+  width:$width;
+}
+
+@mixin wrap() {
+  height:auto;
+  overflow:hidden;
+}
+
+@mixin fullScreen($width: 100%, $marginBottom: 20px) {
+  clear:both;
+  display:block;
+  float:none;
+  margin:0 auto $marginBottom;
+  width:$width;
+}
+
+@mixin fontSize($size: $fontSizeBody, $lheight: ($size+2)) {
+  font-size:$size;
+  line-height:$lheight;
+}
+
+@mixin indent($width:auto, $height:auto) {
+    display:block;
+    text-indent:120%;
+    white-space:nowrap;
+    width:$width;
+    height:$height;
+    overflow:hidden;
+}
+
+@mixin hide() {
+    @include indent(0, 0);
+}
+
+@mixin size($x:0, $y:0) {
+    width:$x;
+    height:$y;
+}
+
+@mixin border-radius($r:5px) {
+  -webkit-border-radius:$r;
+  -moz-border-radius:$r;
+  -ms-border-radius:$r;
+  border-radius:$r;
+}
+@mixin mega-border ($topsize: 1px, $top: #333, $rightsize:1px, $right: #333, $bottomsize: 1px, $bottom: #333, $leftsize: 1px, $left: #333) {
+    border-top:$topsize solid $top;
+    border-right:$rightsize solid $right;
+    border-bottom:$bottomsize solid $bottom;
+    border-left:$leftsize solid $left;
+}
+
+@mixin mega-border-radius ($tl: 5px, $tr: 5px, $br: 5px, $bl: 5px) {
+    -webkit-border-radius:$tl $tr $br $bl;
+    border-radius:$tl $tr $br $bl;
+}
+
+@mixin gradient($color) {
+  @if $color==blockbg {
+    background: #f3f2f2; /* Old browsers */
+    background: -moz-linear-gradient(top, #f3f2f2 0%, #b2b2b2 100%); /* FF3.6+ */
+    background: -webkit-gradient(linear, left top, left bottom, color-stop(0%,#f3f2f2), color-stop(100%,#b2b2b2)); /* Chrome,Safari4+ */
+    background: -webkit-linear-gradient(top, #f3f2f2 0%,#b2b2b2 100%); /* Chrome10+,Safari5.1+ */
+    background: -o-linear-gradient(top, #f3f2f2 0%,#b2b2b2 100%); /* Opera 11.10+ */
+    background: -ms-linear-gradient(top, #f3f2f2 0%,#b2b2b2 100%); /* IE10+ */
+    background: linear-gradient(to bottom, #f3f2f2 0%,#b2b2b2 100%); /* W3C */
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#f3f2f2', endColorstr='#b2b2b2',GradientType=0 ); /* IE6-9 */
+    // conditions
+  }
+  @if $color==black {
+    // conditions
+  }
+}
+
+@mixin transition() {
+  -moz-transition:height 500ms;
+  -webkit-transition:height 500ms;
+  transition:height 500ms;
+}
+
+@mixin form-submit($color:#fff) {
+  &:hover {
+
+  }
+  @media only screen and (max-width: 480px) {
+
+  }
+}
+
+.formSubmit {
+  //background:$colorBtn;
+  border:0;
+  border-radius:0;
+  //color:$colorHighlight;
+  //font:bold 12px/16px $fontArial;
+  margin:0;
+  padding:10px;
+  text-transform:uppercase;
+  &:focus {
+    outline:none;
+  }
+}
+
+.btnSubmit {
+    // bsans medium
+    background:#0f93ef;
+    -webkit-border-radius:2px;
+    border-radius:2px;
+    border:0;
+    color:#fff;
+    display:inline-block;
+    font-size:16px;
+    line-height:18px;
+    text-align:center;
+    padding:15px 36px;
+}
+
+.clear {
+  clear:both;
+  content:'';
+  display:block;
+}
+
+

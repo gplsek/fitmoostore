@@ -1,0 +1,616 @@
+// form styles
+
+
+input[type="text"],
+input[type="password"],
+input[type="email"] {
+	background:#fff;
+	border:1px solid #c4c4c4;
+	margin:0;
+	padding-top:10px;
+	padding-bottom:10px;
+	padding-left:1%;
+	width:98%;
+} 
+
+select {
+	margin:0;
+	width:100%;
+}
+
+div.addressfield-container-inline > div.form-item,
+.form-item,
+.form-actions {
+	margin:0 0 15px;
+}
+
+.form-item {
+	position:relative;
+}
+
+label,
+.views-label {
+	// bsans book
+	font-size:14px;
+	line-height:20px;
+	margin-bottom:5px;
+	text-transform:uppercase;
+}
+
+.form-submit {
+	@extend .btnSubmit;
+}
+
+
+
+/*
+* cart views 
+*/ 
+
+#block-commerce-checkout-progress-indication {
+	border-bottom:1px solid #cbcbcb;
+	margin-bottom:20px;
+	padding-bottom:15px;
+}
+
+.page-checkout #contentWrapper {
+	a {
+		color:#333;
+		font-size:18px;
+		line-height:24px;
+		text-decoration:none;
+	}
+
+	.cart_contents legend {
+		display:none; // ?
+	}
+}
+
+.view-id-commerce_cart_summary {
+
+	// cart header
+	&.view-display-id-default {
+		border-bottom:1px solid #cbcbcb;
+		margin-bottom:20px;
+		padding-right:2%;
+		padding-bottom:15px;
+
+		&:after {
+			@extend .clear;
+		}
+
+		.view-content {
+			float:left;
+			width:75%;
+		}
+
+		.views-table {
+			th,
+			td {
+				padding:5px 15px;
+			}
+		}
+
+		.view-footer {
+			float:left;
+			width:25%;
+			position:absolute;
+			right:4%;
+			top:50%;
+		}
+
+		.views-field {
+
+			&.views-field-nothing {
+				width:300px;
+			}
+
+			.field-name-field-image,
+			.field-name-field-product-size {
+				float:left;
+			}
+		}
+
+		.commerce-order-handler-area-order-total .commerce-price-formatted-components {
+			width:100%;
+			.component-title {
+				display:none;
+			}
+			.component-total {
+				// bsans med
+				font-size:28px;
+				line-height:26px;
+			}
+		}
+	}
+
+	// sidebar block
+	&.view-display-id-block_1 {
+
+		.views-label,
+		.field-content {
+			font-size:15px;
+			line-height:26px;
+		}
+
+		.views-label {
+			// bsans med
+			float:left;
+			text-transform:none;
+		}
+
+		.field-content {
+			// bsans
+			float:right;
+		}
+
+		.views-field {
+			@extend .clear;
+			margin-bottom:5px;
+		}
+
+		.views-field-line-item-title .field-content {
+			float:none;
+			margin-bottom:10px;
+		}
+
+		.views-field-uid {
+			.views-label,
+			.field-content {
+				display:block;
+				float:none;
+				padding-left:40px;
+			}
+		}
+	}
+}
+
+
+
+/* 
+* shopping cart pages
+*/
+
+tr.even,
+tr.odd {
+	background:none;
+	border:0;
+}
+
+/* checkout form */
+
+#commerce-checkout-form-checkout {
+
+	legend {
+		clear:both;
+		display:block;
+		font-size:18px;
+		line-height:20px;
+		font-weight:bold;
+		margin-bottom:30px;
+		width:100%;
+	}
+
+}
+
+#customer-profile-billing-ajax-wrapper,
+#customer-profile-shipping-ajax-wrapper,
+#edit-commerce-payment,
+#edit-buttons {
+	background:#f1f1f1;
+	padding:4%;
+	//max-width:410px;
+
+	&:after {
+		@extend .clear;
+	}
+
+	.form-item {
+		
+		&:after {
+			@extend .clear;
+		}
+
+		label {
+			clear:both;
+			display:block;
+		}
+	}
+}
+
+#edit-commerce-payment .form-item-commerce-payment-payment-method {
+	label,
+	input {
+		clear:none;
+		float:left;
+	}
+}
+
+.form-item-commerce-payment-payment-details-credit-card-code {
+	background:url('../images/seCode.png') right 26px no-repeat;
+	input[type="text"] {
+		width:75%;
+	}
+}
+
+div.addressfield-container-inline > div.form-item {
+	float:none;
+//	width:100%;
+}
+
+#customer-profile-billing-ajax-wrapper {
+	clear:left;
+}
+
+// form billing info
+#edit-buttons {
+	width:40%;
+}
+
+#customer-profile-shipping-ajax-wrapper,
+#customer-profile-billing-ajax-wrapper,
+#edit-commerce-payment {
+	float:left;
+	width:40%;
+
+	legend {
+		clear:both;
+		float:left;
+	}
+}
+
+#customer-profile-billing-ajax-wrapper,
+#customer-profile-shipping-ajax-wrapper {
+	border-right:1px solid #cacaca;
+}
+
+.region-content {
+
+
+	.fieldset-wrapper {
+		margin:0 auto;
+		max-width:330px;
+
+		&:after {
+			@extend .clear;
+		}
+	}
+
+	#edit-cart-contents .fieldset-wrapper {
+		max-width:100%; 
+	}
+}
+
+.commerce-credit-card-expiration {
+
+	&:after {
+		@extend .clear;
+	}
+
+	.commerce-month-year-divider,
+	.form-item {
+		clear:none;
+		float:left;
+		margin-bottom:0;
+	}
+
+	.commerce-month-year-divider {
+		display:none;
+	}
+
+	.form-item-commerce-payment-payment-details-credit-card-exp-year {
+		padding-top:25px;
+	}
+
+	.form-item-commerce-payment-payment-details-credit-card-exp-month,
+	.form-item-commerce-payment-payment-details-credit-card-exp-year {
+		width:100px;
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+// thead {
+// 	.views-field-nothing {
+
+// 	}
+// 	.views-field-commerce-unit-price {
+
+// 	}
+// 	.views-field-edit-quantity {
+
+// 	}
+// 	.views-field-edit-delete {
+
+// 	}
+// 	.views-field-commerce-total {
+
+// 	}
+// }
+
+// tbody { 
+// 	.views-field-nothing {
+
+// 	}
+
+// 	.views-field-commerce-unit-price {
+
+// 	}
+
+// 	.views-field-edit-quantity {
+
+// 	}
+
+// 	.views-field-edit-delete {
+
+// 	}
+// }
+
+
+// .line-item-summary {
+// 	.line-item-total {
+// 		.line-item-total-label {
+
+// 		}
+// 		.line-item-total-raw {
+
+// 		}
+// 	}
+// }
+
+// .form-actions.commerce-line-item-actions {
+
+// 	.form-submit {
+
+// 	}
+// }
+
+
+
+
+
+
+
+
+
+
+
+/* jquery SB configs */
+/* temporary selectbox styles */
+
+// ------------------------------------------------------------------------------------------------------------------------------
+// jquery.sb (jquery.sb may be replaced by native dropdown method)
+// ------------------------------------------------------------------------------------------------------------------------------
+
+
+.custom-select-menu label.opened {
+	border-radius: 2px 2px 0 0;
+	box-shadow: none;
+}
+
+.form-select,
+.webform-component-select {
+  position:relative;
+  &.has_sb {
+    position:absolute;
+  }
+}
+
+// jquery.sb.js default css
+.has_sb{position:absolute;left:-999999em;text-indent:-999999em;}
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
+  border:none;
+}
+
+.selectbox {
+	display:inline-block;
+  *display:inline;
+  font-family:arial;
+  font-size:1em;
+  position:relative;
+  vertical-align:middle;
+  zoom:1;
+  
+  .display {
+	  cursor:default;
+	  display:block;
+	  font-weight:normal;
+	  line-height:1.46em;
+	  outline:none;
+	  position:relative;
+	  text-decoration:none;
+	  overflow:hidden;
+		
+		.arrow_btn {
+	    display:block;
+	    position:absolute;
+	    right:0;
+	    text-align:center;
+	    top:0;
+
+			.arrow {
+		    display:inline-block;*display:inline;
+		    position:absolute;
+		    width:7px;
+		    zoom:1;
+			}
+		}
+	}
+	.value{
+		display:none;
+	}
+
+	// dropdown styles
+	&.items {
+	  display:block;
+	  font-family:arial;
+	  font-size:1em;
+	  list-style-type:none;
+	  margin:0;
+	  overflow-x:hidden;
+	  overflow-y:auto;
+	  padding:0 0 1px 0;
+	  z-index:99999;
+
+		li {
+			display:block;
+			margin:0;
+			padding:0;
+
+			&.first {
+				margin-top:0;
+			}
+
+			>	.item {
+				color:#000;
+				cursor:default;
+				display:block;
+				padding:3px 6px;
+				text-decoration:none;
+				>	.text {
+					display:inline-block;
+					*display:inline;zoom:1;
+				}
+			}
+			
+			&.disabled > .item {
+				color:#999;
+			}
+		}
+
+		.value{
+			display:none;
+		}
+	}
+}
+
+// theme overrides
+.sb.selectbox {
+  z-index:1;
+  
+  &,
+  .display {
+   width:100% !important;
+  }
+
+  .display {
+  	background:#d1d1d1;
+  	float: none;
+		margin-left: 0;
+		margin-bottom:5px;
+		text-align: left;
+    height:36px;
+
+    &:hover {
+      cursor:pointer;
+    }
+
+    .text {
+    	//@include fsize(14px, 16px);
+    	//color:$c_darkText;
+      float:left;
+      line-height:34px;
+      padding-left:8px;
+    }
+
+    .arrow_btn {
+    	background:url('../images/arrow_down.png') 0 center no-repeat;
+      border:0;
+      float:right;
+      margin-right:10px;
+      width:14px;
+      height:34px;
+    }
+  }
+}
+
+.display,
+ul.selectbox.items {
+	border: 1px solid #d9d9d9;
+	border-radius: 2px;
+	-webkit-box-shadow: 0 1px 1px 0 rgba(0,0,0,.08);
+	box-shadow: 0 1px 1px 0 rgba(0,0,0,.08);
+	-moz-box-sizing: border-box;
+	-webkit-box-sizing: border-box;
+	box-sizing: border-box;
+	cursor: pointer;
+}
+
+// dropdown
+ul.selectbox.items {
+	background:#d1d1d1;
+	border-radius: 0 0 2px 2px;
+	list-style: none;
+	margin: 0;
+	height:200px !important;
+	overflow-y: scroll;
+	padding: 5px 0;
+  width:100% !important;
+  z-index:2;
+
+  li {
+    display:block;
+  	margin: 0;
+		padding: 5px 10px;
+    
+    &:hover,
+    &.selected {
+    	background:#b4b4b4;
+    }
+
+    .item {
+      text-align:left;
+
+      &:hover {
+        cursor:pointer !important;
+      }
+    }
+  }
+}

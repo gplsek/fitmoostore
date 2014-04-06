@@ -1,0 +1,237 @@
+
+/* --------------------------------
+PAGE WIDTHS
+----------------------------------*/
+
+
+/* --------------------------------
+THEME STRUCTURE
+----------------------------------*/
+
+#header-top {
+	height:43px;
+	#logo {
+		padding-top:5px;
+		padding-left:8px;	
+	}
+}
+
+#header {
+	background:#2c3135;
+	border-top:1px solid #dae1e3;
+	border-bottom:2px solid #e4e4e4;
+	height:44px;
+	margin-bottom:30px;
+}
+
+#block-system-main-menu {
+	h2 {
+		display:none;
+	}
+	li {
+		float:left;
+		margin-left:40px;
+		a {
+			color:#fff;
+			line-height:45px;
+			text-decoration:none;
+			text-transform:uppercase;
+			padding:0 20px 10px 20px;
+			&.active {
+				border-bottom:3px solid #0f93ef;
+			}
+		}
+	}
+}
+
+#contentWrapper {
+	margin:0 auto 50px;
+	max-width:90%;
+	width:1265px;
+	&:after {
+		@extend .clear;
+	}
+}
+
+.one-sidebar {
+	#content {
+		margin:0;
+		float:left;
+		max-width:935px;
+		width:75%;
+	}
+
+	#sidebar-second {
+		float:left;
+		max-width:335px;
+		width:25%;
+		.region-sidebar-second {
+			margin:0 auto;
+			width:90%;
+		}
+	}
+}
+
+#content {
+
+	.region-content {
+		margin:0 auto;
+		&:after {
+			@extend .clear;
+		}
+	}
+}
+
+.page-checkout .region-content {
+	border-right:2px solid #a9a9a9;
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+/* --------------------------------
+THEME ELEMENTS
+----------------------------------*/
+
+/* product */
+
+.node-product {
+
+	h2,
+	.content {
+		a {
+			color:#333;
+			text-decoration:none;
+		}
+	}
+	h2 {
+		color:#333;
+		clear:right;
+		font-size:20px;
+		// font family bsans medium
+		line-height:26px;
+		float:right;
+		width:50%;
+	}
+
+	.content {
+		position:relative;
+	}
+
+	.field-name-field-brand,
+	.field-name-field-product,
+	.commerce-product-field {
+		clear:right;
+		float:left;
+		margin-left:50%;
+		margin-bottom:15px;
+		z-index:1;
+		width:50%;
+		
+		label,
+		.field-label,
+		.field-items {
+			color:#333;
+			float:left;
+			font-size:12px;
+			line-height:20px;
+		}
+
+		label,
+		.field-label {
+			font-weight:normal;
+			// bsans book
+		}
+
+		.field-items {
+			font-weight:bold;
+			// bsans medium
+		}
+	}
+
+	.field-name-field-product {
+		.field-label {
+			display:none;
+		}
+		.attribute-widgets {
+			margin-bottom:15px;
+
+			&:after {
+				@extend .clear;
+			}
+
+			label {
+				float:left;
+			}
+
+			select {
+				float:left;
+			}
+		}
+	}
+	.field-name-commerce-price .field-item {
+		font-size:28px;
+		line-height:26px;
+		// bsans medium
+	}
+	
+	.commerce-product-field.commerce-product-field-field-image {
+		float:none;
+		margin:0;
+		position:absolute;
+		left:0;
+		top:0;
+		width:50%;
+
+		.field-name-field-image {
+			background:#f5f5f5;
+			margin-left:50px;
+			padding:20px;
+			width:388px;
+
+			&:after {
+				@extend .clear;
+			}
+
+			.field-items {
+				width:100%;
+			}
+
+			.field-label {
+				display:none;
+			}
+		}
+
+		img {
+			margin:0 auto;
+		}
+	}
+}
+
+
