@@ -16,7 +16,7 @@ function fitmoo_checkout_menu() {
 //    'access callback' => TRUE,
 //    'type' => MENU_CALLBACK,
 //  );
-  $items['admin/config/commissions'] = array(
+  $items['admin/commerce/config/commissions'] = array(
   'title' => 'Set Commisions',
   'description' => 'Manage commision amount',
   'page callback' => 'drupal_get_form',
