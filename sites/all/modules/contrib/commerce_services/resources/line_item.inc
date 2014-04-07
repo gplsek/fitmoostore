@@ -126,14 +126,17 @@ function commerce_services_line_item_create($data, $flatten_fields) {
     }
   commerce_services_line_item_create_access($data);
   $order = commerce_order_load($order_id);
-  foreach ($order->commerce_line_items['und'] as $key=>$value) {
-      $line_item =  $entity = entity_load_single('commerce_line_item', $value['line_item_id']);
-      if ($data['commerce_product'] == $line_item->commerce_product['und'][0]['product_id']) {
-            $data['quantity'] = $line_item->quantity + $data['quantity'];
-            $line = commerce_services_line_item_update($value['line_item_id'], $data,false);
-            return $line;
-            break;
+  if ($data['type'] != 'shipping') {
+      foreach ($order->commerce_line_items['und'] as $key=>$value) {
+          $line_item =  $entity = entity_load_single('commerce_line_item', $value['line_item_id']);
+          if ($data['commerce_product'] == $line_item->commerce_product['und'][0]['product_id']) {
+                $data['quantity'] = $line_item->quantity + $data['quantity'];
+                $line = commerce_services_line_item_update($value['line_item_id'], $data,false);
+                return $line;
+                break;
+          }
       }
+      add_manual_shipping_line_item($order, $data);
   }
   $data['order_id'] = $order_id;
   if ($data['type'] == 'shipping' and !empty($data['shipping_service_name'])) {
@@ -240,6 +243,52 @@ function add_shipping_line_item($order, $shipping_service_name, $skip_order_save
         return;
     }
 
+    // Extract the unit price from the calculated rate.
+    $rate_line_item = $order->shipping_rates[$shipping_service_name];
+    $rate_line_item_wrapper = entity_metadata_wrapper('commerce_line_item', $rate_line_item);
+    $unit_price = $rate_line_item_wrapper->commerce_unit_price->value();
+
+    // Create a new shipping line item with the calculated rate.
+    $line_item = commerce_shipping_line_item_new($shipping_service_name, $unit_price, $order->order_id, $rate_line_item->data, $rate_line_item->type);
+
+    // Delete any existing shipping line items from the order.
+    commerce_shipping_delete_shipping_line_items($order, $skip_order_save);
+
+    // Save and add the line item to the order.
+    return commerce_shipping_add_shipping_line_item($line_item, $order, $skip_order_save);
+}
+
+/**
+ * Creates a new shipping line item on an order.
+ */
+function add_manual_shipping_line_item($order, $data) {
+    $product = commerce_services_retrieve_entity('commerce_product', $data['commerce_product'], false, false);
+    $shipping_service_name= 'manual_shipping_fee';
+
+    $shipping_service = commerce_shipping_service_load($shipping_service_name);
+    if (empty($shipping_service)) {
+        return;
+    }
+
+
+    // Collect shipping rates for the order.
+    commerce_shipping_collect_rates($order);
+    if (empty($order->shipping_rates) || empty($order->shipping_rates[$shipping_service_name])) {
+        return;
+    }
+
+    $types = commerce_product_reference_node_types();
+    $shipping_types_array=array();
+
+    //====OR MAY BE STORE ARRAY IN SETVAR ?
+    foreach ($types as $type => $info) {
+        $shipping_types_array[$info->type]=variable_get($info->type."_fee", "");
+    }
+
+
+    $order->shipping_rates['manual_shipping_fee']->data['shipping_service']['base_rate']['amount'] = $shipping_types_array[$product->type]*100;
+    $order->shipping_rates['manual_shipping_fee']->commerce_unit_price['und'][0]['amount'] = $shipping_types_array[$product->type]*100;
+    $order->shipping_rates['manual_shipping_fee']->commerce_unit_price['und'][0]['data']['components'][0]['price']['amount'] = $shipping_types_array[$product->type]*100;
     // Extract the unit price from the calculated rate.
     $rate_line_item = $order->shipping_rates[$shipping_service_name];
     $rate_line_item_wrapper = entity_metadata_wrapper('commerce_line_item', $rate_line_item);

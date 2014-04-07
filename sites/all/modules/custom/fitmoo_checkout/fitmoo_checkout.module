@@ -26,6 +26,16 @@ function fitmoo_checkout_menu() {
   );
 
 
+  $items['admin/commerce/config/shipping/set_shipping_fee'] = array(
+      'title' => 'Set Shipping Fee',
+      'description' => 'Manage shipping fee',
+      'page callback' => 'drupal_get_form',
+      'page arguments' => array('fitmoo_checkout_setShippingFee'),
+      'access arguments' => array('access site-wide contact form'),
+      'type' => MENU_NORMAL_ITEM,
+  );
+
+
   return $items;
 }
 
@@ -129,17 +139,98 @@ function fitmoo_checkout_commisions(){
     return $form;
 }
 
-function fitmoo_checkout_commisions_submit($form, &$form_state) {
- if ($form_state['values']['seller']) {
-  
-   variable_set("seller_perc", $form_state['values']['seller']);
-   variable_set("buyer_perc", $form_state['values']['buyer']);
-   variable_set("fitmoo_perc", $form_state['values']['fitmoo']);
-   drupal_set_message(t("Updated Commission Percentages."));
-  
- }
- return $form;
+function fitmoo_checkout_setShippingFee(){
+
+    $types = commerce_product_reference_node_types();
+    $form['info'] = array(
+        '#type'=> 'item',
+        '#markup'=> t('Set shipping fees'),
+    );
+
+    foreach ($types as $type => $info) {
+        $form[$info->type] = array(
+        '#type' => 'textfield',
+        '#size' => 10,
+        '#title' => t("Set fee for ".$info->name),
+        '#default_value' => variable_get($info->type."_fee", "0.00"),
+        );
+    }
+
+
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Update'),
+    );
+
+//    asort($options);
+//    $this->value_options = $options;
+
+
+
+//exit();
+
+//    $form['info'] = array(
+//        '#type'=> 'item',
+//        '#markup'=> t('Set percentage splits'),
+//
+//    );
+//
+//    $form['seller'] = array(
+//        '#type' => 'textfield',
+//        '#size' => 10,
+//        '#title' => t('Seller %'),
+//        '#default_value' => variable_get("seller_perc", ""),
+//
+//    );
+//    $form['buyer'] = array(
+//        '#type' => 'textfield',
+//        '#size' => 10,
+//        '#title' => t('Buer %'),
+//        '#default_value' => variable_get("buyer_perc", ""),
+//
+//    );
+//    $form['fitmoo'] = array(
+//        '#type' => 'textfield',
+//        '#size' => 10,
+//        '#title' => t('Fitmoo %'),
+//        '#default_value' => variable_get("fitmoo_perc", ""),
+//
+//    );
+//
+
+
+    return $form;
 }
+
+
+function fitmoo_checkout_commisions_submit($form, &$form_state) {
+    if ($form_state['values']['seller']) {
+
+        variable_set("seller_perc", $form_state['values']['seller']);
+        variable_set("buyer_perc", $form_state['values']['buyer']);
+        variable_set("fitmoo_perc", $form_state['values']['fitmoo']);
+        drupal_set_message(t("Updated Commission Percentages."));
+
+    }
+    return $form;
+}
+
+function fitmoo_checkout_setShippingFee_submit($form, &$form_state) {
+    $types = commerce_product_reference_node_types();
+
+    //====OR MAY BE STORE ARRAY IN SETVAR ?
+    foreach ($types as $type => $info) {
+        if ($form_state['values'][$info->type] != '' && !is_numeric($form_state['values'][$info->type])) {
+            form_error($element, t('%name must be a number.', array('%name' => $element['#title'])));
+        } else {
+            variable_set($info->type."_fee", $form_state['values'][$info->type]);
+        }
+
+    }
+    drupal_set_message(t("Shipping fees are Updated."));
+    return $form;
+}
+
 
 function fitmoo_checkout_calc_comisions($params){
 	
