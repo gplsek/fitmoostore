@@ -325,6 +325,16 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
   }
 }
 
+function fitmoo_checkout_commerce_cart_product_prepare($order, $product, $quantity) {
+	foreach ($order->commerce_line_items['und'] as $line) {
+	    $line_item = commerce_line_item_load($line['line_item_id']);
+	    if($product->product_id != $line_item->commerce_product['und'][0]['product_id']){
+
+			commerce_cart_order_product_line_item_delete($order, $line['line_item_id'], FALSE);
+		}
+	  }
+}
+
 
 
 
