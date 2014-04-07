@@ -74,6 +74,7 @@ function fitmoo_preprocess_html(&$vars) {
  * Override or insert variables into the page template.
  */
 function fitmoo_preprocess_page(&$vars) {
+  if(arg(1) != 'login'){
 	if($vars['user']->uid != 1){
 	 if ($vars['user']->uid == 0){
 		drupal_goto('http://uat.fitmoo.com');
@@ -84,6 +85,7 @@ function fitmoo_preprocess_page(&$vars) {
 		drupal_goto('http://uat.fitmoo.com');
 	 }
    }
+  }
   // Prepare header.
   $site_fields = array();
   if (!empty($vars['site_name'])) {
