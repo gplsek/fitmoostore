@@ -563,13 +563,13 @@ function commerce_order_commerce_customer_profile_presave($profile) {
 
     // If we did in fact detect significant changes and this profile has been
     // referenced by a non-cart order...
-    if ($field_change && !commerce_order_commerce_customer_profile_can_delete($profile)) {
-      // Update various properties of the profile so it gets saved as new.
-      $profile->profile_id = '';
-      $profile->revision_id = '';
-      $profile->created = REQUEST_TIME;
-      $profile->log = '';
-    }
+//    if ($field_change && !commerce_order_commerce_customer_profile_can_delete($profile)) {
+//      // Update various properties of the profile so it gets saved as new.
+//      $profile->profile_id = '';
+//      $profile->revision_id = '';
+//      $profile->created = REQUEST_TIME;
+//      $profile->log = '';
+//    }
   }
 }
 
