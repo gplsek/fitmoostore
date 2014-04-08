@@ -13,7 +13,7 @@ table {
 body {
     @include size(100%, 100%);
     color:#333;
-    font-family:arial, helvetica, sans-serif;
+    font-family:$fontReg;
 }
 
 /* Header Styles */
@@ -169,4 +169,11 @@ html.js fieldset.collapsed {
   form & {
     display:block;
   }
+}
+
+
+tr.even,
+tr.odd {
+  background:none;
+  border:0;
 }
