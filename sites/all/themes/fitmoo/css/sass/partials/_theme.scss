@@ -133,8 +133,8 @@ THEME ELEMENTS
 	h2 {
 		color:#333;
 		clear:right;
+		font-family:$fontMed;
 		font-size:20px;
-		// font family bsans medium
 		line-height:26px;
 		float:right;
 		width:50%;
@@ -165,13 +165,13 @@ THEME ELEMENTS
 
 		label,
 		.field-label {
+			font-family:$fontBook;
 			font-weight:normal;
-			// bsans book
 		}
 
 		.field-items {
+			font-family:$fontMed;
 			font-weight:bold;
-			// bsans medium
 		}
 	}
 
@@ -195,10 +195,9 @@ THEME ELEMENTS
 			}
 		}
 	}
+
 	.field-name-commerce-price .field-item {
-		font-size:28px;
-		line-height:26px;
-		// bsans medium
+		@extend .themePrice;
 	}
 	
 	.commerce-product-field.commerce-product-field-field-image {
@@ -232,6 +231,10 @@ THEME ELEMENTS
 			margin:0 auto;
 		}
 	}
+}
+
+.price {
+	font-family:$fontMed;
 }
 
 

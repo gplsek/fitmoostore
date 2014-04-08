@@ -1,8 +1,116 @@
 // responsive
 
-@media only screen and (max-width: 1024px) {
 
+// under tablet portrait
+@media only screen and (max-width: 1023px) {
+
+	.one-sidebar #content,
+	.one-sidebar #sidebar-second {
+		@include fullScreen(100%, 20px);		
+	}
+
+
+
+	.page-checkout .region-content {
+		border:0;
+	}
+
+	#customer-profile-shipping-ajax-wrapper,
+	#customer-profile-billing-ajax-wrapper,
+	#edit-commerce-payment,
+	#edit-buttons {
+		width:41.9%;
+	}
 }
+
+// includes tablet portrait, and lower
+@media only screen and (max-width: 768px) {
+	#customer-profile-shipping-ajax-wrapper,
+	#customer-profile-billing-ajax-wrapper,
+	#edit-commerce-payment,
+	#edit-buttons {
+		@include fullScreen(84%, 20px);
+		border:0;
+	}
+
+
+	.view-id-commerce_cart_form.view-display-id-default .line-item-summary,
+	.view-id-commerce_cart_form.view-display-id-default .form-actions,
+	.view-id-commerce_cart_form.view-display-id-default .views-table {
+		@include fullScreen(100%, 20px);		
+	}
+}
+
+// devices
+@media only screen and (max-width: 580px) {
+	.view-id-commerce_cart_summary.view-display-id-default .view-content {
+		float:none;
+		width:100%;
+	}
+
+	#edit-cart-contents .views-table {
+		width:100%;
+	}
+
+  .view-id-commerce_cart_summary.view-display-id-default .view-footer {
+  	float:right;
+  	padding-right:2%;
+ 		position:relative;
+ 		right:auto;
+ 		top:0;
+ 		width:98%;
+  }
+
+  ol.inline.commerce-checkout-progress li {
+  	float:none;
+  	margin-left:0;
+  	margin-bottom:5px;
+  }
+
+  .form-submit.checkout-cancel {
+  	border-left:0;
+  	display:block;
+  	margin-left:0;
+  	padding-left:0;
+  	padding-top:10px;
+  	text-align:center;
+  	width:100%;
+  }
+
+  .checkout-buttons {
+	  .btnSubmit,
+	  .form-submit {
+	  	display:block;
+	  	margin:0 auto;
+	  }
+	}
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 @media only screen and (max-width: 960px) {
 
@@ -20,10 +128,6 @@
 
 }
 
-@media only screen and (max-width: 767px) {
-
-}
-
 @media only screen and (min-width: 585px) and (max-width: 767px) {
 
 }
@@ -37,9 +141,6 @@
  
 }
 
-@media only screen and (max-width: 480px) {
-  
-}
 
 @media only screen and (max-width:390px) {
  
