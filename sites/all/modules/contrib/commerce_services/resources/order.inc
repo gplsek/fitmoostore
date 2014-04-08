@@ -25,6 +25,11 @@ function commerce_services_order_index($fields, $expand_entities, $flatten_field
 
               }
           }
+          $string = array();
+          foreach ($item->commerce_line_items_data as $keyitem=>$valueitem) {
+             $string[] = $keyitem;
+          }
+          $item->commerce_line_items = $string;
           $temp[] = $item;
       }
       return $temp;

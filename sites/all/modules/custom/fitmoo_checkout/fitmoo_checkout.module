@@ -144,16 +144,25 @@ function fitmoo_checkout_setShippingFee(){
     $types = commerce_product_reference_node_types();
     $form['info'] = array(
         '#type'=> 'item',
-        '#markup'=> t('Set shipping fees'),
+        '#markup'=> t('Set shipping fees and default weigth'),
     );
 
     foreach ($types as $type => $info) {
         $form[$info->type] = array(
-        '#type' => 'textfield',
-        '#size' => 10,
-        '#title' => t("Set fee for ".$info->name),
-        '#default_value' => variable_get($info->type."_fee", "0.00"),
+            '#type' => 'textfield',
+            '#size' => 10,
+            '#title' => t("Set shipping fee for ".$info->name." (USD)"),
+            '#default_value' => variable_get($info->type."_fee", "0.00"),
         );
+
+        $form[$info->type."_w"] = array(
+            '#type' => 'textfield',
+            '#size' => 10,
+            '#title' => t("Set default weigth for ".$info->name." (lbs)"),
+            '#default_value' => variable_get($info->type."_w", "00.00"),
+            '#suffix' => '<hr />',
+        );
+
     }
 
 
@@ -225,9 +234,14 @@ function fitmoo_checkout_setShippingFee_submit($form, &$form_state) {
         } else {
             variable_set($info->type."_fee", $form_state['values'][$info->type]);
         }
+        if ($form_state['values'][$info->type."_w"] != '' && !is_numeric($form_state['values'][$info->type."_w"])) {
+            form_error($element, t('%name must be a number.', array('%name' => $element['#title'])));
+        } else {
+            variable_set($info->type."_w", $form_state['values'][$info->type."_w"]);
+        }
 
     }
-    drupal_set_message(t("Shipping fees are Updated."));
+    drupal_set_message(t("Shipping fees and default weigth are Updated."));
     return $form;
 }
 
