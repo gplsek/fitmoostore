@@ -39,14 +39,55 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
 
 /* Sprite Images */
 /* ui */
-.formSubmit {
-  border: 0;
-  border-radius: 0;
-  margin: 0;
-  padding: 10px;
-  text-transform: uppercase; }
-.formSubmit:focus {
-  outline: none; }
+/* fonts */
+@font-face {
+  font-family: 'bentonsansblack';
+  src: url("../fonts/bentonsans-black-webfont.eot");
+  src: url("../fonts/bentonsans-black-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/bentonsans-black-webfont.woff") format("woff"), url("../fonts/bentonsans-black-webfont.ttf") format("truetype"), url("../fonts/bentonsans-black-webfont.svg#bentonsansblack") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'bentonsansbold';
+  src: url("../fonts/bentonsans-bold-webfont.eot");
+  src: url("../fonts/bentonsans-bold-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/bentonsans-bold-webfont.woff") format("woff"), url("../fonts/bentonsans-bold-webfont.ttf") format("truetype"), url("../fonts/bentonsans-bold-webfont.svg#bentonsansbold") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'bentonsansbook';
+  src: url("../fonts/bentonsans-book-webfont.eot");
+  src: url("../fonts/bentonsans-book-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/bentonsans-book-webfont.woff") format("woff"), url("../fonts/bentonsans-book-webfont.ttf") format("truetype"), url("../fonts/bentonsans-book-webfont.svg#bentonsansbook") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'bentonsanslight';
+  src: url("../fonts/bentonsans-light-webfont.eot");
+  src: url("../fonts/bentonsans-light-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/bentonsans-light-webfont.woff") format("woff"), url("../fonts/bentonsans-light-webfont.ttf") format("truetype"), url("../fonts/bentonsans-light-webfont.svg#bentonsanslight") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'bentonsansmedium';
+  src: url("../fonts/bentonsans-medium-webfont.eot");
+  src: url("../fonts/bentonsans-medium-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/bentonsans-medium-webfont.woff") format("woff"), url("../fonts/bentonsans-medium-webfont.ttf") format("truetype"), url("../fonts/bentonsans-medium-webfont.svg#bentonsansmedium") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'bentonsansregular';
+  src: url("../fonts/bentonsans-regular-webfont.eot");
+  src: url("../fonts/bentonsans-regular-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/bentonsans-regular-webfont.woff") format("woff"), url("../fonts/bentonsans-regular-webfont.ttf") format("truetype"), url("../fonts/bentonsans-regular-webfont.svg#bentonsansregular") format("svg");
+  font-weight: normal;
+  font-style: normal; }
+
+@font-face {
+  font-family: 'bentonsansextracondensed_bold';
+  src: url("../fonts/bentonsanscomp-bold-webfont.eot");
+  src: url("../fonts/bentonsanscomp-bold-webfont.eot?#iefix") format("embedded-opentype"), url("../fonts/bentonsanscomp-bold-webfont.woff") format("woff"), url("../fonts/bentonsanscomp-bold-webfont.ttf") format("truetype"), url("../fonts/bentonsanscomp-bold-webfont.svg#bentonsansextracondensed_bold") format("svg");
+  font-weight: normal;
+  font-style: normal; }
 
 .btnSubmit, .form-submit {
   background: #0f93ef;
@@ -55,15 +96,21 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   border: 0;
   color: #fff;
   display: inline-block;
+  font-family: "bentonsansmedium";
   font-size: 16px;
   line-height: 18px;
   text-align: center;
   padding: 15px 36px; }
 
-.clear, #contentWrapper:after, #content .region-content:after, .node-product .field-name-field-product .attribute-widgets:after, .node-product .commerce-product-field.commerce-product-field-field-image .field-name-field-image:after, .view-id-commerce_cart_summary.view-display-id-default:after, .view-id-commerce_cart_summary.view-display-id-block_1 .views-field, #customer-profile-billing-ajax-wrapper:after, #customer-profile-shipping-ajax-wrapper:after, #edit-commerce-payment:after, #edit-buttons:after, #customer-profile-billing-ajax-wrapper .form-item:after, #customer-profile-shipping-ajax-wrapper .form-item:after, #edit-commerce-payment .form-item:after, #edit-buttons .form-item:after, .region-content .fieldset-wrapper:after, .commerce-credit-card-expiration:after {
+.clear, #contentWrapper:after, #content .region-content:after, .node-product .field-name-field-product .attribute-widgets:after, .node-product .commerce-product-field.commerce-product-field-field-image .field-name-field-image:after, .view-id-commerce_cart_form.view-display-id-default:after, .view-id-commerce_cart_summary.view-display-id-default:after, .view-id-commerce_cart_summary.view-display-id-block_1 .views-field, #customer-profile-billing-ajax-wrapper:after, #customer-profile-shipping-ajax-wrapper:after, #edit-commerce-payment:after, #edit-buttons:after, #customer-profile-billing-ajax-wrapper .form-item:after, #customer-profile-shipping-ajax-wrapper .form-item:after, #edit-commerce-payment .form-item:after, #edit-buttons .form-item:after, .region-content .fieldset-wrapper:after, .commerce-credit-card-expiration:after {
   clear: both;
   content: '';
   display: block; }
+
+.themePrice, .node-product .field-name-commerce-price .field-item, .view-id-commerce_cart_form.view-display-id-default .line-item-total-raw, .view-id-commerce_cart_summary.view-display-id-default .commerce-order-handler-area-order-total .commerce-price-formatted-components .component-total, .view-id-commerce_cart_summary.view-display-id-block_1 .views-field-commerce-order-total .field-content {
+  font-family: "bentonsansmedium";
+  font-size: 28px;
+  line-height: 26px; }
 
 input, .field-item, a, p, span, h1, h2, h3, h4, h5, h6 {
   -webkit-font-smoothing: antialiased; }
@@ -76,7 +123,7 @@ body {
   width: 100%;
   height: 100%;
   color: #333;
-  font-family: arial, helvetica, sans-serif; }
+  font-family: "bentonsansregular"; }
 
 /* Header Styles */
 h1, h2, h3, h4, h5, h6 {
@@ -127,6 +174,10 @@ html.js fieldset.collapsed {
   display: none; }
 form .messages.error {
   display: block; }
+
+tr.even, tr.odd {
+  background: none;
+  border: 0; }
 
 /* --------------------------------
 PAGE WIDTHS
@@ -195,6 +246,7 @@ THEME ELEMENTS
 .node-product h2 {
   color: #333;
   clear: right;
+  font-family: "bentonsansmedium";
   font-size: 20px;
   line-height: 26px;
   float: right;
@@ -214,8 +266,10 @@ THEME ELEMENTS
   font-size: 12px;
   line-height: 20px; }
 .node-product .field-name-field-brand label, .node-product .field-name-field-brand .field-label, .node-product .field-name-field-product label, .node-product .field-name-field-product .field-label, .node-product .commerce-product-field label, .node-product .commerce-product-field .field-label {
+  font-family: "bentonsansbook";
   font-weight: normal; }
 .node-product .field-name-field-brand .field-items, .node-product .field-name-field-product .field-items, .node-product .commerce-product-field .field-items {
+  font-family: "bentonsansmedium";
   font-weight: bold; }
 .node-product .field-name-field-product .field-label {
   display: none; }
@@ -225,9 +279,6 @@ THEME ELEMENTS
   float: left; }
 .node-product .field-name-field-product .attribute-widgets select {
   float: left; }
-.node-product .field-name-commerce-price .field-item {
-  font-size: 28px;
-  line-height: 26px; }
 .node-product .commerce-product-field.commerce-product-field-field-image {
   float: none;
   margin: 0;
@@ -246,6 +297,9 @@ THEME ELEMENTS
   display: none; }
 .node-product .commerce-product-field.commerce-product-field-field-image img {
   margin: 0 auto; }
+
+.price {
+  font-family: "bentonsansmedium"; }
 
 /* pages */
 input[type="text"], input[type="password"], input[type="email"] {
@@ -268,11 +322,38 @@ div.addressfield-container-inline > div.form-item, .form-item, .form-actions {
   position: relative; }
 
 label, .views-label {
+  font-family: "bentonsansbook";
   font-size: 14px;
   line-height: 20px;
   margin-bottom: 5px;
   text-transform: uppercase; }
 
+.form-submit.checkout-cancel {
+  -webkit-border-radius: 0;
+  border-radius: 0;
+  border-left: 1px solid #d1d1d1;
+  margin-left: 10px;
+  padding-left: 10px; }
+
+.checkout-buttons .button-operator {
+  display: none; }
+
+.messages.status {
+  background: #f1f1f1;
+  border: 1px solid #d1d1d1;
+  margin: 0 auto 20px;
+  max-width: 1200px;
+  width: 90%; }
+.messages.status a {
+  color: #0f93ef;
+  font-family: "bentonsansmedium";
+  text-decoration: none; }
+.messages.status a:hover {
+  text-decoration: underline; }
+
+/* 
+* shopping cart pages
+*/
 /*
 * cart views 
 */
@@ -281,48 +362,85 @@ label, .views-label {
   margin-bottom: 20px;
   padding-bottom: 15px; }
 
-.page-checkout #contentWrapper a {
+.views-table .views-field-nothing a, .page-checkout #contentWrapper a {
   color: #333;
   font-size: 18px;
   line-height: 24px;
   text-decoration: none; }
-.page-checkout #contentWrapper .cart_contents legend {
+.views-table .views-field-nothing .cart_contents legend, .page-checkout #contentWrapper .cart_contents legend {
   display: none; }
 
-.view-id-commerce_cart_summary.view-display-id-default {
+/* cart page */
+.view-id-commerce_cart_form.view-display-id-default .views-table {
+  float: left;
+  width: 65%; }
+.view-id-commerce_cart_form.view-display-id-default .line-item-summary, .view-id-commerce_cart_form.view-display-id-default .form-actions {
+  clear: right;
+  float: right;
+  width: 30%; }
+.view-id-commerce_cart_form.view-display-id-default .field-name-field-image {
+  margin-bottom: 10px; }
+
+.views-table {
+  background: #f1f1f1;
+  padding: 20px 0; }
+.views-table th, .views-table td {
+  padding: 1% 2%; }
+.views-table th {
+  padding-top: 20px; }
+.views-table td {
+  padding-bottom: 20px; }
+.views-table th {
+  font-family: "bentonsansmedium"; }
+.views-table input[type="text"] {
+  padding-left: 2%;
+  width: 73%; }
+
+/* cart summary */
+ol.inline.commerce-checkout-progress li {
+  margin-left: 20px;
+  width: auto; }
+ol.inline.commerce-checkout-progress li.active {
+  color: #1a8ae3; }
+ol.inline.commerce-checkout-progress li:first-child {
+  margin-left: 0; }
+
+#edit-cart-contents {
   border-bottom: 1px solid #cbcbcb;
   margin-bottom: 20px;
   padding-right: 2%;
   padding-bottom: 15px; }
+#edit-cart-contents .fieldset-wrapper {
+  margin: 0;
+  max-width: 98%;
+  padding: 10px 0; }
+#edit-cart-contents .views-table {
+  background: none;
+  width: 90%; }
+
 .view-id-commerce_cart_summary.view-display-id-default .view-content {
   float: left;
-  width: 75%; }
-.view-id-commerce_cart_summary.view-display-id-default .views-table th, .view-id-commerce_cart_summary.view-display-id-default .views-table td {
-  padding: 5px 15px; }
+  width: 80%; }
 .view-id-commerce_cart_summary.view-display-id-default .view-footer {
-  float: left;
-  width: 25%;
   position: absolute;
-  right: 4%;
-  top: 50%; }
+  right: 0;
+  top: 50%;
+  width: 150px; }
 .view-id-commerce_cart_summary.view-display-id-default .views-field.views-field-nothing {
-  width: 300px; }
-.view-id-commerce_cart_summary.view-display-id-default .views-field .field-name-field-image, .view-id-commerce_cart_summary.view-display-id-default .views-field .field-name-field-product-size {
-  float: left; }
+  width: 50%; }
 .view-id-commerce_cart_summary.view-display-id-default .commerce-order-handler-area-order-total .commerce-price-formatted-components {
   width: 100%; }
 .view-id-commerce_cart_summary.view-display-id-default .commerce-order-handler-area-order-total .commerce-price-formatted-components .component-title {
   display: none; }
-.view-id-commerce_cart_summary.view-display-id-default .commerce-order-handler-area-order-total .commerce-price-formatted-components .component-total {
-  font-size: 28px;
-  line-height: 26px; }
 .view-id-commerce_cart_summary.view-display-id-block_1 .views-label, .view-id-commerce_cart_summary.view-display-id-block_1 .field-content {
   font-size: 15px;
   line-height: 26px; }
 .view-id-commerce_cart_summary.view-display-id-block_1 .views-label {
+  font-family: "bentonsansmedium";
   float: left;
   text-transform: none; }
 .view-id-commerce_cart_summary.view-display-id-block_1 .field-content {
+  font-family: "bentonsansregular";
   float: right; }
 .view-id-commerce_cart_summary.view-display-id-block_1 .views-field {
   margin-bottom: 5px; }
@@ -334,13 +452,6 @@ label, .views-label {
   float: none;
   padding-left: 40px; }
 
-/* 
-* shopping cart pages
-*/
-tr.even, tr.odd {
-  background: none;
-  border: 0; }
-
 /* checkout form */
 #commerce-checkout-form-checkout legend {
   clear: both;
@@ -350,6 +461,20 @@ tr.even, tr.odd {
   font-weight: bold;
   margin-bottom: 30px;
   width: 100%; }
+
+#customer-profile-shipping-ajax-wrapper .customer_profile_shipping > legend, #edit-customer-profile-billing > legend, #edit-commerce-payment > legend {
+  height: 30px;
+  line-height: 30px;
+  padding-left: 40px; }
+
+#customer-profile-shipping-ajax-wrapper .customer_profile_shipping > legend {
+  background: url("../images/iconStep1.png") 0 0 no-repeat; }
+
+#edit-commerce-payment > legend {
+  background: url("../images/iconStep2.png") 0 0 no-repeat; }
+
+#edit-customer-profile-billing > legend {
+  background: url("../images/iconStep3.png") 0 0 no-repeat; }
 
 #customer-profile-billing-ajax-wrapper, #customer-profile-shipping-ajax-wrapper, #edit-commerce-payment, #edit-buttons {
   background: #f1f1f1;
@@ -389,8 +514,6 @@ div.addressfield-container-inline > div.form-item {
 .region-content .fieldset-wrapper {
   margin: 0 auto;
   max-width: 330px; }
-.region-content #edit-cart-contents .fieldset-wrapper {
-  max-width: 100%; }
 
 .commerce-credit-card-expiration .commerce-month-year-divider, .commerce-credit-card-expiration .form-item {
   clear: none;
@@ -539,3 +662,68 @@ ul.selectbox.items li .item {
   text-align: left; }
 ul.selectbox.items li .item:hover {
   cursor: pointer !important; }
+
+@media only screen and (max-width: 1023px) {
+  .one-sidebar #content, .one-sidebar #sidebar-second {
+    clear: both;
+    display: block;
+    float: none;
+    margin: 0 auto 20px;
+    width: 100%;
+    max-width: 100%; }
+
+  .page-checkout .region-content {
+    border: 0; }
+
+  #customer-profile-shipping-ajax-wrapper, #customer-profile-billing-ajax-wrapper, #edit-commerce-payment, #edit-buttons {
+    width: 41.9%; } }
+@media only screen and (max-width: 768px) {
+  #customer-profile-shipping-ajax-wrapper, #customer-profile-billing-ajax-wrapper, #edit-commerce-payment, #edit-buttons {
+    clear: both;
+    display: block;
+    float: none;
+    margin: 0 auto 20px;
+    width: 84%;
+    max-width: 84%;
+    border: 0; }
+
+  .view-id-commerce_cart_form.view-display-id-default .line-item-summary, .view-id-commerce_cart_form.view-display-id-default .form-actions, .view-id-commerce_cart_form.view-display-id-default .views-table {
+    clear: both;
+    display: block;
+    float: none;
+    margin: 0 auto 20px;
+    width: 100%;
+    max-width: 100%; } }
+@media only screen and (max-width: 580px) {
+  .view-id-commerce_cart_summary.view-display-id-default .view-content {
+    float: none;
+    width: 100%; }
+
+  #edit-cart-contents .views-table {
+    width: 100%; }
+
+  .view-id-commerce_cart_summary.view-display-id-default .view-footer {
+    float: right;
+    padding-right: 2%;
+    position: relative;
+    right: auto;
+    top: 0;
+    width: 98%; }
+
+  ol.inline.commerce-checkout-progress li {
+    float: none;
+    margin-left: 0;
+    margin-bottom: 5px; }
+
+  .form-submit.checkout-cancel {
+    border-left: 0;
+    display: block;
+    margin-left: 0;
+    padding-left: 0;
+    padding-top: 10px;
+    text-align: center;
+    width: 100%; }
+
+  .checkout-buttons .btnSubmit, .checkout-buttons .form-submit, .checkout-buttons .form-submit {
+    display: block;
+    margin: 0 auto; } }

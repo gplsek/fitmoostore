@@ -15,6 +15,7 @@
   float:none;
   margin:0 auto $marginBottom;
   width:$width;
+  max-width:$width;
 }
 
 @mixin fontSize($size: $fontSizeBody, $lheight: ($size+2)) {
@@ -90,28 +91,14 @@
   }
 }
 
-.formSubmit {
-  //background:$colorBtn;
-  border:0;
-  border-radius:0;
-  //color:$colorHighlight;
-  //font:bold 12px/16px $fontArial;
-  margin:0;
-  padding:10px;
-  text-transform:uppercase;
-  &:focus {
-    outline:none;
-  }
-}
-
 .btnSubmit {
-    // bsans medium
     background:#0f93ef;
     -webkit-border-radius:2px;
     border-radius:2px;
     border:0;
     color:#fff;
     display:inline-block;
+    font-family:$fontMed;
     font-size:16px;
     line-height:18px;
     text-align:center;
@@ -122,6 +109,12 @@
   clear:both;
   content:'';
   display:block;
+}
+
+.themePrice {
+  font-family:$fontMed;
+  font-size:28px;
+  line-height:26px;
 }
 
 
