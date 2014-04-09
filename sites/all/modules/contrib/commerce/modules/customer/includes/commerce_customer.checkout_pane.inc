@@ -210,7 +210,9 @@ function commerce_customer_profile_pane_checkout_form($form, &$form_state, $chec
     foreach (element_children($pane_form[$field_name][$langcode]) as $delta) {
       // Don't mess with the "Add another item" button that could be present.
       if ($pane_form[$field_name][$langcode][$delta]['#type'] != 'submit') {
-        $pane_form[$field_name][$langcode][$delta]['#type'] = 'container';
+        //$pane_form[$field_name][$langcode][$delta]['#type'] = 'container';
+        //drupal.org/files/commerce_customer-addressfield_element_info-970048-71.patch
+        $pane_form[$field_name][$langcode][$delta]['#inline'] = TRUE;
       }
     }
   }

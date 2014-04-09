@@ -519,9 +519,9 @@ function addressfield_format_address_generate(&$format, $address, $context = arr
     // Form mode, move the country selector to the top of the form.
     $format['country']['#weight'] = -10;
 
-    // Limit it to the countries supported by the widget.
-    if (isset($context['field'])) {
-      $format['country']['#options'] = _addressfield_country_options_list($context['field'], $context['instance']);
+    // Limit it to the countries supported by the context.
+    if (count($context['countries'])) {
+       $format['country']['#options'] = _addressfield_country_options_list($context['countries']);
     }
 
     // AJAX enable it.

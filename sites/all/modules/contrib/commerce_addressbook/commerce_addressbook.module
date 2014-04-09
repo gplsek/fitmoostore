@@ -452,7 +452,9 @@ function commerce_addressbook_saved_addresses_validate($element, &$form_state, $
       $order_wrapper->{$field_name} = NULL;
     }
     unset($form_state['input'][$pane_id]);
-    $element_key = $form[$pane_id]['commerce_customer_address'][$form[$pane_id]['commerce_customer_address']['#language']][0]['element_key']['#value'];
+    //$element_key = $form[$pane_id]['commerce_customer_address'][$form[$pane_id]['commerce_customer_address']['#language']][0]['element_key']['#value'];
+//drupal.org/files/commerce_addressbook-addressfield_element_info-970048-71.patch
+    $element_key = $form[$pane_id]['commerce_customer_address'][$form[$pane_id]['commerce_customer_address']['#language']][0]['address']['element_key']['#value'];
     unset($form_state['addressfield'][$element_key]);
   }
 }

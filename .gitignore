@@ -9,3 +9,4 @@ sites/*/private
 nbproject/*
 nbproject
 /.idea
+/endicia_labels
