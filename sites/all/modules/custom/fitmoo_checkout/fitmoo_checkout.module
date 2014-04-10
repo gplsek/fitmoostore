@@ -158,22 +158,22 @@ function fitmoo_checkout_setDimensions(){
     $form['length'] = array(
         '#type' => 'textfield',
         '#size' => 10,
-        '#title' => t('Seller %'),
-        '#default_value' => variable_get("seller_perc", ""),
+        '#title' => t('length (in)'),
+        '#default_value' => variable_get("endicia_length", "0"),
 
     );
-    $form['buyer'] = array(
+    $form['height'] = array(
         '#type' => 'textfield',
         '#size' => 10,
-        '#title' => t('Buer %'),
-        '#default_value' => variable_get("buyer_perc", ""),
+        '#title' => t('height (in)'),
+        '#default_value' => variable_get("endicia_height", "0"),
 
     );
-    $form['fitmoo'] = array(
+    $form['width'] = array(
         '#type' => 'textfield',
         '#size' => 10,
-        '#title' => t('Fitmoo %'),
-        '#default_value' => variable_get("fitmoo_perc", ""),
+        '#title' => t('width (in)'),
+        '#default_value' => variable_get("endicia_width", "0"),
 
     );
 
@@ -228,6 +228,18 @@ function fitmoo_checkout_commisions_submit($form, &$form_state) {
         variable_set("seller_perc", $form_state['values']['seller']);
         variable_set("buyer_perc", $form_state['values']['buyer']);
         variable_set("fitmoo_perc", $form_state['values']['fitmoo']);
+        drupal_set_message(t("Updated Commission Percentages."));
+
+    }
+    return $form;
+}
+
+
+function fitmoo_checkout_setDimensions_submit($form, &$form_state) {
+    if ($form_state['values']['length'] or $form_state['values']['height'] or $form_state['values']['width']) {
+        variable_set("endicia_length", $form_state['values']['length']);
+        variable_set("endicia_height", $form_state['values']['height']);
+        variable_set("endicia_width", $form_state['values']['width']);
         drupal_set_message(t("Updated Commission Percentages."));
 
     }
