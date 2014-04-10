@@ -300,6 +300,7 @@ function endicia_ui_print_label_form() {
  * Submit handler for the generic "cloud" print label form.
  */
 function endicia_ui_print_label_form_validate($form, &$form_state) {
+
   if ($form_state['values']['package_info']['weight'] == 0) {
     form_error($form['package_info']['weight'], t("The package's entered weight must not be 0."));
   }
@@ -422,6 +423,8 @@ function endicia_ui_print_label_form_validate($form, &$form_state) {
     drupal_set_message(t('Reminder: Endicia is operating in test mode. Your account balance will not be deducted.'), 'warning');
   }
 }
+
+
 
 /**
  * Submit handler for the generic "cloud" print label form.
