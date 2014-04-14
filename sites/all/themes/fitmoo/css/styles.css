@@ -99,6 +99,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   font-family: "bentonsansmedium";
   font-size: 16px;
   line-height: 18px;
+  margin: 0;
   text-align: center;
   padding: 15px 36px; }
 
@@ -198,18 +199,17 @@ THEME STRUCTURE
   height: 44px;
   margin-bottom: 30px; }
 
-#block-system-main-menu h2 {
+#block-commerce-checkout-progress-indication h2 {
   display: none; }
-#block-system-main-menu li {
+#block-commerce-checkout-progress-indication li {
   float: left;
-  margin-left: 40px; }
-#block-system-main-menu li a {
+  margin-left: 40px;
   color: #fff;
-  line-height: 45px;
+  line-height: 41px;
   text-decoration: none;
   text-transform: uppercase;
-  padding: 0 20px 10px 20px; }
-#block-system-main-menu li a.active {
+  padding: 0 20px 0 20px; }
+#block-commerce-checkout-progress-indication li.active {
   border-bottom: 3px solid #0f93ef; }
 
 #contentWrapper {
@@ -354,14 +354,24 @@ label, .views-label {
 /* 
 * shopping cart pages
 */
+.cart_contents_form .views-form {
+  display: table;
+  margin-bottom: 20px;
+  width: 96%; }
+.cart_contents_form .views-table {
+  float: left;
+  width: 100%; }
+.cart_contents_form .form-actions {
+  display: table-cell;
+  vertical-align: middle;
+  width: 25%; }
+.cart_contents_form .form-actions .form-submit {
+  float: right;
+  margin-top: 20px; }
+
 /*
 * cart views 
 */
-#block-commerce-checkout-progress-indication {
-  border-bottom: 1px solid #cbcbcb;
-  margin-bottom: 20px;
-  padding-bottom: 15px; }
-
 .views-table .views-field-nothing a, .page-checkout #contentWrapper a {
   color: #333;
   font-size: 18px;
