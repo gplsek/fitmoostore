@@ -344,15 +344,26 @@ function commerce_services_product_create_access($data) {
  * @see commerce_services_update_entity()
  */
 function commerce_services_product_update($product_id, $data, $flatten_fields) {
+ global $user;
  if(is_array($data['items'][0])) {
       $array = array();
       foreach($data['items'][0] as $key => $items){
-          $array[] = commerce_services_update_entity('commerce_product', $key, $items[0], $flatten_fields);
+          $product = commerce_product_load($items[0]);
+          if (!commerce_product_access('update', $product)) {
+              return services_error(t('Access to this operation not granted'), 401);
+          }
+          $array[] = _cs_product_update($key, $items[0], $flatten_fields);
       }
       return $array;
  } else if ($data['node'] == "true") {
      unset($data['node']);
      $product_node = node_load($product_id);
+     $uid = $user->uid;
+     $access = false;
+     if ($uid == $product_node->uid) {$access = true;}
+     if (is_array($user->roles) && in_array('administrator', $user->roles)) {$access = true;}
+     if ($access == false) {return services_error(t('Access to this operation not granted'), 401);}
+
      if (!empty($data['type'])) {$product_node->type = $data['type']; unset($data['type']);}
      if (!empty($data['title'])) {$product_node->title = $data['title'];unset($data['title']);}
      if (!empty($data['sku'])) {$product_node->sku = $data['sku'];  unset($data['sku']);}
@@ -361,28 +372,37 @@ function commerce_services_product_update($product_id, $data, $flatten_fields) {
      $products = $data['products'];
      unset($data['products']);
      foreach($data as $key=>$value){
-
-         $name = taxonomy_vocabulary_machine_name_load($value);
-
-         //exit();
-
-         //$product_node->{$key}= $value;
+         $product_node->{$key}= $value;
      }
-
-     exit();
-
      node_save($product_node);
      if(is_array($products)) {
          foreach($products as $key => $items){
-             $array[] = commerce_services_update_entity('commerce_product', $key, $items, false);
+             $array[] = _cs_product_update($key, $items, false);
          }
          return array('node_product'=>$product_node, 'items'=>$array);
 
      }
      return $product_node;
  } else {
-      return commerce_services_update_entity('commerce_product', $product_id, $data, $flatten_fields);
+     $product = commerce_product_load($product_id);
+     if (!commerce_product_access('update', $product)) {
+         return services_error(t('Access to this operation not granted'), 401);
+     }
+     return _cs_product_update($product_id, $data, $flatten_fields);
  }
+}
+
+function _cs_product_update($product_id, $data, $flatten_fields) {
+    if (!empty($data['size'])) {
+        $res = field_info_instances('commerce_product', $data['type']);
+        foreach ($res as $key1=>$value1){
+            if (preg_match('/(.*)(field)(.*)(size)(.*)/ism',$key1,$matches)) {
+                $data[$matches[0]]=$data['size'];
+            }
+        }
+        unset($data['size']);
+    }
+    return commerce_services_update_entity('commerce_product', $product_id, $data, $flatten_fields);
 }
 
 /**
@@ -395,19 +415,7 @@ function commerce_services_product_update($product_id, $data, $flatten_fields) {
  *   Boolean indicating the user's access to update the product.
  */
 function commerce_services_product_update_access($product_id) {
-  // Attempt to load the product.
-  if ($product = commerce_product_load($product_id)) {
-    // If the user has access to perform the operation...
-    if (commerce_product_access('update', $product)) {
-      return TRUE;
-    }
-    else {
-      return services_error(t('Access to this operation not granted'), 401);
-    }
-  }
-  else {
-    return services_error(t('Product not found'), 404);
-  }
+  return TRUE;
 }
 
 /**

@@ -15,7 +15,7 @@ function commerce_services_endicia_index($fields) {
     global $user;
     $uid =  $user->uid;
     if (empty($_REQUEST['mail_class'])) {
-        return t('Error Mail class is empty');
+        return services_error(t('Error Mail class is empty'));
     }
     if (!empty($_SESSION['endicia']) and !empty($uid)) {
        module_load_include('module', 'endicia',drupal_get_path('module', 'endicia'));
@@ -27,7 +27,7 @@ function commerce_services_endicia_index($fields) {
             $result['values']['op'] = 'Confirm shipment';
             return _endicia_ui_print_label_confirm_form_submit($result);
         } else {
-            return t('Some error');
+            return services_error(t('Some error'));
         }
 
     }
@@ -92,7 +92,7 @@ function _endicia_print_label_data_validate($data) {
     //if ($data['order_id']) {}
     $order = _commerce_services_order_retrieve($data['order_id'], 1, false);
     if ($order->uid != $user->uid) {
-        return t("User have no access to this order");
+        return services_error(t("User have no access to this order"));
     }
     // WE MUST REFACTOR HERE AFTER ORDER CAN INCLUDE MORE 1 PRODUCT
     foreach ($order->commerce_line_items['und'] as $key=>$value) {
@@ -144,13 +144,13 @@ function _endicia_print_label_data_validate($data) {
     }
 
     if ($data['package_info']['weight'] == 0) {
-        return t("The package's entered weight must not be 0");
+        return services_error(t("The package's entered weight must not be 0"));
     }
 
     foreach (array('origin' => 'pickup', 'destination' => 'delivery') as $parent_key => $type) {
         $digitsonly = preg_replace("/[^0-9]/", "", $data[$type . '_phone']);
         if (strlen($digitsonly) > 10) {
-            return t('Phone numbers must not contain more than 10 digits.');
+            return services_error(t('Phone numbers must not contain more than 10 digits.'));
         }
     }
     // Prepare for API call and create session data
