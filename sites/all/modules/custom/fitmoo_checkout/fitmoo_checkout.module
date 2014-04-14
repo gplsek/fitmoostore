@@ -25,12 +25,20 @@ function fitmoo_checkout_menu() {
   'type' => MENU_NORMAL_ITEM,
   );
 
-
   $items['admin/commerce/config/shipping/set_shipping_fee'] = array(
-      'title' => 'Set Shipping Fee',
-      'description' => 'Manage shipping fee',
+        'title' => 'Set Shipping Fee',
+        'description' => 'Manage shipping fee',
+        'page callback' => 'drupal_get_form',
+        'page arguments' => array('fitmoo_checkout_setShippingFee'),
+        'access arguments' => array('access site-wide contact form'),
+        'type' => MENU_NORMAL_ITEM,
+  );
+
+  $items['admin/endicia/set_default_dimensions'] = array(
+      'title' => 'Set Default Pack Dimensions',
+      'description' => 'Default Pack Dimensions',
       'page callback' => 'drupal_get_form',
-      'page arguments' => array('fitmoo_checkout_setShippingFee'),
+      'page arguments' => array('fitmoo_checkout_setDimensions'),
       'access arguments' => array('access site-wide contact form'),
       'type' => MENU_NORMAL_ITEM,
   );
@@ -139,6 +147,45 @@ function fitmoo_checkout_commisions(){
     return $form;
 }
 
+function fitmoo_checkout_setDimensions(){
+
+    $form['info'] = array(
+        '#type'=> 'item',
+        '#markup'=> t('Set Default Pack Dimensions'),
+
+    );
+
+    $form['length'] = array(
+        '#type' => 'textfield',
+        '#size' => 10,
+        '#title' => t('length (in)'),
+        '#default_value' => variable_get("endicia_length", "0"),
+
+    );
+    $form['height'] = array(
+        '#type' => 'textfield',
+        '#size' => 10,
+        '#title' => t('height (in)'),
+        '#default_value' => variable_get("endicia_height", "0"),
+
+    );
+    $form['width'] = array(
+        '#type' => 'textfield',
+        '#size' => 10,
+        '#title' => t('width (in)'),
+        '#default_value' => variable_get("endicia_width", "0"),
+
+    );
+
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Update'),
+    );
+
+
+    return $form;
+}
+
 function fitmoo_checkout_setShippingFee(){
 
     $types = commerce_product_reference_node_types();
@@ -158,8 +205,8 @@ function fitmoo_checkout_setShippingFee(){
         $form[$info->type."_w"] = array(
             '#type' => 'textfield',
             '#size' => 10,
-            '#title' => t("Set default weigth for ".$info->name." (lbs)"),
-            '#default_value' => variable_get($info->type."_w", "00.00"),
+            '#title' => t("Set default weigth for ".$info->name." (oz)"),
+            '#default_value' => variable_get($info->type."_w", "00"),
             '#suffix' => '<hr />',
         );
 
@@ -171,43 +218,6 @@ function fitmoo_checkout_setShippingFee(){
         '#value' => t('Update'),
     );
 
-//    asort($options);
-//    $this->value_options = $options;
-
-
-
-//exit();
-
-//    $form['info'] = array(
-//        '#type'=> 'item',
-//        '#markup'=> t('Set percentage splits'),
-//
-//    );
-//
-//    $form['seller'] = array(
-//        '#type' => 'textfield',
-//        '#size' => 10,
-//        '#title' => t('Seller %'),
-//        '#default_value' => variable_get("seller_perc", ""),
-//
-//    );
-//    $form['buyer'] = array(
-//        '#type' => 'textfield',
-//        '#size' => 10,
-//        '#title' => t('Buer %'),
-//        '#default_value' => variable_get("buyer_perc", ""),
-//
-//    );
-//    $form['fitmoo'] = array(
-//        '#type' => 'textfield',
-//        '#size' => 10,
-//        '#title' => t('Fitmoo %'),
-//        '#default_value' => variable_get("fitmoo_perc", ""),
-//
-//    );
-//
-
-
     return $form;
 }
 
@@ -218,6 +228,18 @@ function fitmoo_checkout_commisions_submit($form, &$form_state) {
         variable_set("seller_perc", $form_state['values']['seller']);
         variable_set("buyer_perc", $form_state['values']['buyer']);
         variable_set("fitmoo_perc", $form_state['values']['fitmoo']);
+        drupal_set_message(t("Updated Commission Percentages."));
+
+    }
+    return $form;
+}
+
+
+function fitmoo_checkout_setDimensions_submit($form, &$form_state) {
+    if ($form_state['values']['length'] or $form_state['values']['height'] or $form_state['values']['width']) {
+        variable_set("endicia_length", $form_state['values']['length']);
+        variable_set("endicia_height", $form_state['values']['height']);
+        variable_set("endicia_width", $form_state['values']['width']);
         drupal_set_message(t("Updated Commission Percentages."));
 
     }
