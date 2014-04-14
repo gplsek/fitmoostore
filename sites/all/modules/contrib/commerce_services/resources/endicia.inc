@@ -526,23 +526,8 @@ function _endicia_ui_print_label_confirm_form_submit($form_state) {
  *
  * @see commerce_services_update_entity()
  */
-function commerce_services_endicia_update($pid, $data) {
-    // Ensure the request specifies a unique, valid SKU.
-    global $user;
-    $profile = commerce_customer_profile_load($pid);
-    if ($profile->uid != $user->uid) {
-        return services_error(t('Access to this operation not granted'), 401);
-    }
-    if (!empty($data['type'])) {
-        $profile->type =  $data['type'];
-    }
+function commerce_services_endicia_update($data) {
 
-    unset($data['type']);
-    foreach ($data as $key=>$value) {
-        $profile->commerce_customer_endicia['und'][0][$key] = $value;
-    }
-    $result = commerce_customer_profile_save($profile);
-    return $profile;
 }
 
 /**
@@ -565,12 +550,61 @@ function commerce_services_endicia_update_access() {
  *   The ID of the endicia to be deleted.
  */
 function commerce_services_endicia_delete($pid) {
-    global $user;
-    $profile = commerce_customer_profile_load($pid);
-    if ($profile->uid != $user->uid) {
-        return services_error(t('Access to this operation not granted'), 401);
+//    global $user;
+//    if (is_array($user->roles) && in_array('administrator', $user->roles)) {
+        return _endicia_ui_refund_postage_form_submit($pid);
+//    } else {
+//        return services_error(t('Access to this operation not granted'), 401);
+//    }
+}
+
+
+/**
+ * Submit handler for postage refund form.
+ *
+ * @see endicia_ui_refund_postage_form().
+ */
+function _endicia_ui_refund_postage_form_submit($pid) {
+    $data = array();
+    $account_id = variable_get('endicia_account_id', '');
+    $passphrase = variable_get('endicia_passphrase', '');
+    if (!$account_id) {
+        drupal_set_message(t('Your account ID has not been set! Please configure your Endicia account information first.'), 'error');
+        drupal_goto('admin/endicia/settings/credentials');
     }
-    return commerce_customer_profile_delete($pid, array());
+
+    $valid = array();
+
+        $number = $pid;
+        $data = array(
+            'AccountID' => $account_id,
+            'Password' => $passphrase,
+            'Test' => _endicia_in_test_mode() ? 'Y' : 'N',
+            'RefundList' => array(
+                $data['Type'] => $number,
+            ),
+        );
+
+        $response_node = 'RefundResponse';
+        $response = endicia_api_request(ENDICIA_ELS_SERVICES_URI, 'RefundRequest', $data, $response_node);
+        // Check for failures
+        if ($response === FALSE) {
+            _endicia_communication_error_redirect('admin/endicia/account/refund');
+        }
+        // Check for errors
+        if ($error = endicia_api_request_error_check($response, $response_node)) {
+            $message = 'Could not process refund for package #@identifier: %errormsg (check the site log for additional details).';
+            $variables = array(
+                '@identifier' => $number,
+                '%errormsg' => $error['message'],
+            );
+            drupal_set_message(t($message, $variables), 'error');
+        }
+
+
+    if ($response) {
+        return 'Your refund request(s) were processed successfully.';
+    }
 }
 
 /**

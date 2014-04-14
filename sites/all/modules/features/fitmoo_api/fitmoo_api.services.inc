@@ -47,6 +47,38 @@ function fitmoo_api_default_services_endpoint() {
         ),
       ),
     ),
+    'address' => array(
+      'operations' => array(
+        'index' => array(
+          'enabled' => '1',
+        ),
+        'delete' => array(
+          'enabled' => '1',
+        ),
+        'create' => array(
+          'enabled' => '1',
+        ),
+      ),
+    ),
+    'endicia' => array(
+      'operations' => array(
+        'index' => array(
+          'enabled' => '1',
+        ),
+        'delete' => array(
+          'enabled' => '1',
+        ),
+        'create' => array(
+          'enabled' => '1',
+        ),
+        'update' => array(
+          'enabled' => '1',
+        ),
+        'retrieve' => array(
+          'enabled' => '1',
+        ),
+      ),
+    ),
     'product' => array(
       'operations' => array(
         'index' => array(
@@ -112,6 +144,19 @@ function fitmoo_api_default_services_endpoint() {
           'enabled' => '1',
         ),
         'delete' => array(
+          'enabled' => '1',
+        ),
+      ),
+    ),
+    'score' => array(
+      'operations' => array(
+        'create' => array(
+          'enabled' => '1',
+        ),
+        'retrieve' => array(
+          'enabled' => '1',
+        ),
+        'index' => array(
           'enabled' => '1',
         ),
       ),
