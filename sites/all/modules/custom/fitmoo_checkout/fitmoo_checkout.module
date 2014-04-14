@@ -377,6 +377,10 @@ function fitmoo_checkout_menu_alter(&$item) {
   $item['user/password']['type'] = MENU_CALLBACK;
 }
 
+function fitmoo_checkout_commerce_checkout_progress_items_alter(&$items){
+	unset($items['payment']);
+}
+
 // /**
 //  * Implements hook_form_FORMID_alter() for `commerce_checkout_form_checkout`.
 //  */
