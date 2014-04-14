@@ -51,6 +51,9 @@ function fitmoo_store_field_default_field_bases() {
       0 => 'commerce_customer_profile',
     ),
     'field_name' => 'commerce_customer_address',
+    'field_permissions' => array(
+      'type' => 0,
+    ),
     'foreign keys' => array(),
     'indexes' => array(),
     'locked' => 0,
