@@ -98,8 +98,8 @@ function commerce_cart_form_checkout_pane_checkout_form($form, &$form_state, &$c
 
   $view_form['#view'] = $view;
 
-  //dpm($form_state);
-
+  
+  
   $view_form['actions']['submit']['#value'] = t('Update cart');
   $view_form['actions']['submit']['#limit_validation_errors'] = array(
     array($checkout_pane['pane_id']),
@@ -147,14 +147,16 @@ function commerce_cart_form_checkout_pane_checkout_form($form, &$form_state, &$c
   }
 
   $pane_form['cart_contents_form_view'] = $view_form;
+  $pane_form['cart_contents_form_view']['edit_quantity'][0]['#attributes'] = array('onChange' => 'document.getElementById("edit-cart-contents-form-cart-contents-form-view-actions-submit").click();');
+  
+  $pane_form['cart_contents_form_view']['actions']['#attributes'] =array('style'=>"display:none");
+  
 
   $view->destroy();
-
   return $pane_form;
 }
 
 function commerce_cart_form_checkout_pane_checkout_form_validate($form, &$form_state, $checkout_pane, $order) {
-  dpm($form_state);
   return TRUE;
 }
 

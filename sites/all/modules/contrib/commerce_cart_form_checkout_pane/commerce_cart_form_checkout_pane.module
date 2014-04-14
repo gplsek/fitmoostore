@@ -87,7 +87,7 @@ function commerce_cart_form_checkout_pane_checkout_form_update_submit($form, &$f
   commerce_order_save($order);
 
   $form_state['rebuild'] = TRUE;
-
+  drupal_set_message("Order Updated");
   if (module_exists('commerce_checkout_ajax')) {
     commerce_checkout_ajax_submit($form, $form_state, $order, 'cart_contents_form');
   }
