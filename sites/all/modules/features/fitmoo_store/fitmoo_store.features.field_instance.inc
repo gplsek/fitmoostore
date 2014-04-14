@@ -528,11 +528,8 @@ function fitmoo_store_field_default_field_instances() {
       ),
       'node_teaser' => array(
         'label' => 'hidden',
-        'module' => 'commerce_price',
-        'settings' => array(
-          'calculation' => 'calculated_sell_price',
-        ),
-        'type' => 'commerce_price_formatted_amount',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 0,
       ),
     ),
@@ -1131,11 +1128,8 @@ function fitmoo_store_field_default_field_instances() {
       ),
       'node_teaser' => array(
         'label' => 'hidden',
-        'module' => 'commerce_price',
-        'settings' => array(
-          'calculation' => 'calculated_sell_price',
-        ),
-        'type' => 'commerce_price_formatted_amount',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 0,
       ),
       'node_token' => array(
@@ -1354,9 +1348,13 @@ function fitmoo_store_field_default_field_instances() {
         'weight' => 0,
       ),
       'node_teaser' => array(
-        'label' => 'above',
-        'settings' => array(),
-        'type' => 'hidden',
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => '',
+        ),
+        'type' => 'image',
         'weight' => 0,
       ),
     ),
@@ -2117,11 +2115,8 @@ function fitmoo_store_field_default_field_instances() {
       ),
       'node_teaser' => array(
         'label' => 'hidden',
-        'module' => 'commerce_price',
-        'settings' => array(
-          'calculation' => 'calculated_sell_price',
-        ),
-        'type' => 'commerce_price_formatted_amount',
+        'settings' => array(),
+        'type' => 'hidden',
         'weight' => 0,
       ),
       'node_token' => array(
@@ -2597,7 +2592,7 @@ function fitmoo_store_field_default_field_instances() {
         'weight' => 0,
       ),
       'node_teaser' => array(
-        'label' => 'above',
+        'label' => 'hidden',
         'module' => 'image',
         'settings' => array(
           'image_link' => '',
