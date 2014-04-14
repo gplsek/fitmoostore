@@ -197,7 +197,7 @@ function commerce_services_services_resources() {
                     array(
                         'name' => 'data',
                         'type' => 'array',
-                        'description' => 'The address data to set on create.',
+                        'description' => 'The endicia data to set on create.',
                         'optional' => FALSE,
                         'source' => 'data',
                     ),
@@ -263,50 +263,35 @@ function commerce_services_services_resources() {
                     ),
 
                     'update' => array(
-                        'help' => 'Updates a single address.',
-                        'callback' => 'commerce_services_address_update',
-                        'file' => array('type' => 'inc', 'module' => 'commerce_services', 'name' => 'resources/address'),
-                        'access callback' => 'commerce_services_address_update_access',
+                        'help' => 'Refund',
+                        'callback' => 'commerce_services_endicia_update',
+                        'file' => array('type' => 'inc', 'module' => 'commerce_services', 'name' => 'resources/endicia'),
+                        'access callback' => 'commerce_services_endicia_update_access',
                         'access arguments append' => TRUE,
                         'args' => array(
                             array(
-                                'name' => 'address_id',
-                                'type' => 'int',
-                                'description' => 'The address ID of the address to delete.',
-                                'optional' => FALSE,
-                                'source' => array('path' => 0),
-                            ),
-                            array(
                                 'name' => 'data',
                                 'type' => 'array',
-                                'description' => 'The address data to update.',
+                                'description' => 'Numbers to refund',
                                 'optional' => FALSE,
                                 'source' => 'data',
-                            ),
-                            array(
-                                'name' => 'flatten_fields',
-                                'type' => 'string',
-                                'description' => 'A string indicating whether or not field value arrays are flattened; accepts true or false.',
-                                'optional' => TRUE,
-                                'source' => array('param' => 'flatten_fields'),
-                                'default value' => 'true',
                             ),
                         ),
                     ),
 
-                    // Define the retrieve callback for a GET to /address/%node.
+                    // Define the retrieve callback for a GET to /endicia/%node.
                     'retrieve' => array(
-                        'help' => 'Returns a single address specified by its node ID.',
-                        'callback' => 'commerce_services_address_retrieve',
-                        'file' => array('type' => 'inc', 'module' => 'commerce_services', 'name' => 'resources/address'),
-                        'access callback' => 'commerce_services_address_retrieve_access',
+                        'help' => 'Returns a single endicia specified by its node ID.',
+                        'callback' => 'commerce_services_endicia_retrieve',
+                        'file' => array('type' => 'inc', 'module' => 'commerce_services', 'name' => 'resources/endicia'),
+                        'access callback' => 'commerce_services_endicia_retrieve_access',
                         'access arguments' => array('view'),
                         'access arguments append' => TRUE,
                         'args' => array(
                             array(
                                 'name' => 'pid',
                                 'type' => 'int',
-                                'description' => 'The node ID of the address to retrieve.',
+                                'description' => 'The node ID of the endicia to retrieve.',
                                 'optional' => FALSE,
                                 'source' => array('path' => 0),
                             ),
