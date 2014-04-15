@@ -12,8 +12,8 @@ function fitmoo_store_commerce_flat_rate_default_services() {
     'manual_shipping_fee' => array(
       'name' => 'manual_shipping_fee',
       'base' => 'manual_shipping_fee',
-      'display_title' => 'manual shipping fee',
-      'description' => ' manual_shipping_fee',
+      'display_title' => 'Shipping',
+      'description' => 'Shipping',
       'shipping_method' => 'flat_rate',
       'rules_component' => TRUE,
       'price_component' => 'flat_rate_manual_shipping_fee',
