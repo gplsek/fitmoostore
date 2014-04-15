@@ -76,12 +76,6 @@ function fitmoo_preprocess_html(&$vars) {
 function fitmoo_preprocess_page(&$vars) {
  
 	if($vars['user']->uid != 1){
-	 if ($vars['user']->uid == 0){
-		$url = array('user');
-		if (!(in_array(arg(0), $url))){
-		  drupal_goto('http://uat.fitmoo.com');
-	    }
-	 }
 	 $url = array('checkout','cart','user');
 	
 	 if (!(in_array(arg(0), $url))){

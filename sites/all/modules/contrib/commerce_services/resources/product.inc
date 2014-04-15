@@ -106,7 +106,14 @@ function commerce_services_product_create($data, $flatten_fields) {
             $res = field_info_instances('commerce_product', $prod['type']);
             foreach ($res as $key1=>$value1){
                if (preg_match('/(.*)(field)(.*)(size)(.*)/ism',$key1,$matches)) {
-                   $prod[$matches[0]]=$prod['size'];
+                   if ($prod['type'] == 'product') {
+                       $size_id = commerce_services_get_term_from_name($prod['size'], 'product_size', $parent_tid = null);
+                       if ($size_id) {
+                         $prod[$matches[0]] = $size_id;
+                       }
+                   } else {
+                       $prod[$matches[0]]=$prod['size'];
+                   }
                }
             }
           unset($prod['size']);
@@ -210,15 +217,24 @@ function commerce_services_product_create($data, $flatten_fields) {
       node_save($product_node);
       return $product_node;
   } else {
+
       if (!empty($data['size'])) {
           $res = field_info_instances('commerce_product', $data['type']);
           foreach ($res as $key1=>$value1){
               if (preg_match('/(.*)(field)(.*)(size)(.*)/ism',$key1,$matches)) {
-                  $data[$matches[0]]=$data['size'];
+                  if ($data['type'] == 'product') {
+                      $size_id = commerce_services_get_term_from_name($data['size'], 'product_size', $parent_tid = null);
+                      if ($size_id) {
+                          $data[$matches[0]] = $size_id;
+                      }
+                  } else {
+                      $data[$matches[0]]=$data['size'];
+                  }
               }
           }
           unset($data['size']);
       }
+
       if (isset($data['sku'])) {
           $data['sku'] = trim($data['sku']);
       }
@@ -393,11 +409,19 @@ function commerce_services_product_update($product_id, $data, $flatten_fields) {
 }
 
 function _cs_product_update($product_id, $data, $flatten_fields) {
+
     if (!empty($data['size'])) {
         $res = field_info_instances('commerce_product', $data['type']);
         foreach ($res as $key1=>$value1){
             if (preg_match('/(.*)(field)(.*)(size)(.*)/ism',$key1,$matches)) {
-                $data[$matches[0]]=$data['size'];
+                if ($data['type'] == 'product') {
+                    $size_id = commerce_services_get_term_from_name($data['size'], 'product_size', $parent_tid = null);
+                    if ($size_id) {
+                        $data[$matches[0]] = $size_id;
+                    }
+                } else {
+                    $data[$matches[0]]=$data['size'];
+                }
             }
         }
         unset($data['size']);
