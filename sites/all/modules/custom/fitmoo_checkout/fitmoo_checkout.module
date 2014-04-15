@@ -489,6 +489,44 @@ function fitmoo_checkout_commerce_checkout_progress_items_alter(&$items){
 	unset($items['payment']);
 }
 
+function fitmoo_checkout_form_alter(&$form, &$form_state, $form_id) {
+  
+  if ($form_id == 'commerce_checkout_form_checkout') {
+    $form['buttons']['cancel']['#submit'][] = 'fitmoo_checkout_form_cancel_submit';  
+  }
+}
+
+/**
+ * Modifying the commerce_cart_checkout_form_cancel_submit function in commerce_cart.module
+ */
+function fitmoo_checkout_form_cancel_submit($form, &$form_state) {
+  // Update the order to the cart status.
+  $order = commerce_order_load($form_state['order']->order_id);
+  $form_state['order'] = commerce_order_status_update($order, 'cart', TRUE);
+
+  // Skip saving in the status update and manually save here to force a save
+  // even when the status doesn't actually change.
+  if (variable_get('commerce_order_auto_revision', TRUE)) {
+    $form_state['order']->revision = TRUE;
+    $form_state['order']->log = t('Customer manually canceled the checkout process.');
+  }
+
+  commerce_order_save($form_state['order']);
+
+  //drupal_set_message(t('Checkout of your current order has been canceled and may be resumed when you are ready.'));
+
+  // Redirect to firmoo on cancel.
+
+  $form_state['redirect'] = variable_get('anonymous_redirect_base', ''); //the page you want to redirect to.
+}
+
+function fitmoo_checkout_commerce_checkout_router($order, $checkout_page) {
+    $path = '/dashboard/purchases';
+	if($order->status == 'pending'){
+      drupal_goto(variable_get('anonymous_redirect_base', '').$path);
+    }
+}
+
 // /**
 //  * Implements hook_form_FORMID_alter() for `commerce_checkout_form_checkout`.
 //  */
