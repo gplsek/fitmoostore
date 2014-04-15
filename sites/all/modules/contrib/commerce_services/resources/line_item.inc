@@ -112,6 +112,7 @@ function commerce_services_cart_create($data, $flatten_fields) {
  */
 function commerce_services_line_item_create($data, $flatten_fields) {
 
+
     global $user;
 //====check&create order
     $uid = !empty($user->uid) ? $user->uid : 0;
@@ -126,7 +127,19 @@ function commerce_services_line_item_create($data, $flatten_fields) {
     }
   commerce_services_line_item_create_access($data);
   $order = commerce_order_load($order_id);
+
   if ($data['type'] != 'shipping') {
+
+      $product = commerce_product_load($data['commerce_product']);
+      foreach ($order->commerce_line_items['und'] as $line) {
+          $line_item = commerce_line_item_load($line['line_item_id']);
+          if ($line_item->type != 'shipping') {
+              if($product->product_id != $line_item->commerce_product['und'][0]['product_id']){
+                  commerce_cart_order_product_line_item_delete($order, $line['line_item_id'], FALSE);
+              }
+          }
+      }
+
       foreach ($order->commerce_line_items['und'] as $key=>$value) {
           $line_item =  $entity = entity_load_single('commerce_line_item', $value['line_item_id']);
           if ($data['commerce_product'] == $line_item->commerce_product['und'][0]['product_id']) {
