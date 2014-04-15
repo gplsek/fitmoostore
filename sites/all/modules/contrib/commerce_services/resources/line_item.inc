@@ -276,19 +276,18 @@ function add_shipping_line_item($order, $shipping_service_name, $skip_order_save
  */
 function add_manual_shipping_line_item($order, $data) {
     $product = commerce_services_retrieve_entity('commerce_product', $data['commerce_product'], false, false);
-    $shipping_service_name= 'manual_shipping_fee';
+    $shipping_service_name= 'example_shipping_service';
 
     $shipping_service = commerce_shipping_service_load($shipping_service_name);
     if (empty($shipping_service)) {
         return;
     }
-
-
     // Collect shipping rates for the order.
     commerce_shipping_collect_rates($order);
     if (empty($order->shipping_rates) || empty($order->shipping_rates[$shipping_service_name])) {
         return;
     }
+
 
     $types = commerce_product_reference_node_types();
     $shipping_types_array=array();
@@ -299,9 +298,9 @@ function add_manual_shipping_line_item($order, $data) {
     }
 
 
-    $order->shipping_rates['manual_shipping_fee']->data['shipping_service']['base_rate']['amount'] = $shipping_types_array[$product->type]*100;
-    $order->shipping_rates['manual_shipping_fee']->commerce_unit_price['und'][0]['amount'] = $shipping_types_array[$product->type]*100;
-    $order->shipping_rates['manual_shipping_fee']->commerce_unit_price['und'][0]['data']['components'][0]['price']['amount'] = $shipping_types_array[$product->type]*100;
+    $order->shipping_rates['example_shipping_service']->data['shipping_service']['base_rate']['amount'] = $shipping_types_array[$product->type]*100;
+    $order->shipping_rates['example_shipping_service']->commerce_unit_price['und'][0]['amount'] = $shipping_types_array[$product->type]*100;
+    $order->shipping_rates['example_shipping_service']->commerce_unit_price['und'][0]['data']['components'][0]['price']['amount'] = $shipping_types_array[$product->type]*100;
     // Extract the unit price from the calculated rate.
     $rate_line_item = $order->shipping_rates[$shipping_service_name];
     $rate_line_item_wrapper = entity_metadata_wrapper('commerce_line_item', $rate_line_item);
@@ -312,10 +311,10 @@ function add_manual_shipping_line_item($order, $data) {
 
 
     // Delete any existing shipping line items from the order.
-    commerce_shipping_delete_shipping_line_items($order, $skip_order_save);
+    commerce_shipping_delete_shipping_line_items($order, false);
 
     // Save and add the line item to the order.
-    return commerce_shipping_add_shipping_line_item($line_item, $order, $skip_order_save);
+    return commerce_shipping_add_shipping_line_item($line_item, $order, false);
 }
 
 
