@@ -377,6 +377,114 @@ function fitmoo_checkout_menu_alter(&$item) {
   $item['user/password']['type'] = MENU_CALLBACK;
 }
 
+function fitmoo_checkout_commerce_cart_product_add($order, $product, $quantity, $line_item){
+    //commerce_kiala_commerce_line_item_update($line_item);
+    // Hide the "Create new account" tab
+  $data['commerce_product'] = $product->product_id;
+  _add_manual_shipping_line_item($order, $data);
+}
+
+
+function _add_manual_shipping_line_item($order, $data) {
+    $product = commerce_services_retrieve_entity('commerce_product', $data['commerce_product'], false, false);
+    $unit_price = array(
+        "amount"=>100,
+        "currency_code"=>"USD",
+        "data"=>array(
+            "components"=>array(
+                "0"=>array(
+                    "name"=>"shipping",
+                    "price"=>array(
+                        "amount"=>100,
+                        "currency_code"=>"USD",
+                        "data"=>array(),
+                    ),
+                    "included"=>true,
+                ),
+            ),
+        ),
+    );
+
+    $shipping_service = array(
+        "name"=>"example_shipping_service",
+        "base"=>"example_shipping_service",
+        "display_title" => "Shipping",
+        "description"=>"Set shipping fy by product type",
+        "shipping_method"=>"example_shipping_method",
+        "rules_component"=>true,
+        "price_component"=>"shipping",
+        "weight"=>2,
+        "callbacks"=>array(
+            "rate"=>"commerce_shipping_example_service_rate",
+            "details_form"=>"commerce_shipping_example_service_details_form",
+            "details_form_validate"=>"commerce_shipping_example_service_details_form_validate",
+            "details_form_submit"=>"commerce_shipping_example_service_details_form_submit"
+        ),
+        "module"=>"commerce_shipping_example",
+        "title"=>"Example shipping service",
+        "admin_list"=>true,
+        "base_rate"=>array("amount"=>100)
+    );
+
+    $temp = new stdClass();
+    $temp->type="shipping";
+    $temp->order_id=$order->order_id;
+    $temp->quantity = 1;
+    $temp->data=array("shipping_service"=>$shipping_service);
+    $temp->line_item_id=null;
+    $temp->line_item_label="Shipping";
+    $temp->created="";
+    $temp->changed="";
+    $temp->is_new=true;
+    $temp->commerce_shipping_service=array("und"=>array("0"=>array("value"=>"example_shipping_service")));
+    $temp->commerce_unit_price = array("und"=>array("0"=>$unit_price));
+    $temp->weight=2;
+    $order->shipping_rates['example_shipping_service']=$temp;
+
+
+//    $shipping_service_name= 'example_shipping_service';
+//
+//    $shipping_service = commerce_shipping_service_load($shipping_service_name);
+//    if (empty($shipping_service)) {
+//        return;
+//    }
+//    // Collect shipping rates for the order.
+//    commerce_shipping_collect_rates($order);
+//    if (empty($order->shipping_rates) || empty($order->shipping_rates[$shipping_service_name])) {
+//        return;
+//    }
+
+
+
+    $shipping_types_array=array();
+
+    //====OR MAY BE STORE ARRAY IN SETVAR ?
+    $types = commerce_product_reference_node_types();
+    foreach ($types as $type => $info) {
+        $shipping_types_array[$info->type]=variable_get($info->type."_fee", "");
+    }
+
+
+    $order->shipping_rates['example_shipping_service']->data['shipping_service']['base_rate']['amount'] = $shipping_types_array[$product->type]*100;
+    $order->shipping_rates['example_shipping_service']->commerce_unit_price['und'][0]['amount'] = $shipping_types_array[$product->type]*100;
+    $order->shipping_rates['example_shipping_service']->commerce_unit_price['und'][0]['data']['components'][0]['price']['amount'] = $shipping_types_array[$product->type]*100;
+    // Extract the unit price from the calculated rate.
+    $rate_line_item = $order->shipping_rates['example_shipping_service'];
+    $rate_line_item_wrapper = entity_metadata_wrapper('commerce_line_item', $rate_line_item);
+    $unit_price = $rate_line_item_wrapper->commerce_unit_price->value();
+
+    // Create a new shipping line item with the calculated rate.
+    $line_item = commerce_shipping_line_item_new('example_shipping_service', $unit_price, $order->order_id, $rate_line_item->data, $rate_line_item->type);
+
+
+    // Delete any existing shipping line items from the order.
+    commerce_shipping_delete_shipping_line_items($order, false);
+
+    // Save and add the line item to the order.
+    return commerce_shipping_add_shipping_line_item($line_item, $order, false);
+}
+
+
 function fitmoo_checkout_commerce_checkout_progress_items_alter(&$items){
 	unset($items['payment']);
 }
