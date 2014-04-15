@@ -1,0 +1,17 @@
+name = Braintree
+description = Integrates Braintree Transparent Redirect for on-site credit card payment with Commerce Card on File support if available.
+package = Commerce (contrib)
+core = 7.x
+dependencies[] = commerce_order
+dependencies[] = commerce_payment
+
+; Tests
+files[] = tests/commerce_braintree.test
+files[] = tests/commerce_braintree_cof.test
+
+; Information added by drupal.org packaging script on 2013-09-30
+version = "7.x-2.x-dev"
+core = "7.x"
+project = "commerce_braintree"
+datestamp = "1380559996"
+
