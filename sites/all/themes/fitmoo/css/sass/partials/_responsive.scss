@@ -19,8 +19,8 @@
 		border:0;
 	}
 
-	#customer-profile-shipping-ajax-wrapper,
-	#customer-profile-billing-ajax-wrapper,
+.customer_profile_billing,
+.customer_profile_shipping,
 	#edit-commerce-payment,
 	#edit-buttons {
 		width:41.9%;
@@ -29,8 +29,8 @@
 
 // includes tablet portrait, and lower
 @media only screen and (max-width: 768px) {
-	#customer-profile-shipping-ajax-wrapper,
-	#customer-profile-billing-ajax-wrapper,
+.customer_profile_billing,
+.customer_profile_shipping,
 	#edit-commerce-payment,
 	#edit-buttons {
 		@include fullScreen(84%, 0px);

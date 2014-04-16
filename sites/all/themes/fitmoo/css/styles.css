@@ -105,7 +105,7 @@ article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, 
   line-height: 42px;
   padding: 0 36px; }
 
-.clear, #contentWrapper:after, #content .region-content:after, .node-service .commerce-product-field.commerce-product-field-field-image .field-name-field-image:after, .node-clothing .commerce-product-field.commerce-product-field-field-image .field-name-field-image:after, .node-product .commerce-product-field.commerce-product-field-field-image .field-name-field-image:after, .view-id-commerce_cart_form.view-display-id-default:after, .view-id-commerce_cart_summary.view-display-id-default:after, .view-id-commerce_cart_summary.view-display-id-block_1 .views-field, #customer-profile-billing-ajax-wrapper:after, #customer-profile-shipping-ajax-wrapper:after, #edit-commerce-payment:after, #edit-buttons:after, #customer-profile-billing-ajax-wrapper .form-item:after, #customer-profile-shipping-ajax-wrapper .form-item:after, #edit-commerce-payment .form-item:after, #edit-buttons .form-item:after, .region-content .fieldset-wrapper:after, .commerce-credit-card-expiration:after {
+.clear, #contentWrapper:after, #content .region-content:after, .node-service .commerce-product-field.commerce-product-field-field-image .field-name-field-image:after, .node-clothing .commerce-product-field.commerce-product-field-field-image .field-name-field-image:after, .node-product .commerce-product-field.commerce-product-field-field-image .field-name-field-image:after, .view-id-commerce_cart_form.view-display-id-default:after, .view-id-commerce_cart_summary.view-display-id-default:after, .view-id-commerce_cart_summary.view-display-id-block_1 .views-field, .customer_profile_billing:after, .customer_profile_shipping:after, #edit-commerce-payment:after, #edit-buttons:after, .customer_profile_billing .form-item:after, .customer_profile_shipping .form-item:after, #edit-commerce-payment .form-item:after, #edit-buttons .form-item:after, .region-content .fieldset-wrapper:after, .commerce-credit-card-expiration:after {
   clear: both;
   content: '';
   display: block; }
@@ -509,7 +509,13 @@ label, .views-label {
 
 .checkout-buttons #edit-continue, .checkout-buttons #edit-cancel, .checkout-buttons #edit-back {
   clear: both;
-  float: right; }
+  display: block;
+  margin: 0 auto; }
+
+#edit-continue:after {
+  content: '';
+  clear: both;
+  display: block; }
 
 .messages.status {
   background: #f1f1f1;
@@ -672,12 +678,12 @@ ol.inline.commerce-checkout-progress li:first-child {
   margin-bottom: 30px;
   width: 100%; }
 
-#customer-profile-shipping-ajax-wrapper .customer_profile_shipping > legend, #edit-customer-profile-billing > legend, #edit-commerce-payment > legend {
+.customer_profile_billing > legend, .customer_profile_shipping > legend, #edit-commerce-payment > legend {
   height: 30px;
   line-height: 30px;
   padding-left: 40px; }
 
-#customer-profile-shipping-ajax-wrapper .customer_profile_shipping > legend {
+.customer_profile_shipping > legend {
   background: url("../images/iconStep2.png") 0 0 no-repeat; }
 
 #edit-commerce-payment > legend {
@@ -686,10 +692,10 @@ ol.inline.commerce-checkout-progress li:first-child {
 #edit-customer-profile-billing > legend {
   background: url("../images/iconStep1.png") 0 0 no-repeat; }
 
-#customer-profile-billing-ajax-wrapper, #customer-profile-shipping-ajax-wrapper, #edit-commerce-payment, #edit-buttons {
+.customer_profile_billing, .customer_profile_shipping, #edit-commerce-payment, #edit-buttons {
   background: #f1f1f1;
   padding: 4%; }
-#customer-profile-billing-ajax-wrapper .form-item label, #customer-profile-shipping-ajax-wrapper .form-item label, #edit-commerce-payment .form-item label, #edit-buttons .form-item label {
+.customer_profile_billing .form-item label, .customer_profile_shipping .form-item label, #edit-commerce-payment .form-item label, #edit-buttons .form-item label {
   clear: both;
   display: block; }
 
@@ -721,21 +727,18 @@ div.addressfield-container-inline > div.form-item {
 #edit-buttons {
   width: 40%; }
 
-#customer-profile-shipping-ajax-wrapper, #customer-profile-billing-ajax-wrapper, #edit-commerce-payment {
-  float: left;
+#edit-buttons, .customer_profile_billing, .customer_profile_shipping, #edit-commerce-payment {
+  margin: 0 auto;
   width: 40%; }
-#customer-profile-shipping-ajax-wrapper legend, #customer-profile-billing-ajax-wrapper legend, #edit-commerce-payment legend {
+#edit-buttons legend, .customer_profile_billing legend, .customer_profile_shipping legend, #edit-commerce-payment legend {
   clear: both;
   float: left; }
 
 #edit-commerce-payment .form-item-commerce-payment-payment-method {
   display: none; }
 
-#customer-profile-shipping-ajax-wrapper fieldset.form-wrapper.collapsed > legend {
+.customer_profile_shipping fieldset.form-wrapper.collapsed > legend {
   margin-bottom: 0; }
-
-#edit-commerce-payment, #customer-profile-billing-ajax-wrapper {
-  border-right: 1px solid #cacaca; }
 
 .region-content .fieldset-wrapper {
   clear: both;
@@ -907,10 +910,10 @@ ul.selectbox.items li .item:hover {
   .page-checkout .region-content {
     border: 0; }
 
-  #customer-profile-shipping-ajax-wrapper, #customer-profile-billing-ajax-wrapper, #edit-commerce-payment, #edit-buttons {
+  .customer_profile_billing, .customer_profile_shipping, #edit-commerce-payment, #edit-buttons {
     width: 41.9%; } }
 @media only screen and (max-width: 768px) {
-  #customer-profile-shipping-ajax-wrapper, #customer-profile-billing-ajax-wrapper, #edit-commerce-payment, #edit-buttons {
+  .customer_profile_billing, .customer_profile_shipping, #edit-commerce-payment, #edit-buttons {
     clear: both;
     display: block;
     float: none;

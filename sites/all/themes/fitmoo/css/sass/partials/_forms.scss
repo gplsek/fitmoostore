@@ -67,8 +67,16 @@ label,
 	#edit-cancel,
 	#edit-back {
 		clear:both;
-		float:right;
+		display:block;
+		margin:0 auto;
+//		float:right;
 	}
+}
+
+#edit-continue:after {
+	content:'';
+	clear:both;
+	display:block;
 }
 
 .messages.status {
@@ -490,8 +498,8 @@ ol.inline.commerce-checkout-progress li {
 
 }
 
-#customer-profile-shipping-ajax-wrapper .customer_profile_shipping,
-#edit-customer-profile-billing,
+.customer_profile_billing,
+.customer_profile_shipping,
 #edit-commerce-payment {
 	> legend {
 		height:30px;
@@ -500,7 +508,7 @@ ol.inline.commerce-checkout-progress li {
 	}
 }
 
-#customer-profile-shipping-ajax-wrapper .customer_profile_shipping > legend {
+.customer_profile_shipping > legend {
 	background:url('../images/iconStep2.png') 0 0 no-repeat;	
 }
 
@@ -512,8 +520,9 @@ ol.inline.commerce-checkout-progress li {
 	background:url('../images/iconStep1.png') 0 0 no-repeat;	
 }
 
-#customer-profile-billing-ajax-wrapper,
-#customer-profile-shipping-ajax-wrapper,
+//#edit-customer-profile-billing,
+.customer_profile_billing,
+.customer_profile_shipping,
 #edit-commerce-payment,
 #edit-buttons {
 	background:$colorBlock;
@@ -605,10 +614,12 @@ div.addressfield-container-inline > div.form-item {
 	width:40%;
 }
 
-#customer-profile-shipping-ajax-wrapper,
-#customer-profile-billing-ajax-wrapper,
+#edit-buttons,
+.customer_profile_billing,
+.customer_profile_shipping,
 #edit-commerce-payment {
-	float:left;
+//	float:left;
+	margin:0 auto;
 	width:40%;
 
 	legend {
@@ -623,7 +634,7 @@ div.addressfield-container-inline > div.form-item {
 	}
 }
 
-#customer-profile-shipping-ajax-wrapper {
+.customer_profile_shipping {
 
 	fieldset.form-wrapper.collapsed > legend {
 		margin-bottom:0;
@@ -632,7 +643,7 @@ div.addressfield-container-inline > div.form-item {
 
 #edit-commerce-payment,
 #customer-profile-billing-ajax-wrapper {
-	border-right:1px solid #cacaca;
+	// border-right:1px solid #cacaca;
 }
 
 .region-content {
