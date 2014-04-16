@@ -621,6 +621,20 @@ div.addressfield-container-inline > div.form-item {
 	}
 }
 
+.messages {
+	&.warning,
+	&.error {
+		background-color:#fff;
+		border:1px solid #ddd;
+		color:#ff0000;
+		font:normal 14px/18px $fontReg;
+		margin-bottom:20px;
+		max-width:90%;
+	}
+}
+
+
+
 #edit-commerce-payment {
 	.form-item-commerce-payment-payment-method {
 		display:none;
