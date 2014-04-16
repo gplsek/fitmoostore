@@ -42,6 +42,20 @@
 }
 
 // devices
+
+@media only screen and (max-width: 649px) {
+
+	.node-service,
+	.node-clothing,
+	.node-product {
+		h2,
+		.field-group-fieldset.group-product-details,
+		.field-group-fieldset.group-product-media	{
+			@include fullScreen(90%);
+		}
+	}
+}
+
 @media only screen and (max-width: 580px) {
 	.view-id-commerce_cart_summary.view-display-id-default .view-content {
 		float:none;
