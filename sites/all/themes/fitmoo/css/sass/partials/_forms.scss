@@ -546,17 +546,10 @@ ol.inline.commerce-checkout-progress li {
 }
 
 .page-checkout.path-review .region-content {
-	border-right:0;
+	border-right:1px solid #a9a9a9;
+	padding-right:40px;
 }
 
-.path-review #edit-buttons {
-	background:none;
-	padding:0;
-	.fieldset-wrapper {
-		float:right;
-		margin-right:0;
-	}
-}
 
 #edit-commerce-payment .form-item-commerce-payment-payment-method {
 	label,
@@ -611,7 +604,7 @@ div.addressfield-container-inline > div.form-item {
 
 // form billing info
 #edit-buttons {
-	width:40%;
+	width:65%;
 }
 
 #edit-buttons,
@@ -620,7 +613,7 @@ div.addressfield-container-inline > div.form-item {
 #edit-commerce-payment {
 //	float:left;
 	margin:0 auto;
-	width:40%;
+	width:65%;
 
 	legend {
 		clear:both;
@@ -932,3 +925,5 @@ ul.selectbox.items {
 		height:35px;
 	}
 }
+
+
