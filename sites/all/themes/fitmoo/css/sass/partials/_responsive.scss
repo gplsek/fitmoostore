@@ -6,7 +6,11 @@
 
 	.one-sidebar #content,
 	.one-sidebar #sidebar-second {
-		@include fullScreen(100%, 20px);		
+		@include fullScreen(100%, 20px);
+		.region-sidebar-second {
+			margin:0 auto;
+			width:92%;
+		}
 	}
 
 
@@ -29,7 +33,7 @@
 	#customer-profile-billing-ajax-wrapper,
 	#edit-commerce-payment,
 	#edit-buttons {
-		@include fullScreen(84%, 20px);
+		@include fullScreen(84%, 0px);
 		border:0;
 	}
 
@@ -53,6 +57,20 @@
 		.field-group-fieldset.group-product-media	{
 			@include fullScreen(90%);
 		}
+	}
+
+	.page-checkout .cart_contents_form,
+	.page-cart.path-cart .view-commerce-cart-form {
+		.views-row .views-field {
+			@include fullScreen(90%, 10px);
+			float:none;
+			padding-top:0;
+		}
+	}
+
+	.page-checkout .cart_contents_form .views-row .views-field-commerce-total .field-content,
+	.page-cart.path-cart .view-commerce-cart-form .views-row .views-field-commerce-total .field-content {
+		float:none;
 	}
 }
 

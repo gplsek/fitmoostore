@@ -24,6 +24,17 @@ THEME STRUCTURE
 	margin-bottom:30px;
 }
 
+.commerce-checkout-progress li {
+	&,
+	a,
+	&.active,
+	&.active a{
+		font-family:$fontMed;
+		font-weight:normal;
+		-webkit-font-smoothing:antialiased;
+	}
+}
+
 #block-commerce-checkout-progress-indication {
 //#block-system-main-menu {
 	h2 {
@@ -32,17 +43,24 @@ THEME STRUCTURE
 	li {
 		float:left;
 		margin-left:40px;
-		//a {
+		padding:0 20px 0 20px;	
+		
+		&,
+		a {
 			color:#fff;
 			line-height:41px;
 			text-decoration:none;
 			text-transform:uppercase;
-			padding:0 20px 0 20px;
-			&.active {
-				border-bottom:3px solid #0f93ef;
-			}
-		//}
+		}
+
+		&.active {
+			border-bottom:3px solid #0f93ef;
+		}
 	}
+}
+
+.button-operator {
+	display:none !important;
 }
 
 #contentWrapper {
@@ -67,7 +85,7 @@ THEME STRUCTURE
 		max-width:335px;
 		width:25%;
 		.region-sidebar-second {
-			margin:0 auto;
+			margin:0 0 0 10%;
 			width:90%;
 		}
 	}
