@@ -543,6 +543,40 @@ function fitmoo_checkout_commerce_checkout_router($order, $checkout_page) {
     }
 }
 
+function fitmoo_checkout_check_stock(){
+	global $user;
+	$uid = $user->uid;  
+	$order_id = commerce_cart_order_id($uid);
+	
+	$order = commerce_order_load($order_id);
+	
+    foreach (field_get_items('commerce_order', $order, 'commerce_line_items') as $line_item_id) {
+
+      // Load commerce line item by line item id.
+      $line_item = commerce_line_item_load($line_item_id['line_item_id']);
+
+      // We do not want to include shipping cost in userpoints.
+      if ($line_item->type != 'shipping') {
+        // Load commerce product by product id.
+        $temp = field_get_items('commerce_line_item', $line_item, 'commerce_product');
+	  
+        $product = commerce_product_load($temp[0]['product_id']);
+		if(floatval($product->commerce_stock['und'][0]['value']) < 1.00){
+			commerce_order_delete($order_id);
+		    // Redirect to firmoo on cancel.
+		    if(isset($_SESSION['callback'])){
+		    	$form_state['redirect'] = $_SESSION['callback']; //the page you want to redirect to.
+		    }else{
+		    	$form_state['redirect'] = variable_get('anonymous_redirect_base', ''); //the page you want to redirect to.
+		    }
+		}
+	  }
+	  
+  }
+    return;	
+	
+}
+
 // /**
 //  * Implements hook_form_FORMID_alter() for `commerce_checkout_form_checkout`.
 //  */
