@@ -7,7 +7,7 @@
 /**
  * Implements hook_views_default_views().
  */
-function commerce_cart_views_default_views() {
+<!-- function commerce_cart_views_default_views() {
   $views = array();
 
   // Define the shopping cart update form as a View.
@@ -458,7 +458,7 @@ function commerce_cart_views_default_views() {
   $views[$view->name] = $view;
 
   return $views;
-}
+} -->
 
 /**
  * Implements hook_views_default_views_alter().

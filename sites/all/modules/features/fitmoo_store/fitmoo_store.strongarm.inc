@@ -296,10 +296,18 @@ function fitmoo_store_strongarm() {
             'weight' => '-10',
             'visible' => FALSE,
           ),
+          'teaser' => array(
+            'weight' => '6',
+            'visible' => FALSE,
+          ),
         ),
         'product:title' => array(
           'default' => array(
             'weight' => '-5',
+            'visible' => FALSE,
+          ),
+          'teaser' => array(
+            'weight' => '7',
             'visible' => FALSE,
           ),
         ),
@@ -308,9 +316,17 @@ function fitmoo_store_strongarm() {
             'weight' => '5',
             'visible' => FALSE,
           ),
+          'teaser' => array(
+            'weight' => '12',
+            'visible' => FALSE,
+          ),
         ),
         'product:commerce_price' => array(
           'default' => array(
+            'weight' => '4',
+            'visible' => TRUE,
+          ),
+          'teaser' => array(
             'weight' => '4',
             'visible' => TRUE,
           ),
@@ -320,10 +336,30 @@ function fitmoo_store_strongarm() {
             'weight' => '2',
             'visible' => TRUE,
           ),
+          'teaser' => array(
+            'weight' => '2',
+            'visible' => TRUE,
+          ),
         ),
         'product:commerce_stock' => array(
           'default' => array(
             'weight' => '3',
+            'visible' => TRUE,
+          ),
+          'teaser' => array(
+            'weight' => '3',
+            'visible' => TRUE,
+          ),
+        ),
+        'product:field_image' => array(
+          'teaser' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
+        'product:field_weight' => array(
+          'teaser' => array(
+            'weight' => '5',
             'visible' => TRUE,
           ),
         ),
@@ -369,19 +405,19 @@ function fitmoo_store_strongarm() {
       'display' => array(
         'product:sku' => array(
           'default' => array(
-            'weight' => '-10',
+            'weight' => '9',
             'visible' => FALSE,
           ),
         ),
         'product:title' => array(
           'default' => array(
-            'weight' => '-5',
+            'weight' => '10',
             'visible' => FALSE,
           ),
         ),
         'product:status' => array(
           'default' => array(
-            'weight' => '5',
+            'weight' => '11',
             'visible' => FALSE,
           ),
         ),
@@ -409,6 +445,42 @@ function fitmoo_store_strongarm() {
             'visible' => TRUE,
           ),
         ),
+        'product:commerce_stock' => array(
+          'default' => array(
+            'weight' => '8',
+            'visible' => TRUE,
+          ),
+        ),
+        'product:field_image' => array(
+          'default' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
+        'product:field_location' => array(
+          'default' => array(
+            'weight' => '6',
+            'visible' => TRUE,
+          ),
+        ),
+        'product:field_description' => array(
+          'default' => array(
+            'weight' => '7',
+            'visible' => TRUE,
+          ),
+        ),
+        'product:field_expiration_date' => array(
+          'default' => array(
+            'weight' => '4',
+            'visible' => TRUE,
+          ),
+        ),
+        'product:field_months_after' => array(
+          'default' => array(
+            'weight' => '5',
+            'visible' => TRUE,
+          ),
+        ),
       ),
     ),
   );
@@ -419,17 +491,79 @@ function fitmoo_store_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_node__product';
   $strongarm->value = array(
-    'view_modes' => array(),
+    'view_modes' => array(
+      'teaser' => array(
+        'custom_settings' => TRUE,
+      ),
+      'full' => array(
+        'custom_settings' => FALSE,
+      ),
+      'rss' => array(
+        'custom_settings' => FALSE,
+      ),
+      'search_index' => array(
+        'custom_settings' => FALSE,
+      ),
+      'search_result' => array(
+        'custom_settings' => FALSE,
+      ),
+      'token' => array(
+        'custom_settings' => FALSE,
+      ),
+    ),
     'extra_fields' => array(
       'form' => array(
         'title' => array(
           'weight' => '0',
         ),
         'path' => array(
-          'weight' => '6',
+          'weight' => '8',
         ),
       ),
-      'display' => array(),
+      'display' => array(
+        'product:sku' => array(
+          'default' => array(
+            'weight' => '3',
+            'visible' => FALSE,
+          ),
+        ),
+        'product:title' => array(
+          'default' => array(
+            'weight' => '4',
+            'visible' => FALSE,
+          ),
+        ),
+        'product:status' => array(
+          'default' => array(
+            'weight' => '5',
+            'visible' => FALSE,
+          ),
+        ),
+        'product:commerce_price' => array(
+          'default' => array(
+            'weight' => '7',
+            'visible' => TRUE,
+          ),
+        ),
+        'product:commerce_stock' => array(
+          'default' => array(
+            'weight' => '2',
+            'visible' => FALSE,
+          ),
+        ),
+        'product:field_product_size' => array(
+          'default' => array(
+            'weight' => '9',
+            'visible' => TRUE,
+          ),
+        ),
+        'product:field_image' => array(
+          'default' => array(
+            'weight' => '5',
+            'visible' => TRUE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_node__product'] = $strongarm;
@@ -533,14 +667,76 @@ function fitmoo_store_strongarm() {
   $strongarm->api_version = 1;
   $strongarm->name = 'field_bundle_settings_node__shoes';
   $strongarm->value = array(
-    'view_modes' => array(),
+    'view_modes' => array(
+      'teaser' => array(
+        'custom_settings' => TRUE,
+      ),
+      'full' => array(
+        'custom_settings' => FALSE,
+      ),
+      'rss' => array(
+        'custom_settings' => FALSE,
+      ),
+      'search_index' => array(
+        'custom_settings' => FALSE,
+      ),
+      'search_result' => array(
+        'custom_settings' => FALSE,
+      ),
+      'token' => array(
+        'custom_settings' => FALSE,
+      ),
+    ),
     'extra_fields' => array(
       'form' => array(
         'title' => array(
           'weight' => '0',
         ),
       ),
-      'display' => array(),
+      'display' => array(
+        'product:sku' => array(
+          'default' => array(
+            'weight' => '8',
+            'visible' => FALSE,
+          ),
+        ),
+        'product:title' => array(
+          'default' => array(
+            'weight' => '9',
+            'visible' => FALSE,
+          ),
+        ),
+        'product:status' => array(
+          'default' => array(
+            'weight' => '10',
+            'visible' => FALSE,
+          ),
+        ),
+        'product:commerce_price' => array(
+          'default' => array(
+            'weight' => '7',
+            'visible' => TRUE,
+          ),
+        ),
+        'product:field_shoe_size' => array(
+          'default' => array(
+            'weight' => '4',
+            'visible' => TRUE,
+          ),
+        ),
+        'product:commerce_stock' => array(
+          'default' => array(
+            'weight' => '6',
+            'visible' => TRUE,
+          ),
+        ),
+        'product:field_image' => array(
+          'default' => array(
+            'weight' => '0',
+            'visible' => TRUE,
+          ),
+        ),
+      ),
     ),
   );
   $export['field_bundle_settings_node__shoes'] = $strongarm;
