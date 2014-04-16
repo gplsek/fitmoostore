@@ -370,14 +370,6 @@ function fitmoo_checkout_commerce_cart_product_prepare($order, $product, $quanti
 		}
 	  }
 }
-function fitmoo_checkout_commerce_checkout_pane_info() {
-    if (!empty($_REQUEST['callback'])){
-        $_SESSION['callback'] = $_REQUEST['callback'];
-    }
-}
-
-
-
 
 function fitmoo_checkout_menu_alter(&$item) {
   // Hide the "Create new account" tab
@@ -512,6 +504,7 @@ function fitmoo_checkout_form_alter(&$form, &$form_state, $form_id) {
  * Modifying the commerce_cart_checkout_form_cancel_submit function in commerce_cart.module
  */
 function fitmoo_checkout_form_cancel_submit($form, &$form_state) {
+  global $user;
   // Update the order to the cart status.
   $order = commerce_order_load($form_state['order']->order_id);
   $form_state['order'] = commerce_order_status_update($order, 'cart', TRUE);
@@ -523,11 +516,15 @@ function fitmoo_checkout_form_cancel_submit($form, &$form_state) {
     $form_state['order']->log = t('Customer manually canceled the checkout process.');
   }
 
-  commerce_order_save($form_state['order']);
+  commerce_order_delete($form_state['order']);
 
   //drupal_set_message(t('Checkout of your current order has been canceled and may be resumed when you are ready.'));
 
   // Redirect to firmoo on cancel.
+  
+  module_invoke_all('user_logout', $user);
+  session_destroy();
+  
   if(isset($_SESSION['callback'])){
   	$form_state['redirect'] = $_SESSION['callback']; //the page you want to redirect to.
   }else{
@@ -537,8 +534,11 @@ function fitmoo_checkout_form_cancel_submit($form, &$form_state) {
 }
 
 function fitmoo_checkout_commerce_checkout_router($order, $checkout_page) {
+	global $user;
     $path = '/dashboard/purchases';
 	if($order->status == 'pending'){
+		module_invoke_all('user_logout', $user);
+		session_destroy();
       drupal_goto(variable_get('anonymous_redirect_base', '').$path);
     }
 }
