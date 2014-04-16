@@ -126,6 +126,12 @@ function commerce_services_line_item_create($data, $flatten_fields) {
       $order_id = $order->order_id;
     }
   commerce_services_line_item_create_access($data);
+
+  if (!empty($data['callback'])){
+     $_SESSION['callback'] = $data['callback'];
+     unset($data['callback']);
+  }
+
   $order = commerce_order_load($order_id);
 
   if ($data['type'] != 'shipping') {
