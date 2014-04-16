@@ -528,8 +528,12 @@ function fitmoo_checkout_form_cancel_submit($form, &$form_state) {
   //drupal_set_message(t('Checkout of your current order has been canceled and may be resumed when you are ready.'));
 
   // Redirect to firmoo on cancel.
-
-  $form_state['redirect'] = variable_get('anonymous_redirect_base', ''); //the page you want to redirect to.
+  if(isset($_SESSION['callback'])){
+  	$form_state['redirect'] = $_SESSION['callback']; //the page you want to redirect to.
+  }else{
+  	$form_state['redirect'] = variable_get('anonymous_redirect_base', ''); //the page you want to redirect to.
+  }
+  
 }
 
 function fitmoo_checkout_commerce_checkout_router($order, $checkout_page) {
