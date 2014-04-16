@@ -502,6 +502,10 @@ function fitmoo_checkout_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'commerce_checkout_form_checkout') {
     $form['buttons']['cancel']['#submit'][] = 'fitmoo_checkout_form_cancel_submit';  
   }
+  
+  if ($form_id == 'commerce_checkout_form_review') {
+    unset($form['checkout_review']);  
+  }
 }
 
 /**
