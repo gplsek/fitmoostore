@@ -103,7 +103,11 @@
     line-height:18px;
     margin:0;
     text-align:center;
-    padding:15px 36px;
+    padding:10px 36px;
+    // expiremental
+    // works chrome, 
+    line-height:42px; 
+    padding:0 36px;
 }
 
 .clear {

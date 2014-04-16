@@ -24,6 +24,17 @@ THEME STRUCTURE
 	margin-bottom:30px;
 }
 
+.commerce-checkout-progress li {
+	&,
+	a,
+	&.active,
+	&.active a{
+		font-family:$fontMed;
+		font-weight:normal;
+		-webkit-font-smoothing:antialiased;
+	}
+}
+
 #block-commerce-checkout-progress-indication {
 //#block-system-main-menu {
 	h2 {
@@ -32,17 +43,24 @@ THEME STRUCTURE
 	li {
 		float:left;
 		margin-left:40px;
-		//a {
+		padding:0 20px 0 20px;	
+		
+		&,
+		a {
 			color:#fff;
 			line-height:41px;
 			text-decoration:none;
 			text-transform:uppercase;
-			padding:0 20px 0 20px;
-			&.active {
-				border-bottom:3px solid #0f93ef;
-			}
-		//}
+		}
+
+		&.active {
+			border-bottom:3px solid #0f93ef;
+		}
 	}
+}
+
+.button-operator {
+	display:none !important;
 }
 
 #contentWrapper {
@@ -67,7 +85,7 @@ THEME STRUCTURE
 		max-width:335px;
 		width:25%;
 		.region-sidebar-second {
-			margin:0 auto;
+			margin:0 0 0 10%;
 			width:90%;
 		}
 	}
@@ -122,7 +140,12 @@ THEME ELEMENTS
 
 /* product */
 
+.node-service,
+.node-clothing,
 .node-product {
+
+	margin:0 auto;
+	max-width:830px;
 
 	h2,
 	.content {
@@ -131,6 +154,7 @@ THEME ELEMENTS
 			text-decoration:none;
 		}
 	}
+
 	h2 {
 		color:#333;
 		clear:right;
@@ -138,30 +162,113 @@ THEME ELEMENTS
 		font-size:20px;
 		line-height:26px;
 		float:right;
-		width:50%;
+		margin-bottom:10px;
+		width:46%;
 	}
 
+	.vocabulary-product-size h2 {
+		float:none;
+		font:normal 12px/14px $fontMed;
+		margin:0;
+		padding:0;
+		text-transform:capitalize;
+		width:auto;
+	}
 	.content {
 		position:relative;
 	}
 
-	.field-name-field-brand,
-	.field-name-field-product,
+	// testing
+	.commerce-add-to-cart {
+		#edit-line-item-fields,
+		.attribute-widgets {
+			float:left;
+		}
+
+		.attribute-widgets {
+			margin-right:12px;
+			width:222px;
+			max-width:50%;
+		}
+
+		#edit-line-item-fields {
+			display:none;
+		}
+
+		.form-submit {
+			float:left;
+			padding:0 7%;
+			// to match label, may remove, temp
+			//margin-top:19px;
+		}
+
+
+	}
+
+	// replace field layout with fieldset layout
+
+	.field-group-fieldset {
+
+		&.group-product-details,
+		&.group-product-media {
+			float:left;
+			> legend {
+				display:none;
+			}
+
+			.fieldset-wrapper {
+				margin:0;
+				max-width:100%;
+			}
+		}
+
+		&.group-product-details {
+			float:right;
+			width:46%;
+			.field {
+				clear:right;
+				float:left;
+				margin-bottom:10px;
+				z-index:1;
+				width:100%;
+			}
+		}
+
+		&.group-product-media {
+			float:left;
+			margin-right:5%;
+			width:45%;
+		}
+	}
+
+	// .field-name-field-weight,
+	// .field-name-field-brand,
+	// .field-name-field-product,
+	// .field-name-field-gender,
+	.field-group-fieldset .field,
 	.commerce-product-field {
-		clear:right;
-		float:left;
-		margin-left:50%;
-		margin-bottom:15px;
-		z-index:1;
-		width:50%;
-		
+
+	// testing
+		.field-label {
+			margin-right:10px;
+			width:65px;
+		}
+	//
+	
 		label,
 		.field-label,
 		.field-items {
 			color:#333;
 			float:left;
 			font-size:12px;
-			line-height:20px;
+			//			line-height:20px;
+			line-height:14px;
+			text-transform:capitalize;
+			.sb .display {
+				font-size:14px;
+				line-height:40px;
+				text-transform:capitalize;
+			}
 		}
 
 		label,
@@ -172,23 +279,18 @@ THEME ELEMENTS
 
 		.field-items {
 			font-family:$fontMed;
-			font-weight:bold;
 		}
-	}
 
-	.field-name-field-product {
-		.field-label {
-			display:none;
-		}
 		.attribute-widgets {
-			margin-bottom:15px;
+			//margin-bottom:15px;
 
-			&:after {
-				@extend .clear;
-			}
+			// &:after {
+			// 	@extend .clear;
+			// }
 
 			label {
-				float:left;
+				//float:left;
+				display:none;
 			}
 
 			select {
@@ -197,24 +299,54 @@ THEME ELEMENTS
 		}
 	}
 
+	.field-group-fieldset .field {
+
+		&.field-name-field-gender {
+				.field-label {
+					display:none;
+				}
+				.field-items {
+				font-family:$fontReg;
+			}
+		}
+
+		&.field-name-field-gender {
+			margin-bottom:20px;
+		}
+
+		&.field-name-body {
+			margin-bottom:5px;
+			padding-top:5px;
+			.field-items {
+				font-family:$fontReg;
+				font-size:13px;
+				line-height:19px;
+			}
+		}
+
+		&.field-name-field-product {
+			.field-label {
+				display:none;
+			}
+		}
+	}
+
 	.field-name-commerce-price .field-item {
 		@extend .themePrice;
+		margin-bottom:45px;
 	}
 	
 	.commerce-product-field.commerce-product-field-field-image {
-		float:none;
-		margin:0;
-		position:absolute;
-		left:0;
-		top:0;
-		width:50%;
+
 
 		.field-name-field-image {
 			background:#f5f5f5;
-			margin-left:50px;
-			padding:20px;
-			width:388px;
-
+			padding:5%;
+			// width:388px;
+			// padding:2%;
+			// max-width:88%;
+			width:90%;
+			height:auto;
 			&:after {
 				@extend .clear;
 			}
