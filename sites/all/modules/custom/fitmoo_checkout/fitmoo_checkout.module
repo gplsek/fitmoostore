@@ -371,8 +371,8 @@ function fitmoo_checkout_commerce_cart_product_prepare($order, $product, $quanti
 	  }
 }
 function fitmoo_checkout_commerce_checkout_pane_info() {
-    if (!empty($_REQUEST['checkout'])){
-        $_SESSION['callback'] = $_REQUEST['checkout'];
+    if (!empty($_REQUEST['callback'])){
+        $_SESSION['callback'] = $_REQUEST['callback'];
     }
 }
 
