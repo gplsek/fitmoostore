@@ -75,6 +75,7 @@ function fitmoo_preprocess_html(&$vars) {
  */
 function fitmoo_preprocess_page(&$vars) {
 	 global $base_url;
+	 //print $base_url;die();
 	if(arg(1) == 'register'){
 		
 	    // Make sure there isn't a redirect loop.
@@ -101,7 +102,7 @@ function fitmoo_preprocess_page(&$vars) {
  	    // Redirect. 
  	    drupal_goto($redirect_base);
 	 }
-	   }
+	}
 	
 	
     // global $base_url;

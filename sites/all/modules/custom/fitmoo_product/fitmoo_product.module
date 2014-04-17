@@ -71,17 +71,13 @@ function fitmoo_product_create_product($product){
 
 function fitmoo_product_load_item($productID){
 	
-	$product = commerce_product_load($productID);
-	print_r($product);
-	die();
+	return;
 }
 
 
 function fitmoo_product_load_product($nodeID){
 	
-	$product = node_load($nodeID);
-	print_r($product);
-	die();
+	return;
 }
 
 
