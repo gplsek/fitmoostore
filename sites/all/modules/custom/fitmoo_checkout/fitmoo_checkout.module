@@ -370,14 +370,6 @@ function fitmoo_checkout_commerce_cart_product_prepare($order, $product, $quanti
 		}
 	  }
 }
-function fitmoo_checkout_commerce_checkout_pane_info() {
-    if (!empty($_REQUEST['callback'])){
-        $_SESSION['callback'] = $_REQUEST['callback'];
-    }
-}
-
-
-
 
 function fitmoo_checkout_menu_alter(&$item) {
   // Hide the "Create new account" tab
@@ -502,12 +494,17 @@ function fitmoo_checkout_form_alter(&$form, &$form_state, $form_id) {
   if ($form_id == 'commerce_checkout_form_checkout') {
     $form['buttons']['cancel']['#submit'][] = 'fitmoo_checkout_form_cancel_submit';  
   }
+  
+  if ($form_id == 'commerce_checkout_form_review') {
+    unset($form['checkout_review']);  
+  }
 }
 
 /**
  * Modifying the commerce_cart_checkout_form_cancel_submit function in commerce_cart.module
  */
 function fitmoo_checkout_form_cancel_submit($form, &$form_state) {
+  global $user;
   // Update the order to the cart status.
   $order = commerce_order_load($form_state['order']->order_id);
   $form_state['order'] = commerce_order_status_update($order, 'cart', TRUE);
@@ -519,20 +516,93 @@ function fitmoo_checkout_form_cancel_submit($form, &$form_state) {
     $form_state['order']->log = t('Customer manually canceled the checkout process.');
   }
 
-  commerce_order_save($form_state['order']);
+  commerce_order_delete($order->id);
 
   //drupal_set_message(t('Checkout of your current order has been canceled and may be resumed when you are ready.'));
 
   // Redirect to firmoo on cancel.
-
-  $form_state['redirect'] = variable_get('anonymous_redirect_base', ''); //the page you want to redirect to.
+  
+  module_invoke_all('user_logout', $user);
+  session_destroy();
+  
+  if(isset($_SESSION['callback'])){
+  	$form_state['redirect'] = $_SESSION['callback']; //the page you want to redirect to.
+  }else{
+  	$form_state['redirect'] = variable_get('anonymous_redirect_base', ''); //the page you want to redirect to.
+  }
+  
 }
 
 function fitmoo_checkout_commerce_checkout_router($order, $checkout_page) {
-    $path = '/dashboard/purchases';
+	global $user;
 	if($order->status == 'pending'){
-      drupal_goto(variable_get('anonymous_redirect_base', '').$path);
+		module_invoke_all('user_logout', $user);
+		session_destroy();
+      drupal_goto(variable_get('anonymous_redirect_base', '').'/dashboard/purchases');
     }
+}
+
+function fitmoo_checkout_check_stock(){
+	global $user;
+	$uid = $user->uid;  
+	$order_id = commerce_cart_order_id($uid);
+	
+	$order = commerce_order_load($order_id);
+	
+    foreach (field_get_items('commerce_order', $order, 'commerce_line_items') as $line_item_id) {
+
+      // Load commerce line item by line item id.
+      $line_item = commerce_line_item_load($line_item_id['line_item_id']);
+
+      // We do not want to include shipping cost in userpoints.
+      if ($line_item->type != 'shipping') {
+        // Load commerce product by product id.
+        $temp = field_get_items('commerce_line_item', $line_item, 'commerce_product');
+	  
+        $product = commerce_product_load($temp[0]['product_id']);
+		if(floatval($product->commerce_stock['und'][0]['value']) < 1.00){
+			commerce_order_delete($order_id);
+		    // Redirect to firmoo on cancel.
+		    if(isset($_SESSION['callback'])){
+		    	$form_state['redirect'] = $_SESSION['callback']; //the page you want to redirect to.
+		    }else{
+		    	$form_state['redirect'] = variable_get('anonymous_redirect_base', ''); //the page you want to redirect to.
+		    }
+		}
+	  }
+	  
+  }
+    return;	
+	
+}
+
+function fitmoo_checkout_sold_by(){
+	global $user;
+	$uid = $user->uid;  
+	$order_id = commerce_cart_order_id($uid);
+	
+	$order = commerce_order_load($order_id);
+	
+    foreach (field_get_items('commerce_order', $order, 'commerce_line_items') as $line_item_id) {
+
+      // Load commerce line item by line item id.
+      $line_item = commerce_line_item_load($line_item_id['line_item_id']);
+
+      // We do not want to include shipping cost in userpoints.
+      if ($line_item->type != 'shipping') {
+        // Load commerce product by product id.
+        $temp = field_get_items('commerce_line_item', $line_item, 'commerce_product');
+	  
+        $product = commerce_product_load($temp[0]['product_id']);
+		
+		$seller = user_load($product->uid);
+		return $seller->mail;
+		
+	  }
+	  
+  }
+	
+   return;	
 }
 
 // /**
