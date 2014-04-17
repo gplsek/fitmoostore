@@ -84,7 +84,7 @@ function fitmoo_preprocess_page(&$vars) {
 	    }
 
 	    // Redirect.
-	    drupal_goto($redirect_base, array('query' => drupal_get_query_parameters()), 307);
+	    drupal_goto($redirect_base);
 		
 	}
 	
@@ -98,8 +98,8 @@ function fitmoo_preprocess_page(&$vars) {
  	      return;
  	    }
 
- 	    // Redirect.
- 	    drupal_goto($redirect_base, array('query' => drupal_get_query_parameters()), 307);
+ 	    // Redirect. 
+ 	    drupal_goto($redirect_base);
 	 }
 	   }
 	
