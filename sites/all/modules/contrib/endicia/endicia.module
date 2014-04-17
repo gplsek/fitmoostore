@@ -6,7 +6,10 @@
 define('ENDICIA_API_VERSION', '0.3');
 define('ENDICIA_PRODUCTION_URI', sprintf("www.grindflow.com/els/%s/production", ENDICIA_API_VERSION));
 define('ENDICIA_TEST_URI', sprintf("www.grindflow.com/els/%s/test", ENDICIA_API_VERSION));
-define('ENDICIA_ELS_SERVICES_URI', sprintf("www.grindflow.com/els/%s/elsservices", ENDICIA_API_VERSION));
+define('ENDICIA_ELS_SERVICES_URI', "www.endicia.com/ELS/ELSServices.cfc?wsdl");
+
+
+
 
 /**
  * Implements hook_permission().
