@@ -526,8 +526,90 @@ function _endicia_ui_print_label_confirm_form_submit($form_state) {
  *
  * @see commerce_services_update_entity()
  */
-function commerce_services_endicia_update($data) {
+function commerce_services_endicia_update($number, $dat, $flatten_fields) {
+    $data = array();
+    $account_id = variable_get('endicia_account_id', '');
+    $passphrase = variable_get('endicia_passphrase', '');
 
+
+
+    $URL = "https://www.endicia.com/ELS/ELSServices.cfc?wsdl";
+    $xmlRequest = <<<XML
+<?xml version="1.0" encoding="UTF-8"?>
+  <StatusRequest>
+    <AccountID>$account_id</AccountID>
+    <Test>Y</Test>
+    <Password>$passphrase</Password>
+    <FullStatus>Yes</FullStatus>
+    <StatusList>
+       <PICNumber>$number</PICNumber>
+    </StatusList>
+  </StatusRequest>
+XML;
+
+    $requestData = '&method=StatusRequest&XMLInput=' . $xmlRequest;
+
+    $curl_handle = curl_init ();
+    curl_setopt ($curl_handle, CURLOPT_URL, $URL);
+    curl_setopt ($curl_handle, CURLOPT_FOLLOWLOCATION, 1);
+    curl_setopt ($curl_handle, CURLOPT_RETURNTRANSFER, 1);
+    curl_setopt ($curl_handle, CURLOPT_SSL_VERIFYPEER, 0);
+    curl_setopt ($curl_handle, CURLOPT_POST, 1);
+    curl_setopt ($curl_handle, CURLOPT_POSTFIELDS, $requestData);
+
+    $curl_result = curl_exec ($curl_handle) or die ("There has been a CURL_EXEC error");
+
+
+
+
+    curl_close ($curl_handle);
+    if ($curl_result === FALSE) {
+        return false;
+    }
+
+
+
+    $result = xml2array($curl_result);
+    return $result['STATUSBREAKDOWN'];
+
+
+    //$response_node = 'StatusResponse';
+//    //$response = endicia_api_request(ENDICIA_ELS_SERVICES_URI, 'StatusRequest', $data, $response_node);
+//    // Check for errors
+//    if ($error = endicia_api_request_error_check($response, $response_node)) {
+//        $message = 'Could not get shipping status status';
+//        $variables = array(
+//            '@identifier' => $data['number'],
+//            '%errormsg' => $error['message'],
+//        );
+//        drupal_set_message(t($message, $variables), 'error');
+//    }
+
+}
+
+function xml2array($xml){
+    $opened = array();
+    $xml_parser = xml_parser_create();
+    xml_parse_into_struct($xml_parser, $xml, $xmlarray);
+    $array = array();
+    $arrsize = sizeof($xmlarray);
+    for($j=0;$j<$arrsize;$j++){
+        $val = $xmlarray[$j];
+        switch($val["type"]){
+            case "open":
+                $opened[$val["tag"]] = $array;
+                unset($array);
+                break;
+            case "complete":
+                $array[$val["tag"]][] = $val["value"];
+                break;
+            case "close":
+                $opened[$val["tag"]] = $array;
+                $array = $opened;
+                break;
+        }
+    }
+    return $array;
 }
 
 /**
@@ -552,7 +634,7 @@ function commerce_services_endicia_update_access() {
 function commerce_services_endicia_delete($pid) {
 //    global $user;
 //    if (is_array($user->roles) && in_array('administrator', $user->roles)) {
-        return _endicia_ui_refund_postage_form_submit($pid);
+      return _endicia_ui_refund_postage_form_submit($pid);
 //    } else {
 //        return services_error(t('Access to this operation not granted'), 401);
 //    }
@@ -580,8 +662,8 @@ function _endicia_ui_refund_postage_form_submit($pid) {
             'AccountID' => $account_id,
             'Password' => $passphrase,
             'Test' => _endicia_in_test_mode() ? 'Y' : 'N',
-            'RefundList' => array(
-                $data['Type'] => $number,
+            'StatusList' => array(
+                'PICNumber' => $number,
             ),
         );
 

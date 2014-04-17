@@ -263,18 +263,33 @@ function commerce_services_services_resources() {
                     ),
 
                     'update' => array(
-                        'help' => 'Refund',
+                        'help' => 'tRACKING',
                         'callback' => 'commerce_services_endicia_update',
                         'file' => array('type' => 'inc', 'module' => 'commerce_services', 'name' => 'resources/endicia'),
                         'access callback' => 'commerce_services_endicia_update_access',
                         'access arguments append' => TRUE,
                         'args' => array(
                             array(
+                                'name' => 'number',
+                                'type' => 'int',
+                                'description' => 'tracknum',
+                                'optional' => FALSE,
+                                'source' => array('path' => 0),
+                            ),
+                            array(
                                 'name' => 'data',
                                 'type' => 'array',
-                                'description' => 'Numbers to refund',
-                                'optional' => FALSE,
+                                'description' => 'The order data to update.',
+                                'optional' => TRUE,
                                 'source' => 'data',
+                            ),
+                            array(
+                                'name' => 'flatten_fields',
+                                'type' => 'string',
+                                'description' => 'A string indicating whether or not field value arrays are flattened; accepts true or false.',
+                                'optional' => TRUE,
+                                'source' => array('param' => 'flatten_fields'),
+                                'default value' => 'true',
                             ),
                         ),
                     ),
