@@ -74,14 +74,50 @@ function fitmoo_preprocess_html(&$vars) {
  * Override or insert variables into the page template.
  */
 function fitmoo_preprocess_page(&$vars) {
+	 global $base_url;
+	if(arg(1) == 'register'){
+		
+	    // Make sure there isn't a redirect loop.
+	    $redirect_base = variable_get('anonymous_redirect_base', '');
+	    if ($redirect_base == $base_url) {
+	      return;
+	    }
+
+	    // Redirect.
+	    drupal_goto($redirect_base, array('query' => drupal_get_query_parameters()), 307);
+		
+	}
 	
-	// if($vars['user']->uid != 1){
-	//  $url = array('checkout','cart','user');
-	// 
-	//  if (!(in_array(arg(0), $url))){
-	// 	drupal_goto('http://uat.fitmoo.com');
-	//  }
-	//    }
+	if($vars['user']->uid != 1){
+	 $url = array('checkout','cart','user');
+	
+	 if (!(in_array(arg(0), $url))){
+ 	    // Make sure there isn't a redirect loop.
+ 	    $redirect_base = variable_get('anonymous_redirect_base', '');
+ 	    if ($redirect_base == $base_url) {
+ 	      return;
+ 	    }
+
+ 	    // Redirect.
+ 	    drupal_goto($redirect_base, array('query' => drupal_get_query_parameters()), 307);
+	 }
+	   }
+	
+	
+    // global $base_url;
+// 
+//     // Only continue if the current request should be redirected.
+//     if (!variable_get('anonymous_redirect_enable', FALSE)
+//      || trim(variable_get('anonymous_redirect_base', '')) == ''
+//      || user_is_logged_in()
+//      || arg(0) == 'user'
+//      || drupal_is_cli()) {
+//       return;
+//     }
+// 
+
+	
+	
    if(arg(0) == 'cart'){
 	   $_SESSION['callback'] = $_GET['checkout'];
 	   fitmoo_checkout_check_stock();
