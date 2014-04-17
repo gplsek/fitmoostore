@@ -75,13 +75,13 @@ function fitmoo_preprocess_html(&$vars) {
  */
 function fitmoo_preprocess_page(&$vars) {
 	
-	if($vars['user']->uid != 1){
-	 $url = array('checkout','cart','user');
-	
-	 if (!(in_array(arg(0), $url))){
-		drupal_goto('http://uat.fitmoo.com');
-	 }
-   }
+	// if($vars['user']->uid != 1){
+	//  $url = array('checkout','cart','user');
+	// 
+	//  if (!(in_array(arg(0), $url))){
+	// 	drupal_goto('http://uat.fitmoo.com');
+	//  }
+	//    }
    if(arg(0) == 'cart'){
 	   $_SESSION['callback'] = $_GET['checkout'];
 	   fitmoo_checkout_check_stock();
