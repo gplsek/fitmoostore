@@ -324,7 +324,7 @@ function fitmoo_checkout_calc_comisions($params){
 	        ))
 	        ->execute(); 
 	
-	
+			return $buyer_com + $fitmoo_com;
 	
 }
 
@@ -356,7 +356,12 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
 	      );
 
       // Grant userpoints programmatically.
-      fitmoo_checkout_calc_comisions($params);
+      $fitmoo_fee = fitmoo_checkout_calc_comisions($params);
+	  
+	  $order->field_fitmoo_fee['und'][0]['value'] = $fitmoo_fee * 100;
+	  $order->field_new_total['und'][0]['value'] = $order->commerce_order_total['und'][0]['amount'] - ($fitmoo_fee * 100);
+	 
+	  commerce_order_save($order);
     }
   }
 }
