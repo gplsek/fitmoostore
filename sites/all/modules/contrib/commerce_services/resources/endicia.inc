@@ -91,9 +91,9 @@ function _endicia_print_label_data_validate($data) {
     global $user;
     //if ($data['order_id']) {}
     $order = _commerce_services_order_retrieve($data['order_id'], 1, false);
-    <!-- if ($order->uid != $user->uid) {
-        return services_error(t("User have no access to this order"));
-    } -->
+    //<!-- if ($order->uid != $user->uid) {
+        //return services_error(t("User have no access to this order"));
+    //} -->
     // WE MUST REFACTOR HERE AFTER ORDER CAN INCLUDE MORE 1 PRODUCT
     foreach ($order->commerce_line_items['und'] as $key=>$value) {
        $line_item =  commerce_services_retrieve_entity('commerce_line_item', $value['line_item_id'], 1, false);
