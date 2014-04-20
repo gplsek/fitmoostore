@@ -362,8 +362,6 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
 	  $order->field_new_total['und'][0]['value'] = $order->commerce_order_total['und'][0]['amount'] - ($fitmoo_fee * 100);
 	  $order->field_seller_email['und'][0]['value'] = $seller->mail;
 	  $order->field_seller['und'][0]['uid'] = $product->uid;
-	 
-	  commerce_order_save($order);
 	  //send email to seller
 	  $info = array();
 	  $info['orderID'] = $order->id;
@@ -371,6 +369,10 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
 	  $info['buyerEmail'] = $buyer->mail;
 	  $info['product'] = $product->title;
 	  fitmoo_checkout_email($uid,$info);
+	 
+	  commerce_order_save($order);
+	  
+	  
     }
   }
 }
@@ -628,9 +630,9 @@ function fitmoo_checkout_email($uid,$info){
   $send = TRUE;
   $to_user = user_load($uid);
   $from = 'store@fitmoo.com';
-  $to = $to_user->mail;
+  //$to = $to_user->mail;
  
-
+  $to = 'george@gtekg.com';
 
 
 
