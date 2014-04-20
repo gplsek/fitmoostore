@@ -368,7 +368,7 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
 	  $buyer = user_load($order->uid);
 	  $info['buyerEmail'] = $buyer->mail;
 	  $info['product'] = $product->title;
-	  fitmoo_checkout_email($uid,$info);
+	  fitmoo_checkout_email($product->uid,$info);
 	 
 	  commerce_order_save($order);
 	  
@@ -630,9 +630,9 @@ function fitmoo_checkout_email($uid,$info){
   $send = TRUE;
   $to_user = user_load($uid);
   $from = 'store@fitmoo.com';
-  //$to = $to_user->mail;
+  $to = $to_user->mail;
  
-  $to = 'george@gtekg.com';
+  //$to = 'george@gtekg.com';
 
 
 
