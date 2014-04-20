@@ -364,6 +364,13 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
 	  $order->field_seller['und'][0]['uid'] = $product->uid;
 	 
 	  commerce_order_save($order);
+	  //send email to seller
+	  $info = array();
+	  $info['orderID'] = $order->id;
+	  $buyer = user_load($order->uid);
+	  $info['buyerEmail'] = $buyer->mail;
+	  $info['product'] = $product->title;
+	  fitmoo_checkout_email($uid,$info);
     }
   }
 }
@@ -611,6 +618,48 @@ function fitmoo_checkout_sold_by(){
 	
    return;	
 }
+
+function fitmoo_checkout_email($uid,$info){
+
+  $module = 'fitmoo_checkout';
+  $key = 'fitmoo';
+  $language = language_default();
+  $params = array();
+  $send = TRUE;
+  $to_user = user_load($uid);
+  $from = 'store@fitmoo.com';
+  $to = $to_user->mail;
+ 
+
+
+
+
+  $message = drupal_mail($module, $key, $to, $language, $params, $from, FALSE);
+
+
+  $message['subject'] = "You have received order #".$info['orderID']." from ".$info['buyerEmail']." at Fitmoo.com";
+  
+
+  // set body (Required field in $email)
+  
+
+  
+  $body = "You have received an order for ".$info['product']." #".$info['orderID']." on fitmoo.com from ".$info['buyerEmail']."<br>";
+  $body .= "Login to your Fitmoo.com account go to dashboard, select the sales tab to view the order details";
+  
+  $message['body'] = array();
+  $message['body'][] = $body;
+    
+  // Retrieve the responsible implementation for this message.
+  $system = drupal_mail_system($module, $key);
+  // Format the message body.
+  $message = $system->format($message);
+  // Send e-mail.
+  $message['result'] = $system->mail($message);
+  return TRUE;
+}
+
+ 
 
 // /**
 //  * Implements hook_form_FORMID_alter() for `commerce_checkout_form_checkout`.
