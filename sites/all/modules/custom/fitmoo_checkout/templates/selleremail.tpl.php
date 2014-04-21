@@ -5,4 +5,4 @@ Order #: <?php print $orderID;?>
 Placed on: <?php print gmdate("Y-m-d\TH:i:s\Z", $orderDate);?> 
 
 
-<?php print views_embed_view('commerce_cart_summary','block_2', 65); ?>
+<?php print views_embed_view('commerce_cart_summary','block_2', $orderID); ?>
