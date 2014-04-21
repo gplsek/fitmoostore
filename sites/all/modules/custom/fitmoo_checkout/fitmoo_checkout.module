@@ -10,6 +10,12 @@ function fitmoo_checkout_menu() {
     'type' => MENU_CALLBACK,
   );
   
+  $items['fitmoo/email'] = array(
+    'page callback' => 'fitmoo_checkout_test_email',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+  );
+  
 //  $items['userlogin/%'] = array(
 //    'page callback' => 'fitmoo_checkout_userlogin',
 //    'page arguments' => array(1),
@@ -45,6 +51,15 @@ function fitmoo_checkout_menu() {
 
 
   return $items;
+}
+
+function fitmoo_checkout_theme() {
+  return array(
+    'selleremail' => array(
+      'template' => 'templates/selleremail',
+      'arguments' => array('data' => NULL),
+    ),
+ );
 }
 
 //function fitmoo_checkout_userlogin($sessionID){
@@ -646,8 +661,10 @@ function fitmoo_checkout_email($uid,$info){
   
 
   
-  $body = "You have received an order for ".$info['product']." #".$info['orderID']." on fitmoo.com from ".$info['buyerEmail']."<br>";
-  $body .= "Login to your Fitmoo.com account go to dashboard, select the sales tab to view the order details";
+  // $body = "You have received an order for ".$info['product']." #".$info['orderID']." on fitmoo.com from ".$info['buyerEmail']."<br>";
+//   $body .= "Login to your Fitmoo.com account go to dashboard, select the sales tab to view the order details";
+
+  $body = theme('selleremail',$info);
   
   $message['body'] = array();
   $message['body'][] = $body;
@@ -661,7 +678,14 @@ function fitmoo_checkout_email($uid,$info){
   return TRUE;
 }
 
- 
+function fitmoo_checkout_test_email(){
+	
+  $info = array();
+  $info['orderID'] = '84';
+  $info['buyerEmail'] = 'george@plsek.us';
+  $info['product'] = "test product";
+  fitmoo_checkout_email(1,$info);
+} 
 
 // /**
 //  * Implements hook_form_FORMID_alter() for `commerce_checkout_form_checkout`.
