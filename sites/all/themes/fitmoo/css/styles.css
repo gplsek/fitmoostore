@@ -780,18 +780,19 @@ div.addressfield-container-inline > div.form-item {
 #customer-profile-billing-ajax-wrapper {
   clear: left; }
 
-#customer-profile-billing-ajax-wrapper, #customer-profile-shipping-ajax-wrapper {
-  height: 695px; }
-
 #edit-buttons {
   width: 65%; }
 
 #edit-buttons, #customer-profile-shipping-ajax-wrapper, #customer-profile-billing-ajax-wrapper, #edit-commerce-payment {
   float: left;
-  width: 41.9%; }
+  width: 41.94%; }
 #edit-buttons legend, #customer-profile-shipping-ajax-wrapper legend, #customer-profile-billing-ajax-wrapper legend, #edit-commerce-payment legend {
   clear: both;
   float: left; }
+
+#commerce-checkout-form-checkout #edit-commerce-payment, #commerce-checkout-form-checkout #edit-buttons {
+  clear: right;
+  float: right; }
 
 .messages.warning, .messages.error {
   background-color: #fff;
@@ -807,7 +808,7 @@ div.addressfield-container-inline > div.form-item {
 #customer-profile-shipping-ajax-wrapper fieldset.form-wrapper.collapsed > legend {
   margin-bottom: 0; }
 
-#edit-commerce-payment, #customer-profile-billing-ajax-wrapper {
+#edit-commerce-payment.left-column, #customer-profile-billing-ajax-wrapper {
   border-right: 1px solid #cacaca; }
 
 .region-content .fieldset-wrapper {
