@@ -282,6 +282,19 @@ function add_shipping_line_item($order, $shipping_service_name, $skip_order_save
  */
 function add_manual_shipping_line_item($order, $data) {
     $product = commerce_services_retrieve_entity('commerce_product', $data['commerce_product'], false, false);
+
+    $shipping_types_array=array();
+
+    //====OR MAY BE STORE ARRAY IN SETVAR ?
+    $types = commerce_product_reference_node_types();
+    foreach ($types as $type => $info) {
+        $shipping_types_array[$info->type]=variable_get($info->type."_fee", "");
+    }
+    if ($shipping_types_array[$product->type] == 0) {
+        return false;
+    }
+
+
     $unit_price = array(
         "amount"=>100,
         "currency_code"=>"USD",
@@ -348,17 +361,6 @@ function add_manual_shipping_line_item($order, $data) {
 //    if (empty($order->shipping_rates) || empty($order->shipping_rates[$shipping_service_name])) {
 //        return;
 //    }
-
-
-
-    $shipping_types_array=array();
-
-    //====OR MAY BE STORE ARRAY IN SETVAR ?
-    $types = commerce_product_reference_node_types();
-    foreach ($types as $type => $info) {
-        $shipping_types_array[$info->type]=variable_get($info->type."_fee", "");
-    }
-
 
     $order->shipping_rates['example_shipping_service']->data['shipping_service']['base_rate']['amount'] = $shipping_types_array[$product->type]*100;
     $order->shipping_rates['example_shipping_service']->commerce_unit_price['und'][0]['amount'] = $shipping_types_array[$product->type]*100;
