@@ -356,7 +356,7 @@ class PHPMailer {
       $this->ContentType = $this->is_html = 'text/html';
     }
     else {
-      $this->ContentType = $this->is_html = 'text/plain';
+      $this->ContentType = $this->is_html = 'text/html';
     }
   }
 

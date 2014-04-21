@@ -644,7 +644,7 @@ function fitmoo_checkout_sold_by(){
 function fitmoo_checkout_email($uid,$info){
 
   $module = 'fitmoo_checkout';
-  $key = 'fitmoo';
+  $key = 'order';
   $language = language_default();
   $params = array();
   $send = TRUE;
