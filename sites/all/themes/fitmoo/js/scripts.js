@@ -50,6 +50,9 @@ var fitmoo = {
     //     $('#edit-commerce-payment').toggleClass('left-column');
     //   });
     // }
+    if($('#edit-customer-profile-billing').closest('#customer-profile-billing-ajax-wrapper').length < 1) {
+      $('#edit-customer-profile-billing').addClass('no-parent');
+    }
   },
 
   customSelects:function() {

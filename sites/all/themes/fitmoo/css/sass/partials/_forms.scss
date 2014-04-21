@@ -545,6 +545,7 @@ ol.inline.commerce-checkout-progress li {
 	background:url('../images/iconStep1.png') 0 0 no-repeat;	
 }
 
+#edit-customer-profile-billing.no-parent,
 #customer-profile-billing-ajax-wrapper,
 #customer-profile-shipping-ajax-wrapper,
 #edit-commerce-payment,
@@ -625,6 +626,7 @@ div.addressfield-container-inline > div.form-item {
 
 
 // temp to keep shape with collapsed form
+#edit-customer-profile-billing.no-parent,
 #customer-profile-billing-ajax-wrapper,
 #customer-profile-shipping-ajax-wrapper {
 	//height:695px;
@@ -639,6 +641,7 @@ div.addressfield-container-inline > div.form-item {
 #edit-buttons,
 // .customer_profile_billing,
 // .customer_profile_shipping,
+#edit-customer-profile-billing.no-parent,
 #customer-profile-shipping-ajax-wrapper,
 #customer-profile-billing-ajax-wrapper,
 #edit-commerce-payment {
@@ -690,6 +693,7 @@ div.addressfield-container-inline > div.form-item {
 }
 
 
+#edit-customer-profile-billing.no-parent,
 #edit-commerce-payment.left-column,
 #customer-profile-billing-ajax-wrapper {
 	border-right:1px solid #cacaca;
