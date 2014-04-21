@@ -383,6 +383,7 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
 	  $buyer = user_load($order->uid);
 	  $info['buyerEmail'] = $buyer->mail;
 	  $info['product'] = $product->title;
+	  $info['orderDate'] = $order->changed;
 	  fitmoo_checkout_email($product->uid,$info);
 	 
 	  commerce_order_save($order);
