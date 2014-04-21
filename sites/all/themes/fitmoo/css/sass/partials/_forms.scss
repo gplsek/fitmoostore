@@ -627,7 +627,7 @@ div.addressfield-container-inline > div.form-item {
 // temp to keep shape with collapsed form
 #customer-profile-billing-ajax-wrapper,
 #customer-profile-shipping-ajax-wrapper {
-	height:695px;
+	//height:695px;
 }
 
 
@@ -645,10 +645,20 @@ div.addressfield-container-inline > div.form-item {
 //	margin:0 auto;
 //	width:65%;
 	float:left;
-	width:41.9%;	
+//	width:40.9%;	
+	width:41.94%;
 	legend {
 		clear:both;
 		float:left;
+	}
+}
+
+#commerce-checkout-form-checkout {
+	#edit-commerce-payment,
+	#edit-buttons {
+		clear:right;
+		float:right;
+		//margin-right:2%;
 	}
 }
 
@@ -680,7 +690,7 @@ div.addressfield-container-inline > div.form-item {
 }
 
 
-#edit-commerce-payment,
+#edit-commerce-payment.left-column,
 #customer-profile-billing-ajax-wrapper {
 	border-right:1px solid #cacaca;
 }

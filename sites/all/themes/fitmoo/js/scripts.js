@@ -44,6 +44,12 @@ var fitmoo = {
   	if($('form').length) {
   		fitmoo.customSelects();
   	}
+
+    // if($('#commerce-checkout-form-checkout').length) {
+    //   $('.customer_profile_shipping.collapsible legend a').click(function() {
+    //     $('#edit-commerce-payment').toggleClass('left-column');
+    //   });
+    // }
   },
 
   customSelects:function() {
