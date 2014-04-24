@@ -1,0 +1,246 @@
+/*
+	/--- info ---/
+	
+		-> LOCAL css styles:
+				.img-box
+				.XYalign
+				.leftSide
+				.rightSide
+
+	by -/
+		/- TrueAlive
+*/
+
+@font-face {
+    font-family: 'bentonsansregular';
+    src: url('fonts/bentonsans-regular.eot');
+    src: url('fonts/bentonsans-regular.eot?#iefix') format('embedded-opentype'),
+         url('fonts/bentonsans-regular.woff') format('woff'),
+         url('fonts/bentonsans-regular.ttf') format('truetype'),
+         url('fonts/bentonsans-regular.svg#bentonsansregular') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'bentonsansblack';
+    src: url('fonts/bentonsans-black.eot');
+    src: url('fonts/bentonsans-black.eot?#iefix') format('embedded-opentype'),
+         url('fonts/bentonsans-black.woff') format('woff'),
+         url('fonts/bentonsans-black.ttf') format('truetype'),
+         url('fonts/bentonsans-black.svg#bentonsansblack') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'bentonsansbook';
+    src: url('fonts/bentonsans-book.eot');
+    src: url('fonts/bentonsans-book.eot?#iefix') format('embedded-opentype'),
+         url('fonts/bentonsans-book.woff') format('woff'),
+         url('fonts/bentonsans-book.ttf') format('truetype'),
+         url('fonts/bentonsans-book.svg#bentonsansbook') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+@font-face {
+    font-family: 'bentonsansmedium';
+    src: url('fonts/bentonsans-medium.eot');
+    src: url('fonts/bentonsans-medium.eot?#iefix') format('embedded-opentype'),
+         url('fonts/bentonsans-medium.woff') format('woff'),
+         url('fonts/bentonsans-medium.ttf') format('truetype'),
+         url('fonts/bentonsans-medium.svg#bentonsansmedium') format('svg');
+    font-weight: normal;
+    font-style: normal;
+}
+
+/*-------------------------------------*/
+
+
+::-webkit-input-placeholder {
+    color:    #999999;
+}
+:-moz-placeholder {
+    color:    #999999;
+}
+::-moz-placeholder {
+    color:    #999999;
+}
+:-ms-input-placeholder {
+    color:    #999999;
+}
+
+
+/*-------------------------------------*/
+fieldset {
+    border:0;
+}
+input,
+a,
+img{
+	outline:none;
+	border:none;
+}
+body{
+	font-size:12px;
+	color:#333333;
+}
+a {
+    color:#38a0dc;
+    text-decoration: none;
+
+}
+h1,h2,h3,h4,h5,
+p{
+	margin:0;
+	font-weight:normal;
+}
+h1 {
+   color: #333;
+   font-size: 21px;
+   text-decoration: none;
+   font-family: 'bentonsansmedium';
+   font-weight:bold;
+}
+
+.promo-desc {
+    font-size: 18px;
+    line-height: 30px;
+    font-family: 'bentonsansbook';
+    margin: 0px 3px 0 0;
+}
+
+:focus {
+	outline: none;
+}
+
+html,
+body{
+	height:100%;
+	margin:0;
+	padding:0;
+}
+.main-site_container{
+
+	min-width:1000px;
+}
+
+.section-wrapper{
+	width:1000px;
+	margin: 0 auto;
+    border-bottom: 2px solid #a9a9a9;
+    padding-top: 20px;
+    padding-bottom: 20px;
+}
+.clear-ul{
+	padding:0;
+	margin:0;
+	list-style:none;
+}
+.clearfix:before,
+.clearfix:after {
+    content: " ";
+    display: table;
+}
+.clearfix:after {
+    clear: both;
+}
+.clearfix {
+    *zoom: 1;
+}
+
+.content{
+    min-width: 1000px;
+}
+.store-text {
+    font-family: 'bentonsansregular';
+	font-size:12px;
+	line-height:18px;
+	padding: 3px 0 0 0;
+}
+
+.mailtext{
+	background:#FFF;
+}
+
+.views-formh2 {
+    margin-left: 174px;
+}
+.rcolumn {
+    float: right;
+    width: 50%;
+    text-align: right;
+}
+.lcolumn {
+    float: left;
+    width: 50%;
+}
+
+
+.views-formh2 a {
+    color: #333;
+    font-size: 18px;
+    line-height: 24px;
+    text-decoration: none;
+    font-family: 'bentonsansmedium';
+}
+
+.field-label {
+    color: #333;
+    font-size: 18px;
+    line-height: 24px;
+    text-decoration: none;
+    font-family: 'bentonsansregular';
+}
+
+.cart_contents_form .views-form {
+    display: table;
+    margin-bottom: 20px;
+    width: 96%;
+}
+.content-div {
+    font-size: 18px;
+    line-height: 30px;
+    font-family: 'bentonsansbook';
+    float: left;
+    width: 95%;
+}
+
+#commerce_product_product_node {
+    position: relative;
+    top: -36px;
+    width: 130px;
+    float: left;
+    border:0;
+}
+
+.bigPromo{
+	width:781px;
+	padding: 0 59px 0 0;
+	min-height:244px;
+	position:relative;
+	margin:28px 0 32px 0;
+	border-right:1px solid #dfdfdf;
+	float:left;
+}
+
+.bigPromo .img-box{
+	display:block;
+	position:absolute;
+	bottom:-36px;
+	left:90px;
+	text-decoration:none;
+}
+
+.rightPromo-box{
+	width:370px;
+	float:left;
+	padding:0 0 0 0;
+}
+
+.promo-link{
+    font-family: 'bentonsansmedium';
+	font-size:24px;
+	color:#333333;
+	text-decoration:none;
+
+
+}

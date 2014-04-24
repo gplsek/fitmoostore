@@ -672,6 +672,464 @@ function fitmoo_store_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'commerce_order-commerce_order-commerce_customer_billing'
+  $field_instances['commerce_order-commerce_order-commerce_customer_billing'] = array(
+    'bundle' => 'commerce_order',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'administrator' => array(
+        'label' => 'above',
+        'module' => 'commerce_customer',
+        'settings' => array(),
+        'type' => 'commerce_customer_profile_reference_display',
+        'weight' => -5,
+      ),
+      'customer' => array(
+        'label' => 'above',
+        'module' => 'commerce_customer',
+        'settings' => array(),
+        'type' => 'commerce_customer_profile_reference_display',
+        'weight' => -5,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'commerce_customer',
+        'settings' => array(),
+        'type' => 'commerce_customer_profile_reference_display',
+        'weight' => -5,
+      ),
+    ),
+    'entity_type' => 'commerce_order',
+    'field_name' => 'commerce_customer_billing',
+    'label' => 'Billing information',
+    'required' => FALSE,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'commerce_customer',
+      'settings' => array(),
+      'type' => 'commerce_customer_profile_manager',
+      'weight' => -5,
+    ),
+  );
+
+  // Exported field_instance: 'commerce_order-commerce_order-commerce_customer_shipping'
+  $field_instances['commerce_order-commerce_order-commerce_customer_shipping'] = array(
+    'bundle' => 'commerce_order',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'administrator' => array(
+        'label' => 'above',
+        'module' => 'commerce_customer',
+        'settings' => array(),
+        'type' => 'commerce_customer_profile_reference_display',
+        'weight' => -5,
+      ),
+      'customer' => array(
+        'label' => 'above',
+        'module' => 'commerce_customer',
+        'settings' => array(),
+        'type' => 'commerce_customer_profile_reference_display',
+        'weight' => -5,
+      ),
+      'default' => array(
+        'label' => 'above',
+        'module' => 'commerce_customer',
+        'settings' => array(),
+        'type' => 'commerce_customer_profile_reference_display',
+        'weight' => -5,
+      ),
+    ),
+    'entity_type' => 'commerce_order',
+    'field_name' => 'commerce_customer_shipping',
+    'label' => 'Shipping information',
+    'required' => FALSE,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'commerce_customer',
+      'settings' => array(),
+      'type' => 'commerce_customer_profile_manager',
+      'weight' => -5,
+    ),
+  );
+
+  // Exported field_instance: 'commerce_order-commerce_order-commerce_discounts'
+  $field_instances['commerce_order-commerce_order-commerce_discounts'] = array(
+    'bundle' => 'commerce_order',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'entityreference',
+        'settings' => array(
+          'link' => FALSE,
+        ),
+        'type' => 'entityreference_label',
+        'weight' => -4,
+      ),
+    ),
+    'entity_type' => 'commerce_order',
+    'field_name' => 'commerce_discounts',
+    'label' => 'Discount reference',
+    'required' => FALSE,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'entityreference',
+      'settings' => array(
+        'match_operator' => 'CONTAINS',
+        'path' => '',
+        'size' => 60,
+      ),
+      'type' => 'entityreference_autocomplete',
+      'weight' => -4,
+    ),
+  );
+
+  // Exported field_instance: 'commerce_order-commerce_order-commerce_line_items'
+  $field_instances['commerce_order-commerce_order-commerce_line_items'] = array(
+    'bundle' => 'commerce_order',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'administrator' => array(
+        'label' => 'hidden',
+        'module' => 'commerce_line_item',
+        'settings' => array(
+          'view' => 'commerce_line_item_table|default',
+        ),
+        'type' => 'commerce_line_item_reference_view',
+        'weight' => -10,
+      ),
+      'customer' => array(
+        'label' => 'hidden',
+        'module' => 'commerce_line_item',
+        'settings' => array(
+          'view' => 'commerce_line_item_table|default',
+        ),
+        'type' => 'commerce_line_item_reference_view',
+        'weight' => -10,
+      ),
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'commerce_line_item',
+        'settings' => array(
+          'view' => 'commerce_line_item_table|default',
+        ),
+        'type' => 'commerce_line_item_reference_view',
+        'weight' => -10,
+      ),
+    ),
+    'entity_type' => 'commerce_order',
+    'field_name' => 'commerce_line_items',
+    'label' => 'Line items',
+    'required' => FALSE,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'commerce_line_item',
+      'settings' => array(),
+      'type' => 'commerce_line_item_manager',
+      'weight' => -10,
+    ),
+  );
+
+  // Exported field_instance: 'commerce_order-commerce_order-commerce_order_total'
+  $field_instances['commerce_order-commerce_order-commerce_order_total'] = array(
+    'bundle' => 'commerce_order',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'administrator' => array(
+        'label' => 'hidden',
+        'module' => 'commerce_price',
+        'settings' => array(
+          'calculation' => FALSE,
+        ),
+        'type' => 'commerce_price_formatted_components',
+        'weight' => -8,
+      ),
+      'customer' => array(
+        'label' => 'hidden',
+        'module' => 'commerce_price',
+        'settings' => array(
+          'calculation' => FALSE,
+        ),
+        'type' => 'commerce_price_formatted_components',
+        'weight' => -8,
+      ),
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'commerce_price',
+        'settings' => array(
+          'calculation' => FALSE,
+        ),
+        'type' => 'commerce_price_formatted_components',
+        'weight' => -8,
+      ),
+      'node_teaser' => array(
+        'label' => 'hidden',
+        'module' => 'commerce_price',
+        'settings' => array(
+          'calculation' => FALSE,
+        ),
+        'type' => 'commerce_price_formatted_components',
+        'weight' => -8,
+      ),
+    ),
+    'entity_type' => 'commerce_order',
+    'field_name' => 'commerce_order_total',
+    'label' => 'Order total',
+    'required' => TRUE,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'module' => 'commerce_price',
+      'settings' => array(
+        'currency_code' => 'default',
+      ),
+      'type' => 'commerce_price_full',
+      'weight' => -8,
+    ),
+  );
+
+  // Exported field_instance: 'commerce_order-commerce_order-field_commerce_sp_paypal'
+  $field_instances['commerce_order-commerce_order-field_commerce_sp_paypal'] = array(
+    'bundle' => 'commerce_order',
+    'default_value' => array(
+      0 => array(
+        'value' => 0,
+      ),
+    ),
+    'deleted' => 0,
+    'description' => 'Internal setting',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 7,
+      ),
+      'pdf' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+    ),
+    'entity_type' => 'commerce_order',
+    'field_name' => 'field_commerce_sp_paypal',
+    'label' => 'PayPal recurring billing',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'options',
+      'settings' => array(
+        'display_label' => 1,
+      ),
+      'type' => 'options_onoff',
+      'weight' => 6,
+    ),
+  );
+
+  // Exported field_instance: 'commerce_order-commerce_order-field_fitmoo_fee'
+  $field_instances['commerce_order-commerce_order-field_fitmoo_fee'] = array(
+    'bundle' => 'commerce_order',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 2,
+          'thousand_separator' => ' ',
+        ),
+        'type' => 'number_decimal',
+        'weight' => 8,
+      ),
+    ),
+    'entity_type' => 'commerce_order',
+    'field_name' => 'field_fitmoo_fee',
+    'label' => 'Fitmoo Fee',
+    'required' => 0,
+    'settings' => array(
+      'max' => '',
+      'min' => '',
+      'prefix' => '',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 7,
+    ),
+  );
+
+  // Exported field_instance: 'commerce_order-commerce_order-field_new_total'
+  $field_instances['commerce_order-commerce_order-field_new_total'] = array(
+    'bundle' => 'commerce_order',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 2,
+          'thousand_separator' => ' ',
+        ),
+        'type' => 'number_decimal',
+        'weight' => 9,
+      ),
+    ),
+    'entity_type' => 'commerce_order',
+    'field_name' => 'field_new_total',
+    'label' => 'New Total',
+    'required' => 0,
+    'settings' => array(
+      'max' => '',
+      'min' => '',
+      'prefix' => '',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 8,
+    ),
+  );
+
+  // Exported field_instance: 'commerce_order-commerce_order-field_shipping_label'
+  $field_instances['commerce_order-commerce_order-field_shipping_label'] = array(
+    'bundle' => 'commerce_order',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'file',
+        'settings' => array(),
+        'type' => 'file_default',
+        'weight' => 12,
+      ),
+    ),
+    'entity_type' => 'commerce_order',
+    'field_name' => 'field_shipping_label',
+    'label' => 'shipping label',
+    'required' => 0,
+    'settings' => array(
+      'description_field' => 0,
+      'file_directory' => 'labels',
+      'file_extensions' => 'jpg jpeg pdf gif png',
+      'max_filesize' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'file',
+      'settings' => array(
+        'progress_indicator' => 'throbber',
+      ),
+      'type' => 'file_generic',
+      'weight' => 11,
+    ),
+  );
+
+  // Exported field_instance: 'commerce_order-commerce_order-field_shipping_label_url'
+  $field_instances['commerce_order-commerce_order-field_shipping_label_url'] = array(
+    'bundle' => 'commerce_order',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 11,
+      ),
+    ),
+    'entity_type' => 'commerce_order',
+    'field_name' => 'field_shipping_label_url',
+    'label' => 'shipping label url',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 10,
+    ),
+  );
+
+  // Exported field_instance: 'commerce_order-commerce_order-field_tracking'
+  $field_instances['commerce_order-commerce_order-field_tracking'] = array(
+    'bundle' => 'commerce_order',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 10,
+      ),
+    ),
+    'entity_type' => 'commerce_order',
+    'field_name' => 'field_tracking',
+    'label' => 'tracking',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 9,
+    ),
+  );
+
   // Exported field_instance: 'commerce_product-clothing-commerce_price'
   $field_instances['commerce_product-clothing-commerce_price'] = array(
     'bundle' => 'clothing',
@@ -4469,24 +4927,32 @@ function fitmoo_store_field_default_field_instances() {
   // Translatables
   // Included for use with string extractors like potx.
   t('Address');
+  t('Billing information');
   t('Body');
   t('Brand');
   t('Date');
   t('Description');
+  t('Discount reference');
   t('Enter a comma-separated list of words to describe your content.');
   t('Expire Month After Purcahse');
+  t('Fitmoo Fee');
   t('Gender');
   t('If set PayPal will handle the recurring billing. The subscription runs as long as it gets cancelled via PayPal.');
   t('Image');
+  t('Internal setting');
+  t('Line items');
   t('Location');
   t('Membership');
+  t('New Total');
   t('Number of billing periods for the subscription. Enter 2 or more. Leave blank for indefinite subscription that will only expire once cancelled.');
+  t('Order total');
   t('PayPal billing periods');
   t('PayPal recurring billing');
   t('Price');
   t('Product');
   t('Product variations');
   t('Service Type');
+  t('Shipping information');
   t('Size');
   t('Stock');
   t('Subscription time');
@@ -4497,6 +4963,9 @@ function fitmoo_store_field_default_field_instances() {
   t('fitmooID');
   t('image');
   t('image_url');
+  t('shipping label');
+  t('shipping label url');
+  t('tracking');
   t('weight');
 
   return $field_instances;

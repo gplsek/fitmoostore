@@ -348,6 +348,7 @@ function fitmoo_checkout_calc_comisions($params){
  */                                                                             
 function fitmoo_checkout_commerce_checkout_complete($order) {
   // Iterate through every commerce line item added in product.
+  $info = array();
   foreach (field_get_items('commerce_order', $order, 'commerce_line_items') as $line_item_id) {
 
     // Load commerce line item by line item id.
@@ -378,19 +379,34 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
 	  $order->field_seller_email['und'][0]['value'] = $seller->mail;
 	  $order->field_seller['und'][0]['uid'] = $product->uid;
 	  //send email to seller
-	  $info = array();
-	  $info['orderID'] = $order->id;
+	  $total =  commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount']);
+      $info['qty'] = $line_item->quantity;
+      $info['uri'] = $product->field_image['und'][0]['uri'];
+	  $term = taxonomy_term_load($product->field_size['und'][0]['tid']);
+	  $info['size'] = $term->name;
+      
+	  $info['orderID'] = $order->order_id;
 	  $buyer = user_load($order->uid);
 	  $info['buyerEmail'] = $buyer->mail;
 	  $info['product'] = $product->title;
 	  $info['orderDate'] = $order->changed;
-	  fitmoo_checkout_email($product->uid,$info);
-	 
-	  commerce_order_save($order);
+	  $info['total'] = $total;
+  }else if($line_item->type == 'shipping'){
+	  $info['shipping'] = commerce_currency_amount_to_decimal($line_item->commerce_unit_price['und'][0]['amount']);
 	  
-	  
-    }
   }
+  
+  }
+  $info['ordertotal'] = commerce_currency_amount_to_decimal($order->commerce_order_total['und'][0]['amount']);
+  
+  $shipping = commerce_customer_profile_load($order->commerce_customer_shipping['und'][0]['profile_id']);
+  
+  
+  
+  
+  fitmoo_checkout_email($product->uid,$info);
+ 
+  commerce_order_save($order);
 }
 
 function fitmoo_checkout_commerce_cart_product_prepare($order, $product, $quantity) {
@@ -673,7 +689,8 @@ function fitmoo_checkout_email($uid,$info){
   
   // $body = "You have received an order for ".$info['product']." #".$info['orderID']." on fitmoo.com from ".$info['buyerEmail']."<br>";
 //   $body .= "Login to your Fitmoo.com account go to dashboard, select the sales tab to view the order details";
-
+  //print theme('selleremail',$info);
+  //return;
   $body = theme('selleremail',$info);
   
   $message['body'] = array();
@@ -689,84 +706,47 @@ function fitmoo_checkout_email($uid,$info){
 }
 
 function fitmoo_checkout_test_email(){
-	
-  $info = array();
-  $info['orderID'] = '84';
-  $info['buyerEmail'] = 'george@plsek.us';
-  $info['product'] = "test product";
-  fitmoo_checkout_email(1,$info);
-} 
+$order = commerce_order_load(72);
 
-// /**
-//  * Implements hook_form_FORMID_alter() for `commerce_checkout_form_checkout`.
-//  */
-// function fitmoo_checkout_form_commerce_checkout_form_checkout_alter(&$form, &$form_state) {
-// 
-//   // Get the addressfield element we're modifying.
-//   // Adapted from addressfield.module/addressfield_field_widget_form()
-//   $element =& $form['customer_profile_shipping']['commerce_customer_address'][LANGUAGE_NONE][0];
-//   $element_key = $element['element_key']['#value'];
-//   $field = $form_state['field']['#parents']['customer_profile_shipping']['#fields']['commerce_customer_address'][LANGUAGE_NONE]['field'];
-//   $instance = $form_state['field']['#parents']['customer_profile_shipping']['#fields']['commerce_customer_address'][LANGUAGE_NONE]['instance'];
-//   $delta = $element['#delta'];
-//   $settings = $instance['widget']['settings'];
-//   $langcode = $element['#language'];
-//   $items = array($delta => $element['#address']);
-// 
-//   // Get the default address used to build the widget form elements, looking
-//   // first in the form state, then in the stored value for the field, and then
-//   // in the default values of the instance.
-//   $address = array();
-// 
-//   if (!empty($form_state['addressfield'][$element_key])) {
-//     // Use the value from the form_state if available.
-//     $address = $form_state['addressfield'][$element_key];
-//   }
-//   elseif (!empty($items[$delta]['country'])) {
-//     // Else use the saved value for the field.
-//     $address = $items[$delta];
-//   }
-//   else {
-//     // Otherwise use the instance default.
-//     $address = (array) $instance['default_value'][0];
-//   }
-// 
-//   // Set the default country here, based on the available values
-//   // provided by the addressfield module.
-//   // THAT'S THE PAYLOAD!
-//   
-//   if ($address['country'] != 'US') {
-//     $address['country'] = 'US';
-//     $address['administrative_area'] = '';
-//   }
-// 
-//   // After setting the value above, merge the default values
-//   // to provide a value for every expected array key.
-//   print_r($field);die();
-//   $countries = _addressfield_country_options_list($field, $instance);
-//   print_r($countries);
-//   $address += addressfield_default_values($countries);
-//   print $address['country'];die();
-// 
-// 
-//   // Add the form elements for the standard widget, which includes a country
-//   // select list at the top that reloads the available address elements when the
-//   // country is changed.
-//   if ($instance['widget']['type'] == 'addressfield_standard') {
-//     // Generate the address form.
-//     $context = array(
-//       'mode' => 'form',
-//       'field' => $field,
-//       'instance' => $instance,
-//       'langcode' => $langcode,
-//       'delta' => $delta,
-//     );
-//     $element = array_merge($element, addressfield_generate($address, $settings['format_handlers'], $context));
-// 
-//     // Mark the form element as required if necessary.
-//     $element['#required'] = $delta == 0 && $instance['required'];
-//   }
-// }
-// 
-// 
+fitmoo_checkout_commerce_checkout_complete($order);
+	
+	reurn;
+$info = array();	
+foreach (field_get_items('commerce_order', $order, 'commerce_line_items') as $line_item_id) {	
+	
+    // Load commerce line item by line item id.
+    $line_item = commerce_line_item_load($line_item_id['line_item_id']);
+
+    // We do not want to include shipping cost in userpoints.
+    if ($line_item->type != 'shipping') {
+      // Load commerce product by product id.
+	  
+      $temp = field_get_items('commerce_line_item', $line_item, 'commerce_product');
+	  
+      $product = commerce_product_load($temp[0]['product_id']);
+	  
+	  
+	  
+	  $total =  commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount']);
+      $info['qty'] = $line_item->quantity;
+      $info['uri'] = $product->field_image['und'][0]['uri'];
+	  $term = taxonomy_term_load($product->field_size['und'][0]['tid']);
+	  $info['size'] = $term->name;
+      
+	  $info['orderID'] = $order->id;
+	  $buyer = user_load($order->uid);
+	  $info['buyerEmail'] = $buyer->mail;
+	  $info['product'] = $product->title;
+	  $info['orderDate'] = $order->changed;
+	  $info['total'] = $total;
+  }else if($line_item->type == 'shipping'){
+	  $info['shipping'] = commerce_currency_amount_to_decimal($line_item->commerce_unit_price['und'][0]['amount']);
+	  
+  }
+ } 
+  $info['ordertotal'] = commerce_currency_amount_to_decimal($order->commerce_order_total['und'][0]['amount']);
+  //print theme('selleremail',$info);
+  return;
+  //fitmoo_checkout_email(1,$info);
+} 
 
