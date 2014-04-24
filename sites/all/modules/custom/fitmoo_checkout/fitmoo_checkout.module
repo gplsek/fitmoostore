@@ -724,13 +724,21 @@ foreach (field_get_items('commerce_order', $order, 'commerce_line_items') as $li
 	  
       $product = commerce_product_load($temp[0]['product_id']);
 	  
-	  print_r($product);die();
+	  
 	  
 	  $total =  commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount'],'USD');
       $info['qty'] = $line_item->quantity;
       $info['uri'] = $product->field_image['und'][0]['uri'];
-	  $term = taxonomy_term_load($product->field_size['und'][0]['tid']);
-	  $info['size'] = $term->name;
+	  $info['size'] = 'na';
+	  if($product->type == 'product'){
+	  	
+		$term = taxonomy_term_load($product->field_product_size['und'][0]['tid']);
+		$info['size'] = $term->name;
+	  }else{
+	    $term = taxonomy_term_load($product->field_size['und'][0]['tid']);
+		$info['size'] = $term->name;
+      }
+	  
       
 	  $info['orderID'] = $order->order_id;
 	  $buyer = user_load($order->uid);
