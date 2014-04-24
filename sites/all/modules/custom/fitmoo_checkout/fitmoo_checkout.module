@@ -708,9 +708,8 @@ function fitmoo_checkout_email($uid,$info){
 function fitmoo_checkout_test_email(){
 $order = commerce_order_load(72);
 
-fitmoo_checkout_commerce_checkout_complete($order);
-	
-	reurn;
+
+
 $info = array();	
 foreach (field_get_items('commerce_order', $order, 'commerce_line_items') as $line_item_id) {	
 	
@@ -746,8 +745,9 @@ foreach (field_get_items('commerce_order', $order, 'commerce_line_items') as $li
  } 
   $info['ordertotal'] = commerce_currency_amount_to_decimal($order->commerce_order_total['und'][0]['amount']);
   //print theme('selleremail',$info);
+  
+  fitmoo_checkout_email(1,$info);
   return;
-  //fitmoo_checkout_email(1,$info);
 } 
 
 
@@ -775,6 +775,7 @@ function download_external_file($url, $uri, $save_mode = FILE_EXISTS_RENAME, $ma
   $directory = file_stream_wrapper_uri_normalize($uri_scheme . "://" . $uri_path_info['dirname']);
  
   if(file_prepare_directory($directory, FILE_CREATE_DIRECTORY)) {
+	  print $url;
     $drupal_result = drupal_http_request($url);
     if(!empty($drupal_result->data)) {
       $path = file_stream_wrapper_uri_normalize($uri);
@@ -784,6 +785,7 @@ function download_external_file($url, $uri, $save_mode = FILE_EXISTS_RENAME, $ma
         return file_unmanaged_save_data($drupal_result->data, $path, $save_mode);
       }
     } else {
+		print "HERE";
       drupal_set_message("Error downloading file, no data recieved for " . $url);
       return FALSE;
     }
