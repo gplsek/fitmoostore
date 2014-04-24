@@ -706,7 +706,7 @@ function fitmoo_checkout_email($uid,$info){
 }
 
 function fitmoo_checkout_test_email(){
-$order = commerce_order_load(72);
+$order = commerce_order_load(65);
 
 
 
