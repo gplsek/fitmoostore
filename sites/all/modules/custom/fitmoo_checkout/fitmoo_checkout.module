@@ -726,7 +726,7 @@ foreach (field_get_items('commerce_order', $order, 'commerce_line_items') as $li
 	  
 	  
 	  
-	  $total =  commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount']);
+	  $total =  commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount'],'USD');
       $info['qty'] = $line_item->quantity;
       $info['uri'] = $product->field_image['und'][0]['uri'];
 	  $term = taxonomy_term_load($product->field_size['und'][0]['tid']);
@@ -739,11 +739,11 @@ foreach (field_get_items('commerce_order', $order, 'commerce_line_items') as $li
 	  $info['orderDate'] = $order->changed;
 	  $info['total'] = $total;
   }else if($line_item->type == 'shipping'){
-	  $info['shipping'] = commerce_currency_amount_to_decimal($line_item->commerce_unit_price['und'][0]['amount']);
+	  $info['shipping'] = commerce_currency_amount_to_decimal($line_item->commerce_unit_price['und'][0]['amount'],'USD');
 	  
   }
  } 
-  $info['ordertotal'] = commerce_currency_amount_to_decimal($order->commerce_order_total['und'][0]['amount']);
+  $info['ordertotal'] = commerce_currency_amount_to_decimal($order->commerce_order_total['und'][0]['amount'],'USD');
   //print theme('selleremail',$info);
   
   fitmoo_checkout_email(1,$info);
