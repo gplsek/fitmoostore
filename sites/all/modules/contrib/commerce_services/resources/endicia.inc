@@ -20,15 +20,15 @@ function commerce_services_endicia_index($fields) {
     if (!empty($_SESSION['endicia']) and !empty($uid)) {
        module_load_include('module', 'endicia',drupal_get_path('module', 'endicia'));
        module_load_include('module', 'endicia_ui',drupal_get_path('module', 'endicia_ui'));
-        $result = _endicia_ui_print_label_confirm_form($_SESSION['endicia']);
-        if ($result) {
+       $result = _endicia_ui_print_label_confirm_form($_SESSION['endicia']);
+       if ($result) {
             $result['values']['mail_class'] = $_REQUEST['mail_class'];
             $result['values']['submit'] = 'Confirm shipment';
             $result['values']['op'] = 'Confirm shipment';
             return _endicia_ui_print_label_confirm_form_submit($result);
-        } else {
+       } else {
             return services_error(t('Some error'));
-        }
+       }
 
     }
 
@@ -143,6 +143,17 @@ function _endicia_print_label_data_validate($data) {
         }
     }
 
+    if (!empty($data["delivery_address"]['full_name'])) {
+        $name_array = _split_name($data["delivery_address"]['full_name']);
+        unset($data["delivery_address"]['full_name']);
+        if (!empty($name_array['first_name'])) {
+            $data["delivery_address"]['first_name'] = $name_array['first_name'];
+        }
+        if (!empty($name_array['last_name'])) {
+            $data["delivery_address"]['last_name'] = $name_array['last_name'];
+        }
+    }
+
     if ($data['package_info']['weight'] == 0) {
         return services_error(t("The package's entered weight must not be 0"));
     }
@@ -159,6 +170,7 @@ function _endicia_print_label_data_validate($data) {
     $_SESSION['endicia']['package'] += $data['package_info'];
     $_SESSION['endicia']['package'] += $data['ship_options'];
     $_SESSION['endicia']['package'] += $data['customs_info'];
+    $_SESSION['endicia']['order_id'] = $data['order_id'];
 
     foreach (array('pickup', 'delivery') as $type) {
         foreach ($data[$type . '_address'] as $key => $value) {
@@ -259,6 +271,20 @@ function _endicia_print_label_data_validate($data) {
     if (_endicia_in_test_mode()) {
         drupal_set_message(t('Reminder: Endicia is operating in test mode. Your account balance will not be deducted.'), 'warning');
     }
+}
+
+function _split_name($name) {
+    $name_array = explode(' ',$name);
+    $result = array();
+    if (count($name_array) == 1) {
+        $result['first_name'] = '';
+        $result['last_name'] = '';
+    } else {
+        $result['first_name'] = $name_array[0];
+        unset($name_array[0]);
+        $result['last_name'] = implode(' ', $name_array);
+    }
+    return $result;
 }
 
 function _commerce_services_order_retrieve($order_id, $expand_entities, $flatten_fields) {
@@ -421,8 +447,7 @@ function _endicia_ui_print_label_confirm_form_submit($form_state) {
         }
         if (count($customs_items)) {
             if ($form_type == 'Form2976' && count($customs_items) > 5) {
-                drupal_set_message(t('Only 5 item descriptors are supported on the USPS Form 2976 due to 4x6 label size constraints.'), 'error');
-                return FALSE;
+                return services_error(t('Only 5 item descriptors are supported on the USPS Form 2976 due to 4x6 label size constraints.'));
             }
             $data += array(
                 'LabelType' => $label_type,
@@ -453,7 +478,7 @@ function _endicia_ui_print_label_confirm_form_submit($form_state) {
     // Check for failures
     if ($response === FALSE) {
         // watchdog already notified.
-        _endicia_communication_error_redirect('admin/endicia/label/print/confirm');
+        return services_error(t('Error response from endicia'));
     }
     // Check for errors
     if ($error = endicia_api_request_error_check($response, $response_node)) {
@@ -462,8 +487,7 @@ function _endicia_ui_print_label_confirm_form_submit($form_state) {
             '@errornum' => $error['status'],
             '%errormsg' => $error['message'],
         );
-        drupal_set_message(t($message, $variables), 'error');
-        drupal_goto('admin/endicia/label/print/confirm');
+        return services_error(t($error['status'].' '. $error['message']));
     }
 
     // If this node is here, only one label was returned
@@ -512,10 +536,16 @@ function _endicia_ui_print_label_confirm_form_submit($form_state) {
     $timestamp = gmmktime($ship_date['hour'], $ship_date['min'], $ship_date['sec'], $ship_date['month'], $ship_date['day'], $ship_date['year']);
     */
 
+    $order = _commerce_services_order_retrieve($_SESSION['endicia']['order_id'], 1, false);
+
     unset($_SESSION['endicia']);
     // FIXME: What about multiple labels returned?
     $form_state['label_url'] = 'endicia/print/endicia_labels/' . $filename;
-    return array('track_number' => $tracking_num, 'url' => 'http://'.$_SERVER['HTTP_HOST'].'/'.$form_state['label_url']);
+    $order->field_tracking['und'][0]['value'] = $tracking_num;
+    $order->status = 'Shipping: shipped';
+    $order->field_shipping_label_url['und'][0]['value'] = 'http://'.$_SERVER['HTTP_HOST'].'/'.$form_state['label_url'];
+    commerce_order_save($order);
+    return array('track_number' => $tracking_num, 'url' => $order->field_shipping_label_url['und'][0]['value']);
 }
 
 

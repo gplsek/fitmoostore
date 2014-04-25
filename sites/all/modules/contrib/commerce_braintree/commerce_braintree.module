@@ -135,6 +135,15 @@ function commerce_braintree_tr_settings_form($settings = array()) {
       '#default_value' => $settings['cardonfile'],
     );
   }
+  $form['commerce_braintree_settle'] = array(
+     '#type' => 'select',
+     '#title' => t('Submit for Settlement'),
+     '#options' => array(
+       'settle_now' => t('Automatically submit a transaction for settlement'),
+       'settle_later' => t('Do not automatically submit a transaction for settlement'),
+     ),
+     '#default_value' => isset($settings['commerce_braintree_settle']) ? $settings['commerce_braintree_settle'] : NULL,
+   );
 
   return $form;
 }
@@ -180,7 +189,8 @@ function commerce_braintree_tr_redirect_form($form, &$form_state, $order, $payme
         ),
         'options' => array(
           'storeInVault' => TRUE,
-          'submitForSettlement' => TRUE,
+          // 'submitForSettlement' => TRUE,
+		  'submitForSettlement' => $payment_method['settings']['commerce_braintree_settle'] == 'settle_now' ? TRUE : FALSE,
         ),
       ),
       'redirectUrl' => url('checkout/' . $order->order_id . '/payment/return/' . $order->data['payment_redirect_key'], array('absolute' => TRUE)),

@@ -203,6 +203,38 @@ function commerce_services_services_resources() {
                     ),
                 ),
             ),
+
+            'update' => array(
+                'help' => 'Updates a single address.',
+                'callback' => 'commerce_services_address_update',
+                'file' => array('type' => 'inc', 'module' => 'commerce_services', 'name' => 'resources/address'),
+                'access callback' => 'commerce_services_address_update_access',
+                'access arguments append' => TRUE,
+                'args' => array(
+                    array(
+                        'name' => 'address_id',
+                        'type' => 'int',
+                        'description' => 'The address ID of the address to delete.',
+                        'optional' => FALSE,
+                        'source' => array('path' => 0),
+                    ),
+                    array(
+                        'name' => 'data',
+                        'type' => 'array',
+                        'description' => 'The address data to update.',
+                        'optional' => FALSE,
+                        'source' => 'data',
+                    ),
+                    array(
+                        'name' => 'flatten_fields',
+                        'type' => 'string',
+                        'description' => 'A string indicating whether or not field value arrays are flattened; accepts true or false.',
+                        'optional' => TRUE,
+                        'source' => array('param' => 'flatten_fields'),
+                        'default value' => 'true',
+                    ),
+                ),
+            ),
         ),
     );
 
