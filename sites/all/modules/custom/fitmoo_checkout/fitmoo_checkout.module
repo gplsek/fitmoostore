@@ -59,6 +59,14 @@ function fitmoo_checkout_theme() {
       'template' => 'templates/selleremail',
       'arguments' => array('data' => NULL),
     ),
+    'labelseller' => array(
+      'template' => 'templates/labelseller',
+      'arguments' => array('data' => NULL),
+    ),
+    'labelbuyer' => array(
+      'template' => 'templates/labelbuyer',
+      'arguments' => array('data' => NULL),
+    ),
  );
 }
 
@@ -828,10 +836,9 @@ function fitmoo_checkout_LabelEmail($seller_uid,$buyer_uid,$info,$info_buyer){
     $params['headers'] = $headers;
     $message = drupal_mail($module, $key, $to, $language, $params, $from, FALSE);
 
-
     $message['subject'] = "Your item has shipped Order #".$info_buyer['OrderId']." from ".$info_buyer['BuyerEmail']." at Fitmoo.com";
 
-    $body = theme('labelseller',$info_buyer);
+    $body = theme('labelbuyer',$info_buyer);
 
     $message['body'] = array();
     $message['body'][] = $body;
