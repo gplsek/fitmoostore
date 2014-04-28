@@ -474,7 +474,7 @@ function fitmoo_checkout_endiciaSendLabelTOSellerAndBuyer($order) {
             $info['qty'] = $line_item->quantity;
             $info['uri'] = $product->field_image['und'][0]['uri'];
             $info['ProductName'] = $product->title;
-            $info['LabelLink'] = $order->field_shipping_label_url;
+            $info['LabelLink'] = $order->field_shipping_label_url['und'][0]['value'];
             $term = taxonomy_term_load($product->field_size['und'][0]['tid']);
             $info['size'] = $term->name;
 
@@ -487,7 +487,9 @@ function fitmoo_checkout_endiciaSendLabelTOSellerAndBuyer($order) {
             $info_buyer['qty'] = $line_item->quantity;
             $info_buyer['uri'] = $product->field_image['und'][0]['uri'];
             $info_buyer['ProductName'] = $product->title;
-            $info_buyer['LabelLink'] = $product->title;
+            $info_buyer['TrackingNum'] = $order->field_tracking['und'][0]['value'];
+            $info_buyer['ShippingStatus'] = 'ORDER Status in progress';
+
             $info_buyer['OrderId'] = $order->order_id;
             $info_buyer['BuyerEmail'] = $buyer->mail;
             $info_buyer['total'] = $total;

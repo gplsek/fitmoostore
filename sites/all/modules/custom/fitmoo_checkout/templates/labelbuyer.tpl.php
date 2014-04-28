@@ -88,7 +88,7 @@ $redirect_base = variable_get('anonymous_redirect_base', '');
 
         <section>
             <div style="width:1000px; margin: 0 auto; border-bottom: 2px solid #a9a9a9; padding-top: 20px; padding-bottom: 20px;">
-                <p style="font-size: 18px; line-height: 30px; font-family: 'bentonsansbook'; width: 95%;">Thank you for shopping us. We'd like to let you know that your item is on the way. If you need to return an item from this shipment or manage other orders, please visit <a style="color:#38a0dc; text-decoration: none;" href="<?php print $OrderLink; ?>">Your Orders</a> on Fitmoo.com</p>
+                <p style="font-size: 18px; line-height: 30px; font-family: 'bentonsansbook'; width: 95%;">Thank you for shopping us. We'd like to let you know that your item is on the way. If you need to return an item from this shipment or manage other orders, please visit <a style="color:#38a0dc; text-decoration: none;" href="<?php print $redirect_base;?>/dashboard/sales/<?php print $OrderId;?>"">Your Orders</a> on Fitmoo.com</p>
             </div>
         </section>
         <section class="products">
@@ -108,9 +108,9 @@ $redirect_base = variable_get('anonymous_redirect_base', '');
                             <div class="field-type-details">
                                 <div style="float: left; width: 50%;">
                                     <div style="color: #333; font-size: 18px; line-height: 24px; text-decoration: none; font-family: 'bentonsansmedium';"><b><?php print $ProductName; ?></b></div>
-                                    <div style="color: #333; font-size: 18px; line-height: 24px; text-decoration: none; font-family: 'bentonsansregular';">Order #:&nbsp;<?php print $orderNum;?></div>
+                                    <div style="color: #333; font-size: 18px; line-height: 24px; text-decoration: none; font-family: 'bentonsansregular';">Order #:&nbsp;<?php print $orderId;?></div>
                                     <div style="color: #333; font-size: 18px; line-height: 24px; text-decoration: none; font-family: 'bentonsansregular';">Status:&nbsp;<?php print $ShippingStatus;?></div>
-                                    <div style="color: #333; font-size: 18px; line-height: 24px; text-decoration: none; font-family: 'bentonsansregular';">Tracking #:&nbsp;<a style="color:#38a0dc; text-decoration: none;" href="<?php print $TrackingLink; ?>"><?php print $TrackingNum; ?></a></div>
+                                    <div style="color: #333; font-size: 18px; line-height: 24px; text-decoration: none; font-family: 'bentonsansregular';">Tracking #:&nbsp;<?php print $TrackingNum; ?></a></div>
                                 </div>
                                 <div style="float: right; width: 50%;">
                                     <div style="color: #333; font-size: 18px; line-height: 24px; text-decoration: none; font-family: 'bentonsansregular';">Send to:</div>
