@@ -12,6 +12,11 @@
  * @see commerce_services_index_entities()
  */
 function commerce_services_endicia_index($fields) {
+
+    fitmoo_checkout_cronShippingStatus();
+    exit();
+
+
     global $user;
     $uid =  $user->uid;
     if (empty($_REQUEST['mail_class'])) {

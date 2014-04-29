@@ -729,6 +729,23 @@ function fitmoo_checkout_sold_by(){
    return;	
 }
 
+function fitmoo_checkout_cronShippingStatus(){
+    $orders = commerce_order_load_multiple(array(), array('status'=>'Shipping: shipped'), $reset = FALSE);
+
+    foreach ($orders as $order) {
+        $track = commerce_services_endicia_update($order->field_tracking['und'][0]['value'], false, false);
+        $order->field_tracking_status['und'][0]['value'] = serialize($track);
+        foreach ($track as $array_item) {
+            if (preg_match('/delivered/ism',$array_item[0],$matches)) {
+               $order->status = 'Shipping: Delivered';
+            }
+        }
+        commerce_order_save($order);
+    }
+
+    return;
+}
+
 function fitmoo_checkout_email($uid,$info){
 
   $module = 'fitmoo_checkout';
