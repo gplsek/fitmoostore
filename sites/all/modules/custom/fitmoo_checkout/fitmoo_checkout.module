@@ -59,6 +59,14 @@ function fitmoo_checkout_theme() {
       'template' => 'templates/selleremail',
       'arguments' => array('data' => NULL),
     ),
+    'labelseller' => array(
+      'template' => 'templates/labelseller',
+      'arguments' => array('data' => NULL),
+    ),
+    'labelbuyer' => array(
+      'template' => 'templates/labelbuyer',
+      'arguments' => array('data' => NULL),
+    ),
  );
 }
 
@@ -431,7 +439,71 @@ function fitmoo_checkout_commerce_cart_product_add($order, $product, $quantity, 
   $data['commerce_product'] = $product->product_id;
   _add_manual_shipping_line_item($order, $data);
 }
+/**
+ * send mail to product seller and to product buyer
+ */
+function fitmoo_checkout_endiciaSendLabelTOSellerAndBuyer($order) {
+    // Iterate through every commerce line item added in product.
+    $info = array();
+    $info_buyer = array();
+    foreach (field_get_items('commerce_order', $order, 'commerce_line_items') as $line_item_id) {
 
+        // Load commerce line item by line item id.
+        $line_item = commerce_line_item_load($line_item_id['line_item_id']);
+
+        // We do not want to include shipping cost in userpoints.
+        if ($line_item->type != 'shipping') {
+            // Load commerce product by product id.
+            $temp = field_get_items('commerce_line_item', $line_item, 'commerce_product');
+
+            $product = commerce_product_load($temp[0]['product_id']);
+
+
+            // Create parameters.
+            $params = array(
+                'seller_uid' => $product->uid,  //seller uid
+                'total' => commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount'], $product->commerce_price['und'][0]['currency_code']),
+                'buyer_uid' => $order->uid,
+                'orderID' => $order->order_id,
+                'productID' => $product->product_id,
+            );
+
+            //send email to seller
+            $seller = user_load($product->uid);
+            $total =  commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount']);
+            $info['qty'] = $line_item->quantity;
+            $info['uri'] = $product->field_image['und'][0]['uri'];
+            $info['ProductName'] = $product->title;
+            $info['LabelLink'] = $order->field_shipping_label_url['und'][0]['value'];
+            $term = taxonomy_term_load($product->field_size['und'][0]['tid']);
+            $info['size'] = $term->name;
+
+            $info['OrderId'] = $order->order_id;
+            $buyer = user_load($order->uid);
+            $info['BuyerEmail'] = $buyer->mail;
+            $info['OrderDate'] = $order->changed;
+            $info['total'] = $total;
+
+            $info_buyer['qty'] = $line_item->quantity;
+            $info_buyer['uri'] = $product->field_image['und'][0]['uri'];
+            $info_buyer['ProductName'] = $product->title;
+            $info_buyer['TrackingNum'] = $order->field_tracking['und'][0]['value'];
+            $info_buyer['ShippingStatus'] = 'ORDER Status in progress';
+
+            $info_buyer['OrderId'] = $order->order_id;
+            $info_buyer['BuyerEmail'] = $buyer->mail;
+            $info_buyer['total'] = $total;
+
+        }else if($line_item->type == 'shipping'){
+            $info['shipping'] = commerce_currency_amount_to_decimal($line_item->commerce_unit_price['und'][0]['amount']);
+
+        }
+
+    }
+    $info['ordertotal'] = commerce_currency_amount_to_decimal($order->commerce_order_total['und'][0]['amount']);
+    $shipping = commerce_customer_profile_load($order->commerce_customer_shipping['und'][0]['profile_id']);
+    fitmoo_checkout_LabelEmail($product->uid,$buyer->uid,$info,$info_buyer);
+}
 
 function _add_manual_shipping_line_item($order, $data) {
     $product = commerce_services_retrieve_entity('commerce_product', $data['commerce_product'], false, false);
@@ -657,6 +729,23 @@ function fitmoo_checkout_sold_by(){
    return;	
 }
 
+function fitmoo_checkout_cronShippingStatus(){
+    $orders = commerce_order_load_multiple(array(), array('status'=>'Shipping: shipped'), $reset = FALSE);
+
+    foreach ($orders as $order) {
+        $track = commerce_services_endicia_update($order->field_tracking['und'][0]['value'], false, false);
+        $order->field_tracking_status['und'][0]['value'] = serialize($track);
+        foreach ($track as $array_item) {
+            if (preg_match('/delivered/ism',$array_item[0],$matches)) {
+               $order->status = 'Shipping: Delivered';
+            }
+        }
+        commerce_order_save($order);
+    }
+
+    return;
+}
+
 function fitmoo_checkout_email($uid,$info){
 
   $module = 'fitmoo_checkout';
@@ -703,6 +792,84 @@ function fitmoo_checkout_email($uid,$info){
   // Send e-mail.
   $message['result'] = $system->mail($message);
   return TRUE;
+}
+
+function fitmoo_checkout_LabelEmail($seller_uid,$buyer_uid,$info,$info_buyer){
+
+    //=========SELLER_MAIL
+    $module = 'fitmoo_checkout';
+    $key = 'order';
+    $language = language_default();
+    $params = array();
+    $send = TRUE;
+    $to_user = user_load($seller_uid);
+    $from = 'store@fitmoo.com';
+    $to = $to_user->mail;
+
+    //$to = 'george@gtekg.com';
+
+    $headers = array(
+        'MIME-Version' => '1.0',
+        'Content-Type' => 'text/html; charset=UTF-8; format=flowed',
+        'Content-Transfer-Encoding' => '8Bit',
+        'X-Mailer' => 'Drupal'
+    );
+    $params['headers'] = $headers;
+    $message = drupal_mail($module, $key, $to, $language, $params, $from, FALSE);
+
+
+    $message['subject'] = "Your shipping label for #".$info['OrderId']." from ".$info['BuyerEmail']." at Fitmoo.com";
+
+    $body = theme('labelseller',$info);
+
+    $message['body'] = array();
+    $message['body'][] = $body;
+
+    // Retrieve the responsible implementation for this message.
+    $system = drupal_mail_system($module, $key);
+    // Format the message body.
+    $message = $system->format($message);
+    // Send e-mail.
+    $message['result'] = $system->mail($message);
+
+
+
+    //=========BUYER_MAIL
+    $module = 'fitmoo_checkout';
+    $key = 'order';
+    $language = language_default();
+    $params = array();
+    $send = TRUE;
+    $to_user = user_load($buyer_uid);
+    $from = 'store@fitmoo.com';
+    $to = $to_user->mail;
+
+    //$to = 'george@gtekg.com';
+
+    $headers = array(
+        'MIME-Version' => '1.0',
+        'Content-Type' => 'text/html; charset=UTF-8; format=flowed',
+        'Content-Transfer-Encoding' => '8Bit',
+        'X-Mailer' => 'Drupal'
+    );
+    $params['headers'] = $headers;
+    $message = drupal_mail($module, $key, $to, $language, $params, $from, FALSE);
+
+    $message['subject'] = "Your item has shipped Order #".$info_buyer['OrderId']." from ".$info_buyer['BuyerEmail']." at Fitmoo.com";
+
+    $body = theme('labelbuyer',$info_buyer);
+
+    $message['body'] = array();
+    $message['body'][] = $body;
+
+    // Retrieve the responsible implementation for this message.
+    $system = drupal_mail_system($module, $key);
+    // Format the message body.
+    $message = $system->format($message);
+    // Send e-mail.
+    $message['result'] = $system->mail($message);
+
+    return TRUE;
 }
 
 function fitmoo_checkout_test_email(){
@@ -756,7 +923,7 @@ foreach (field_get_items('commerce_order', $order, 'commerce_line_items') as $li
   
   fitmoo_checkout_email(1,$info);
   return;
-} 
+}
 
 
 /**
