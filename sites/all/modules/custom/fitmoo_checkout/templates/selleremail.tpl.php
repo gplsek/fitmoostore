@@ -319,9 +319,11 @@ $fitfeeperc = $buyperc + $fitperc;
                     <div class="lcolumn">
                             <div class="lcolumn">
                                 <div style="font-weight: bold;">Please mail the product to:</div>
-                                <div>Amanda Siberman</div>
-                                <div>721 Broadway</div>
-                                <div>New York, NY 10012</div>
+			                   
+			                        <div><?php print $shipto['name_line'];?></div>
+			                        <div><?php print $shipto['thoroughfare'];?> <?php print $shipto['premise'];?></div>
+			                        <div><?php print $shipto['locality'];?>, <?php print $shipto['administrative_area'];?> <?php print $shipto['postal_code'];?> <?php print $shipto['country'];?></div>
+			                   
                             </div>
                     </div>
                     <div class="rcolumn">
