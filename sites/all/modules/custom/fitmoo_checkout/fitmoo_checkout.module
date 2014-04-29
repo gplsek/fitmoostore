@@ -536,7 +536,12 @@ function fitmoo_checkout_endiciaSendLabelTOSellerAndBuyer($order) {
 
     }
     $info['ordertotal'] = commerce_currency_amount_to_decimal($order->commerce_order_total['und'][0]['amount'],'USD');
-    $shipping = commerce_customer_profile_load($order->commerce_customer_shipping['und'][0]['profile_id']);
+    $profile =  intval($order->commerce_customer_shipping['und'][0]['profile_id']);
+ 
+
+    $shipping = commerce_customer_profile_load($profile);
+    $info['shipto'] = $shipping->commerce_customer_address['und'][0];
+	
     fitmoo_checkout_LabelEmail($product->uid,$buyer->uid,$info,$info_buyer);
 }
 
@@ -1003,10 +1008,13 @@ $info['ordertotal'] = commerce_currency_amount_to_decimal($order->commerce_order
     $info['buycom'] = $commisions['buycom'];
   $info['fitfee'] =  $fitmoo_fee;
 
+  $profile =  intval($order->commerce_customer_shipping['und'][0]['profile_id']);
+ 
 
-$shipping = commerce_customer_profile_load($order->commerce_customer_shipping['und'][0]['profile_id']);
-
-  print theme('buyeremail',$info);
+  $shipping = commerce_customer_profile_load($profile);
+  $info['shipto'] = $shipping->commerce_customer_address['und'][0];
+ 
+  print theme('selleremail',$info);
   
   //fitmoo_checkout_buyer_email(1,$info);
   return;
