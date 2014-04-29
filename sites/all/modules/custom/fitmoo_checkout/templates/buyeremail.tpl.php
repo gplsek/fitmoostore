@@ -1,7 +1,19 @@
 <?php
 global $base_url;
-$path = $base_url.'/'.drupal_get_path('module', 'firmoo_checkout');
+$path = $base_url.'/'.drupal_get_path('module', 'fitmoo_checkout');
 
+$image = array(
+  'path' => $uri,
+  'alt' => 'product image',
+  'style_name' => 'thumbnail',
+);
+
+$redirect_base = variable_get('anonymous_redirect_base', '');
+
+$fitfeeperc = $buyperc + $fitperc;
+
+//print theme('image_style', $image);
+	
 ?>
 
 <!DOCTYPE html>
@@ -222,9 +234,9 @@ $path = $base_url.'/'.drupal_get_path('module', 'firmoo_checkout');
 <body>
 <div class="main-site_container">
     <div class="section-wrapper clearfix" style="border-bottom-width: 5px;">
-        <a href="#" class="header-logo">
-            <img src="head-logo.png" alt="FITMOO" height="33" width="133">
-        </a>
+       <a href="<?php print $redirect_base;?>" class="header-logo">
+           <img src="<?php print $path;?>/templates/img/head-logo.png" alt="FITMOO" height="33" width="133">
+       </a>
     </div>
 
 
@@ -236,12 +248,12 @@ $path = $base_url.'/'.drupal_get_path('module', 'firmoo_checkout');
                     <p>Thank you for shopping with us. We recieved ypur order, and have already
                         notified the seller. The seller will have 5 days to prepare the shipment. Once your order is
                         shippid the estimated delivery date is 5-10 business days. If you'd like to view the status of
-                        your order, pls visit <a href="">Your order</a> on Fitmoo.com </p>
+                        your order, pls visit <a href="<?php print $redirect_base;?>/dashboard/orders/<?php print $orderID;?>">Your order</a> on Fitmoo.com </p>
                 </div>
                 <div class="content-div" style="padding-top: 20px;">
                 <h1>Order Details</h1>
-                    <div style="float: left;">Order #: <a href="">123-456-897</a></div>
-                    <div style="float: right;">Placed on: Jan 24, 2013</div>
+                    <div style="float: left;">Order #: <a href="<?php print $redirect_base;?>/dashboard/orders/<?php print $orderID;?>"><?php print $orderID;?></a></div>
+                    <div style="float: right;">Placed on: <?php print date("m-d-Y", $orderDate);?></div>
                 </div>
                 <div class="content-div" style="padding-top: 20px;">
                     <div class="lcolumn">
@@ -266,18 +278,15 @@ $path = $base_url.'/'.drupal_get_path('module', 'firmoo_checkout');
 
                             <div class="content-div" style="height: 100px;">
                                         <div class="views-formh2">
-                                            <a href="/link/to/product">Prodcut ASASDASDAS as da AAAA</a>
-                                            <a href="/link/to/product" style="float: right;">$100</a>
+                                            <a href="#"><?php print $product;?></a>
+                                            <a href="#" style="float: right;">$<?php print $total;?></a>
                                         </div>
                                         <div class="content">
                                             <fieldset id="commerce_product_product_node">
                                                  <div class="fieldset-wrapper">
                                                     <div class="field-type-image">
                                                         <div class="field-items">
-                                                            <div class="field-item even"><img typeof="foaf:Image"
-                                                                                              src="http://fitmoo.plsekwerks.com/sites/default/files/styles/thumbnail/public/MB03BLP-00C-F.jpg?itok=MunhHL5I"
-                                                                                              width="80" height="100"
-                                                                                              alt=""></div>
+                                                            <div class="field-item even"><?php print theme('image_style', $image);?></div>
                                                         </div>
                                                     </div>
                                                 </div>
@@ -285,8 +294,8 @@ $path = $base_url.'/'.drupal_get_path('module', 'firmoo_checkout');
                                             <fieldset id="commerce_product_product_node_teaser_group_product_details">
                                                 <div class="fieldset-wrapper">
                                                     <div class="field-type-details">
-                                                        <div class="field-label">Size:&nbsp;8</div>
-                                                        <div class="field-label">Qty:&nbsp;1</div>
+                                                        <div class="field-label">Size:&nbsp;<?php print $size;?></div>
+                                                        <div class="field-label">Qty:&nbsp;<?php print $qty;?></div>
                                                     </div>
                                                 </div>
                                             </fieldset>
@@ -303,7 +312,7 @@ $path = $base_url.'/'.drupal_get_path('module', 'firmoo_checkout');
                     <div class="rcolumn">
                         <div>
                             <div class="lcolumn">Price</div>
-                            <div class="rcolumn">$140.00</div>
+                            <div class="rcolumn">$<?php print $total;?></div>
                         </div>
                         <div>
                             <div class="lcolumn">Estimated Tax</div>
@@ -311,11 +320,11 @@ $path = $base_url.'/'.drupal_get_path('module', 'firmoo_checkout');
                         </div>
                         <div>
                             <div class="lcolumn">Shipping</div>
-                            <div class="rcolumn">$5.99</div>
+                            <div class="rcolumn">$<?php print $shipping;?></div>
                         </div>
                         <div>
                             <div class="lcolumn">Order total</div>
-                            <div class="rcolumn">$1455.99</div>
+                            <div class="rcolumn">$<?php print $ordertotal;?></div>
                         </div>
                     </div>
                 </div>
