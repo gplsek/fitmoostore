@@ -59,6 +59,10 @@ function fitmoo_checkout_theme() {
       'template' => 'templates/selleremail',
       'arguments' => array('data' => NULL),
     ),
+    'buyeremail' => array(
+      'template' => 'templates/buyeremail',
+      'arguments' => array('data' => NULL),
+    ),
     'labelseller' => array(
       'template' => 'templates/labelseller',
       'arguments' => array('data' => NULL),
@@ -347,7 +351,26 @@ function fitmoo_checkout_calc_comisions($params){
 	        ))
 	        ->execute(); 
 	
-			return $buyer_com + $fitmoo_com;
+			$fitperc = variable_get("fitmoo_perc", "");
+			
+			
+			$sellperc = variable_get("seller_perc", "");
+			
+			
+			$buyperc = variable_get("buyer_perc", "");
+			
+			
+			$data = array(
+				'fitperc' => $fitperc,
+				'fitcom' => $fitmoo_com,
+				'sellperc' => $sellperc,
+				'sellcom' => $sell_com,
+				'buyperc' => $buyperc,
+				'buycom' => $buyer_com,
+			);
+			
+	
+			return $data;
 	
 }
 
@@ -380,14 +403,15 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
 	      );
 
       // Grant userpoints programmatically.
-      $fitmoo_fee = fitmoo_checkout_calc_comisions($params);
+      $commisions = fitmoo_checkout_calc_comisions($params);
 	  $seller = user_load($product->uid);
+	  $fitmoo_fee = $commisions['buycom'] + $commisions['fitcom'];
 	  $order->field_fitmoo_fee['und'][0]['value'] = $fitmoo_fee * 100;
 	  $order->field_new_total['und'][0]['value'] = $order->commerce_order_total['und'][0]['amount'] - ($fitmoo_fee * 100);
 	  $order->field_seller_email['und'][0]['value'] = $seller->mail;
 	  $order->field_seller['und'][0]['uid'] = $product->uid;
 	  //send email to seller
-	  $total =  commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount']);
+	  $total =  commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount'],'USD');
       $info['qty'] = $line_item->quantity;
       $info['uri'] = $product->field_image['und'][0]['uri'];
 	  $term = taxonomy_term_load($product->field_size['und'][0]['tid']);
@@ -400,19 +424,30 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
 	  $info['orderDate'] = $order->changed;
 	  $info['total'] = $total;
   }else if($line_item->type == 'shipping'){
-	  $info['shipping'] = commerce_currency_amount_to_decimal($line_item->commerce_unit_price['und'][0]['amount']);
+	  $info['shipping'] = commerce_currency_amount_to_decimal($line_item->commerce_unit_price['und'][0]['amount'],'USD');
 	  
   }
   
   }
-  $info['ordertotal'] = commerce_currency_amount_to_decimal($order->commerce_order_total['und'][0]['amount']);
+  $info['ordertotal'] = commerce_currency_amount_to_decimal($order->commerce_order_total['und'][0]['amount'],'USD');
+  
+  
+      $info['fitperc'] = $commisions['fitperc'];
+      $info['fitcom'] = $commisions['fitcom'];
+      $info['sellperc'] = $commisions['sellperc'];
+      $info['sellcom'] = $commisions['sellcom'];
+      $info['buyperc'] = $commisions['buyperc'];
+      $info['buycom'] = $commisions['buycom'];
+	  $info['fitfee'] =  $fitmoo_fee;
+  
   
   $shipping = commerce_customer_profile_load($order->commerce_customer_shipping['und'][0]['profile_id']);
   
   
   
   
-  fitmoo_checkout_email($product->uid,$info);
+   fitmoo_checkout_seller_email($product->uid,$info);
+   fitmoo_checkout_buyer_email($order->uid,$info);
  
   commerce_order_save($order);
 }
@@ -470,7 +505,7 @@ function fitmoo_checkout_endiciaSendLabelTOSellerAndBuyer($order) {
 
             //send email to seller
             $seller = user_load($product->uid);
-            $total =  commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount']);
+            $total =  commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount'],'USD');
             $info['qty'] = $line_item->quantity;
             $info['uri'] = $product->field_image['und'][0]['uri'];
             $info['ProductName'] = $product->title;
@@ -495,12 +530,12 @@ function fitmoo_checkout_endiciaSendLabelTOSellerAndBuyer($order) {
             $info_buyer['total'] = $total;
 
         }else if($line_item->type == 'shipping'){
-            $info['shipping'] = commerce_currency_amount_to_decimal($line_item->commerce_unit_price['und'][0]['amount']);
+            $info['shipping'] = commerce_currency_amount_to_decimal($line_item->commerce_unit_price['und'][0]['amount'],'USD');
 
         }
 
     }
-    $info['ordertotal'] = commerce_currency_amount_to_decimal($order->commerce_order_total['und'][0]['amount']);
+    $info['ordertotal'] = commerce_currency_amount_to_decimal($order->commerce_order_total['und'][0]['amount'],'USD');
     $shipping = commerce_customer_profile_load($order->commerce_customer_shipping['und'][0]['profile_id']);
     fitmoo_checkout_LabelEmail($product->uid,$buyer->uid,$info,$info_buyer);
 }
@@ -746,7 +781,7 @@ function fitmoo_checkout_cronShippingStatus(){
     return;
 }
 
-function fitmoo_checkout_email($uid,$info){
+function fitmoo_checkout_seller_email($uid,$info){
 
   $module = 'fitmoo_checkout';
   $key = 'order';
@@ -757,7 +792,7 @@ function fitmoo_checkout_email($uid,$info){
   $from = 'store@fitmoo.com';
   $to = $to_user->mail;
  
-  //$to = 'george@gtekg.com';
+
 
   $headers = array(
   'MIME-Version' => '1.0',
@@ -772,15 +807,46 @@ function fitmoo_checkout_email($uid,$info){
   $message['subject'] = "You have received order #".$info['orderID']." from ".$info['buyerEmail']." at Fitmoo.com";
   
 
-  // set body (Required field in $email)
+  $body = theme('selleremail',$info);
+  
+  $message['body'] = array();
+  $message['body'][] = $body;
+    
+  // Retrieve the responsible implementation for this message.
+  $system = drupal_mail_system($module, $key);
+  // Format the message body.
+  $message = $system->format($message);
+  // Send e-mail.
+  $message['result'] = $system->mail($message);
+  return TRUE;
+}
+function fitmoo_checkout_buyer_email($uid,$info){
+
+  $module = 'fitmoo_checkout';
+  $key = 'order';
+  $language = language_default();
+  $params = array();
+  $send = TRUE;
+  $to_user = user_load($uid);
+  $from = 'store@fitmoo.com';
+  $to = $to_user->mail;
+ 
+
+
+  $headers = array(
+  'MIME-Version' => '1.0',
+  'Content-Type' => 'text/html; charset=UTF-8; format=flowed',
+  'Content-Transfer-Encoding' => '8Bit',
+  'X-Mailer' => 'Drupal'
+  );
+  $params['headers'] = $headers;
+  $message = drupal_mail($module, $key, $to, $language, $params, $from, FALSE);
+
+
+  $message['subject'] = "Thank you for your purchase order #".$info['orderID']."  at Fitmoo.com";
   
 
-  
-  // $body = "You have received an order for ".$info['product']." #".$info['orderID']." on fitmoo.com from ".$info['buyerEmail']."<br>";
-//   $body .= "Login to your Fitmoo.com account go to dashboard, select the sales tab to view the order details";
-  //print theme('selleremail',$info);
-  //return;
-  $body = theme('selleremail',$info);
+  $body = theme('buyeremail',$info);
   
   $message['body'] = array();
   $message['body'][] = $body;
@@ -876,52 +942,73 @@ function fitmoo_checkout_test_email(){
 $order = commerce_order_load(65);
 
 
+$info = array();
+foreach (field_get_items('commerce_order', $order, 'commerce_line_items') as $line_item_id) {
 
-$info = array();	
-foreach (field_get_items('commerce_order', $order, 'commerce_line_items') as $line_item_id) {	
-	
-    // Load commerce line item by line item id.
-    $line_item = commerce_line_item_load($line_item_id['line_item_id']);
+  // Load commerce line item by line item id.
+  $line_item = commerce_line_item_load($line_item_id['line_item_id']);
 
-    // We do not want to include shipping cost in userpoints.
-    if ($line_item->type != 'shipping') {
-      // Load commerce product by product id.
-	  
-      $temp = field_get_items('commerce_line_item', $line_item, 'commerce_product');
-	  
-      $product = commerce_product_load($temp[0]['product_id']);
-	  
-	  
-	  
-	  $total =  commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount'],'USD');
-      $info['qty'] = $line_item->quantity;
-      $info['uri'] = $product->field_image['und'][0]['uri'];
-	  $info['size'] = 'na';
-	  if($product->type == 'product'){
-	  	
-		$term = taxonomy_term_load($product->field_product_size['und'][0]['tid']);
-		$info['size'] = $term->name;
-	  }else{
-	    $term = taxonomy_term_load($product->field_size['und'][0]['tid']);
-		$info['size'] = $term->name;
-      }
-	  
-      
-	  $info['orderID'] = $order->order_id;
-	  $buyer = user_load($order->uid);
-	  $info['buyerEmail'] = $buyer->mail;
-	  $info['product'] = $product->title;
-	  $info['orderDate'] = $order->changed;
-	  $info['total'] = $total;
-  }else if($line_item->type == 'shipping'){
-	  $info['shipping'] = commerce_currency_amount_to_decimal($line_item->commerce_unit_price['und'][0]['amount'],'USD');
-	  
-  }
- } 
-  $info['ordertotal'] = commerce_currency_amount_to_decimal($order->commerce_order_total['und'][0]['amount'],'USD');
-  //print theme('selleremail',$info);
+  // We do not want to include shipping cost in userpoints.
+  if ($line_item->type != 'shipping') {
+    // Load commerce product by product id.
+    $temp = field_get_items('commerce_line_item', $line_item, 'commerce_product');
   
-  fitmoo_checkout_email(1,$info);
+    $product = commerce_product_load($temp[0]['product_id']);
+ 
+
+    // Create parameters.
+    $params = array(
+      'seller_uid' => $product->uid,  //seller uid
+      'total' => commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount'], $product->commerce_price['und'][0]['currency_code']),
+	'buyer_uid' => $order->uid,
+	'orderID' => $order->order_id,
+	'productID' => $product->product_id,
+      );
+
+    // Grant userpoints programmatically.
+    $commisions = fitmoo_checkout_calc_comisions($params);
+  $seller = user_load($product->uid);
+  $fitmoo_fee = $commisions['buycom'] + $commisions['fitcom'];
+  $order->field_fitmoo_fee['und'][0]['value'] = $fitmoo_fee * 100;
+  $order->field_new_total['und'][0]['value'] = $order->commerce_order_total['und'][0]['amount'] - ($fitmoo_fee * 100);
+  $order->field_seller_email['und'][0]['value'] = $seller->mail;
+  $order->field_seller['und'][0]['uid'] = $product->uid;
+  //send email to seller
+  $total =  commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount'],'USD');
+    $info['qty'] = $line_item->quantity;
+    $info['uri'] = $product->field_image['und'][0]['uri'];
+  $term = taxonomy_term_load($product->field_size['und'][0]['tid']);
+  $info['size'] = $term->name;
+    
+  $info['orderID'] = $order->order_id;
+  $buyer = user_load($order->uid);
+  $info['buyerEmail'] = $buyer->mail;
+  $info['product'] = $product->title;
+  $info['orderDate'] = $order->changed;
+  $info['total'] = $total;
+}else if($line_item->type == 'shipping'){
+  $info['shipping'] = commerce_currency_amount_to_decimal($line_item->commerce_unit_price['und'][0]['amount'],'USD');
+  
+}
+
+}
+$info['ordertotal'] = commerce_currency_amount_to_decimal($order->commerce_order_total['und'][0]['amount'],'USD');
+
+
+    $info['fitperc'] = $commisions['fitperc'];
+    $info['fitcom'] = $commisions['fitcom'];
+    $info['sellperc'] = $commisions['sellperc'];
+    $info['sellcom'] = $commisions['sellcom'];
+    $info['buyperc'] = $commisions['buyperc'];
+    $info['buycom'] = $commisions['buycom'];
+  $info['fitfee'] =  $fitmoo_fee;
+
+
+$shipping = commerce_customer_profile_load($order->commerce_customer_shipping['und'][0]['profile_id']);
+
+  print theme('buyeremail',$info);
+  
+  //fitmoo_checkout_buyer_email(1,$info);
   return;
 }
 

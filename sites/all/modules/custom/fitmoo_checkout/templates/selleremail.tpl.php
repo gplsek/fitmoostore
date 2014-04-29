@@ -1,8 +1,3 @@
-<!-- <p>Good news! Someone purchased <?php //print $product;?>. For details please visit <a href="https://beta.fitmoo.com/dashboard/sales">Your Sales</a> at Fitmoo.com. We will cancel this transaction if the item is not shipped within <strong>5days</strong></p>
-<h1>Order Details</h1>
-
-Order #: <?php //print $orderID;?> 
-Placed on: <?php //print gmdate("Y-m-d\TH:i:s\Z", $orderDate);?>  -->
 <?php
 global $base_url;
 $path = $base_url.'/'.drupal_get_path('module', 'fitmoo_checkout');
@@ -14,6 +9,8 @@ $image = array(
 );
 
 $redirect_base = variable_get('anonymous_redirect_base', '');
+
+$fitfeeperc = $buyperc + $fitperc;
 
 //print theme('image_style', $image);
 	
@@ -288,8 +285,8 @@ $redirect_base = variable_get('anonymous_redirect_base', '');
 
                             <div class="content-div" style="height: 100px;">
                                         <div class="views-formh2">
-                                            <a href="/link/to/product"><?php print $product;?></a>
-                                            <a href="/link/to/product" style="float: right;">$<?php print $total;?></a>
+                                            <a href="#"><?php print $product;?></a>
+                                            <a href="#" style="float: right;">$<?php print $total;?></a>
                                         </div>
                                         <div class="content">
                                             <fieldset id="commerce_product_product_node">
@@ -321,28 +318,25 @@ $redirect_base = variable_get('anonymous_redirect_base', '');
                 <div class="content-div">
                     <div class="lcolumn">
                             <div class="lcolumn">
-                                <div style="font-weight: bold;">Pls mail the product to:</div>
+                                <div style="font-weight: bold;">Please mail the product to:</div>
                                 <div>Amanda Siberman</div>
                                 <div>721 Broadway</div>
                                 <div>New York, NY 10012</div>
                             </div>
                     </div>
                     <div class="rcolumn">
+						<div style="font-weight: bold;">How much did you make?</div>
                         <div>
-                            <div class="lcolumn">Price</div>
+                            <div class="lcolumn">Product Listing Price</div>
                             <div class="rcolumn">$<?php print $total;?></div>
                         </div>
                         <div>
-                            <div class="lcolumn">Estimated Tax</div>
-                            <div class="rcolumn">$0.00</div>
+                            <div class="lcolumn">Fitmoo Srv. Charge(<?php print $fitfeeperc;?>%)</div>
+                            <div class="rcolumn">$<?php print $fitfee;?></div>
                         </div>
                         <div>
-                            <div class="lcolumn">Shipping</div>
-                            <div class="rcolumn">$<?php print $shipping;?></div>
-                        </div>
-                        <div>
-                            <div class="lcolumn">Order total</div>
-                            <div class="rcolumn">$<?php print $ordertotal;?></div>
+                            <div class="lcolumn">Your Profit</div>
+                            <div class="rcolumn">$<?php print $sellcom;?></div>
                         </div>
                     </div>
                 </div>
