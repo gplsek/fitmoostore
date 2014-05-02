@@ -1,0 +1,7 @@
+<?php
+/**
+ * @file
+ * Code for the Fitmoo Admin feature.
+ */
+
+include_once 'fitmoo_admin.features.inc';
