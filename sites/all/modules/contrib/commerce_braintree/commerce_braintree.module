@@ -544,6 +544,10 @@ function commerce_braintree_credit_card_form($payment_method) {
 /**
  * Return the query string that contains Braintree response, after a request.
  */
+
+
+
+
 function commerce_braintree_get_feedback() {
   $feedback = FALSE;
   if (isset($_SERVER['QUERY_STRING'])) {
