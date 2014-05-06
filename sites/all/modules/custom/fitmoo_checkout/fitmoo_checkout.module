@@ -695,6 +695,14 @@ function fitmoo_checkout_form_cancel_submit($form, &$form_state) {
 
 function fitmoo_checkout_commerce_checkout_router($order, $checkout_page) {
 	global $user;
+    if($order->status == 'checkout_checkout' and $checkout_page['title'] == 'Checkout'){
+        $_SESSION['number'] = $_POST['transaction']['credit_card']['number'];
+        $_SESSION['cardholder_name'] = $_POST['transaction']['credit_card']['cardholder_name'];
+        $_SESSION['expiration_month'] = $_POST['transaction']['credit_card']['expiration_month'];
+        $_SESSION['expiration_year'] = $_POST['transaction']['credit_card']['expiration_year'];
+        $_SESSION['cvv'] = $_POST['transaction']['credit_card']['cvv'];
+    }
+
 	if($order->status == 'pending'){
 		module_invoke_all('user_logout', $user);
 		session_destroy();
