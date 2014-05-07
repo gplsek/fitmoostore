@@ -1026,42 +1026,6 @@ function fitmoo_store_field_default_field_instances() {
     ),
   );
 
-  // Exported field_instance: 'commerce_order-commerce_order-field_shipping_label'
-  $field_instances['commerce_order-commerce_order-field_shipping_label'] = array(
-    'bundle' => 'commerce_order',
-    'deleted' => 0,
-    'description' => '',
-    'display' => array(
-      'default' => array(
-        'label' => 'above',
-        'module' => 'file',
-        'settings' => array(),
-        'type' => 'file_default',
-        'weight' => 12,
-      ),
-    ),
-    'entity_type' => 'commerce_order',
-    'field_name' => 'field_shipping_label',
-    'label' => 'shipping label',
-    'required' => 0,
-    'settings' => array(
-      'description_field' => 0,
-      'file_directory' => 'labels',
-      'file_extensions' => 'jpg jpeg pdf gif png',
-      'max_filesize' => '',
-      'user_register_form' => FALSE,
-    ),
-    'widget' => array(
-      'active' => 1,
-      'module' => 'file',
-      'settings' => array(
-        'progress_indicator' => 'throbber',
-      ),
-      'type' => 'file_generic',
-      'weight' => 11,
-    ),
-  );
-
   // Exported field_instance: 'commerce_order-commerce_order-field_shipping_label_url'
   $field_instances['commerce_order-commerce_order-field_shipping_label_url'] = array(
     'bundle' => 'commerce_order',
@@ -4963,7 +4927,6 @@ function fitmoo_store_field_default_field_instances() {
   t('fitmooID');
   t('image');
   t('image_url');
-  t('shipping label');
   t('shipping label url');
   t('tracking');
   t('weight');

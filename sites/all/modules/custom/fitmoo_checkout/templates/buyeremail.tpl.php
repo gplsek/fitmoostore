@@ -247,7 +247,7 @@ $fitfeeperc = $buyperc + $fitperc;
                 <div class="content-div">
                     <p>Thank you for shopping with us. We recieved ypur order, and have already
                         notified the seller. The seller will have 5 days to prepare the shipment. Once your order is
-                        shippid the estimated delivery date is 5-10 business days. If you'd like to view the status of
+                        shipped the estimated delivery date is 5-10 business days. If you'd like to view the status of
                         your order, pls visit <a href="<?php print $redirect_base;?>/dashboard/orders/<?php print $orderID;?>">Your order</a> on Fitmoo.com </p>
                 </div>
                 <div class="content-div" style="padding-top: 20px;">

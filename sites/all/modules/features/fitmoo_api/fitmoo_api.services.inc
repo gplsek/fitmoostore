@@ -58,6 +58,9 @@ function fitmoo_api_default_services_endpoint() {
         'create' => array(
           'enabled' => '1',
         ),
+        'update' => array(
+          'enabled' => '1',
+        ),
       ),
     ),
     'endicia' => array(
