@@ -1,16 +1,24 @@
-// $ = jQuery.noConflict();
-// $(document).ready(function(){
-//     var m = $("#edit-commerce-payment");
-//     $("#customer-profile-shipping-ajax-wrapper").append(m);
-//     $("#edit-commerce-payment").css('width','100%');
-//     $("#edit-commerce-payment, #customer-profile-billing-ajax-wrapper").css('border-right','0px');
-//     $("#edit-commerce-payment").css('padding','10px 0px 0px 0px');
-//     m = $("#edit-buttons");
-//     $("#customer-profile-shipping-ajax-wrapper").append(m);
-//     $("#edit-buttons").css('width','100%');
-//     $("#customer-profile-shipping-ajax-wrapper").css('height','auto');
+$ = jQuery.noConflict();
+$(document).ready(function(){
 
-// });
+    $("#edit-number").attr("disabled",true).css("background-color","rgb(235, 235, 228)");
+    $("#edit-owner").attr("disabled",true).css("background-color","rgb(235, 235, 228)");
+    $("#edit-code").attr("disabled",true).css("background-color","rgb(235, 235, 228)");
+
+    $(".form-radio").change(function () {
+        var val = $(this).val();
+        if (val == "new") {
+            $("#edit-number").attr("disabled",false).css("background-color","#fff");
+            $("#edit-owner").attr("disabled",false).css("background-color","#fff");
+            $("#edit-code").attr("disabled",false).css("background-color","#fff");
+
+        } else {
+            $("#edit-number").attr("disabled",true).css("background-color","rgb(235, 235, 228)");
+            $("#edit-owner").attr("disabled",true).css("background-color","rgb(235, 235, 228)");
+            $("#edit-code").attr("disabled",true).css("background-color","rgb(235, 235, 228)");
+        }
+    });
+});
 
 
 
