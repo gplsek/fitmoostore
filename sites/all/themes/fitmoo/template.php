@@ -102,9 +102,9 @@ function fitmoo_preprocess_page(&$vars) {
 		
  	   if(isset($_GET['checkout'])){
  	     $_SESSION['callback'] = $_GET['checkout'];
-		 print "HERE".$_GET['checkout'];die();
         }else{
          $_SESSION['callback'] = $_SERVER['HTTP_REFERER'];
+		 print "HERE".$_SERVER['HTTP_REFERER'];die();
         }
     }
 	
