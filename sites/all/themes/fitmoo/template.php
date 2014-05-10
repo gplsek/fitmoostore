@@ -97,9 +97,11 @@ function fitmoo_preprocess_page(&$vars) {
 	
     if(arg(0) == 'checkout'){
         //drupal_add_js('misc/checkout.js');
-		print $_SERVER['HTTP_REFERER'];die();
+		
  	   if(isset($_GET['checkout'])){
  	     $_SESSION['callback'] = $_GET['checkout'];
+        }else{
+         $_SESSION['callback'] = $_SERVER['HTTP_REFERER'];
         }
     }
 	
