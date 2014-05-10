@@ -90,7 +90,7 @@ function fitmoo_preprocess_page(&$vars) {
 	}
 	
     if(arg(0) == 'cart'){
-	  iif(isset($_GET['checkout'])){
+	  if(isset($_GET['checkout'])){
  	     $_SESSION['callback'] = $_GET['checkout'];
         }else{
          $_SESSION['callback'] = $_SERVER['HTTP_REFERER'];
