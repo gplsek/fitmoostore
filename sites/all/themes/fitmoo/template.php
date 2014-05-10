@@ -90,9 +90,11 @@ function fitmoo_preprocess_page(&$vars) {
 	}
 	
     if(arg(0) == 'cart'){
-	  if(isset($_GET['checkout'])){
- 	   $_SESSION['callback'] = $_GET['checkout'];
-      }
+	  iif(isset($_GET['checkout'])){
+ 	     $_SESSION['callback'] = $_GET['checkout'];
+        }else{
+         $_SESSION['callback'] = $_SERVER['HTTP_REFERER'];
+        }
     }
 	
     if(arg(0) == 'checkout'){
@@ -100,6 +102,7 @@ function fitmoo_preprocess_page(&$vars) {
 		
  	   if(isset($_GET['checkout'])){
  	     $_SESSION['callback'] = $_GET['checkout'];
+		 print "HERE".$_GET['checkout'];die();
         }else{
          $_SESSION['callback'] = $_SERVER['HTTP_REFERER'];
         }
