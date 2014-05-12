@@ -10,6 +10,7 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   font-size: 100%;
   vertical-align: baseline; }
 
+
 html {
   line-height: 1; }
 
@@ -817,6 +818,10 @@ div.addressfield-container-inline > div.form-item {
   margin: 0 auto;
   max-width: 330px; }
 
+.commerce-credit-card-expiration{
+   max-width: 59%;
+}
+
 .commerce-credit-card-expiration .commerce-month-year-divider, .commerce-credit-card-expiration .form-item {
   clear: none;
   float: left;
@@ -827,6 +832,12 @@ div.addressfield-container-inline > div.form-item {
   padding-top: 25px; }
 .commerce-credit-card-expiration .form-item-commerce-payment-payment-details-credit-card-exp-month, .commerce-credit-card-expiration .form-item-commerce-payment-payment-details-credit-card-exp-year {
   width: 100px; }
+
+.commerce-credit-card-expiration .commerce-month-year-divider, .commerce-credit-card-expiration .form-item-transaction-credit-card-expiration-year {
+    width: 81px;
+    top: 25px;
+}
+
 
 /* jquery SB configs */
 /* temporary selectbox styles */

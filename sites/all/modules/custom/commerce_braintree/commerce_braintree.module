@@ -260,7 +260,7 @@ function commerce_braintree_tr_redirect_form($form, &$form_state, $order, $payme
     if ($result->success == true) {
         drupal_goto("checkout/{$order->order_id}/complete");
     } else {
-        drupal_set_message(t($result->message), 'error');
+        drupal_set_message(t($result->message), 'warning');
         drupal_goto("checkout/{$order->order_id}");
     }
 
