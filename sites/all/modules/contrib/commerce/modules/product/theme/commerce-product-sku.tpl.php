@@ -11,6 +11,9 @@
  * Helper variables:
  * - $product: The fully loaded product object the SKU represents.
  */
+
+//Rmoving the SKU of the product being purchased
+return;
 ?>
 <?php if ($sku): ?>
   <div class="commerce-product-sku">
