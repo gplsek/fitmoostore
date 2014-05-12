@@ -334,7 +334,7 @@ function commerce_checkout_commerce_checkout_page_info() {
   // Define a page for checkout completion with no submit buttons on it.
   $checkout_pages['complete'] = array(
     'name' => t('Complete'),
-    'title' => t('Checkout complete'),
+    'title' => t(''),
     'weight' => 50,
     'status_cart' => FALSE,
     'buttons' => FALSE,
