@@ -961,6 +961,8 @@ function fitmoo_checkout_LabelEmail($seller_uid,$buyer_uid,$info,$info_buyer){
 }
 
 function fitmoo_checkout_test_email(){
+	
+	fitmoo_checkout_release_moola(79);
 $order = commerce_order_load(65);
 
 
@@ -1240,6 +1242,7 @@ function fitmoo_checkout_commerce_order_presave($order) {
 			 $order = fitmoo_checkout_braintree_settle($order);
 		    }else{
 		    	//could be pay by points
+				fitmoo_checkout_release_moola($order->order_id);
 		    }
 		        break;
 		    case "Some : Status":
@@ -1258,7 +1261,9 @@ function fitmoo_checkout_braintree_settle($order){
       $payment_method = commerce_payment_method_instance_load('braintree_tr|commerce_payment_braintree_tr');
       commerce_braintree_initialize($payment_method);
       $transactions = commerce_payment_transaction_load_multiple(array(), array('order_id' => $order->order_id));
+	
       foreach ($transactions as $transaction) {
+		  
           if ($transaction->remote_status == 'authorized') {
               //$result = Braintree_Transaction::submitForSettlement('the_transaction_id', '35.00');
               $result = Braintree_Transaction::submitForSettlement($transaction->remote_id);
@@ -1276,6 +1281,47 @@ function fitmoo_checkout_braintree_settle($order){
 
 function fitmoo_checkout_release_moola($order_id){
 	///create transaction record to release the funds for that order
+	
+	$results = db_select('fitmoo_user_accounting', 'm')
+	    ->fields('m')
+	    ->condition('orderID', $order_id,'=')
+	    ->condition('status', 'pending','=')
+	    ->execute();
+	
+	
+	while($result = $results->fetchAssoc()){
+	    db_insert('fitmoo_user_accounting')
+	      ->fields(array(
+	      'uid' => $result['uid'],   //user ID
+	      'type' => $result['type'], // buyer, seller, reference, fitmoo
+	      'ammount' => '-'.$result['ammount'], // 20.00
+	  	  'percentage' => $result['percentage'], // commisions percent example seller now is 80
+		  'orderID' => $result['orderID'],
+		  'productID' => $result['productID'],
+		  'status' => 'pending', //pending, cleared, credit , withdrawn
+	      'created' => REQUEST_TIME,
+	   	  'updated' => REQUEST_TIME,
+	      ))
+	      ->execute();
+		  
+  	    db_insert('fitmoo_user_accounting')
+  	      ->fields(array(
+  	      'uid' => $result['uid'],   //user ID
+  	      'type' => $result['type'], // buyer, seller, reference, fitmoo
+  	      'ammount' => $result['ammount'], // 20.00
+  	  	  'percentage' => $result['percentage'], // commisions percent example seller now is 80
+  		  'orderID' => $result['orderID'],
+  		  'productID' => $result['productID'],
+  		  'status' => 'cleared', //pending, cleared, credit , withdrawn
+  	      'created' => REQUEST_TIME,
+  		  'updated' => REQUEST_TIME,
+  	      ))
+  	      ->execute();
+		
+		
+	}
+	
+     
 	
 }
 
