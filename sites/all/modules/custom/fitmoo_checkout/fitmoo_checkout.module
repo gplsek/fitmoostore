@@ -648,6 +648,11 @@ function _add_manual_shipping_line_item($order, $data) {
 function fitmoo_checkout_commerce_checkout_progress_items_alter(&$items){
 	unset($items['complete']);
 	unset($items['payment']);
+	//Review and Confirm
+
+	$items['checkout']['title'] = t('Review and Confirm');
+	$items['checkout']['submit_value'] = t('Place Order');;
+	
 }
 
 function fitmoo_checkout_form_alter(&$form, &$form_state, $form_id) {
