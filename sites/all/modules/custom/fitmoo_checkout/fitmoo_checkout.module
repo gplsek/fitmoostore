@@ -1268,7 +1268,7 @@ function fitmoo_checkout_braintree_settle($order){
               //$result = Braintree_Transaction::submitForSettlement('the_transaction_id', '35.00');
               $result = Braintree_Transaction::submitForSettlement($transaction->remote_id);
              if ($result->success) {
-                 $order->status = 'Complete';
+                 $order->status = 'Completed';
 				 fitmoo_checkout_release_moola($order->order_id);
              } else {
                  //print_r($result->errors);
