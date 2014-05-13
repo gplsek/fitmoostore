@@ -210,6 +210,24 @@ function commerce_services_order_update($order_id, $data, $flatten_fields) {
      $order->commerce_customer_billing_entities[$profilenew2->profile_id] = $profilenew2;
      commerce_order_save($order);
   }
+
+  if ($order->status == 'Shipping: Delivered') {
+      $payment_method = commerce_payment_method_instance_load('braintree_tr|commerce_payment_braintree_tr');
+      commerce_braintree_initialize($payment_method);
+      $transactions = commerce_payment_transaction_load_multiple(array(), array('order_id' => $order->order_id));
+      foreach ($transactions as $transaction) {
+          if ($transaction->remote_status == 'authorized') {
+              //$result = Braintree_Transaction::submitForSettlement('the_transaction_id', '35.00');
+              $result = Braintree_Transaction::submitForSettlement($transaction->remote_id);
+//              if ($result->success) {
+//                  # Success
+//              } else {
+//                  print_r($result->errors);
+//              }
+          }
+      }
+  }
+
   return $order;
 }
 
