@@ -260,7 +260,7 @@ function commerce_braintree_tr_redirect_form($form, &$form_state, $order, $payme
     if ($result->success == true) {
         drupal_goto("checkout/{$order->order_id}/complete");
     } else {
-        drupal_set_message(t($result->message), 'error');
+        drupal_set_message(t($result->message), 'warning');
         drupal_goto("checkout/{$order->order_id}");
     }
 
@@ -434,12 +434,15 @@ function commerce_braintree_form_alter(&$form, &$form_state, $form_id) {
                         $form['commerce_payment']['payment_details']['credit_card'] = $form1['commerce_payment']['payment_details']['credit_card'];
 
                         // Add the CSS to hide a sole credit card icon if specified.
-                        drupal_add_js('misc/checkout.js');
+						$path = drupal_get_path('module', 'commerce_braintree');
+                        drupal_add_js($path.'/js/checkout.js');
                         if (variable_get('commerce_cardonfile_hide_cc_radio_button', TRUE)) {
                             if (count($form['commerce_payment']['payment_method']['#options']) == 1) {
                                 $form['commerce_payment']['payment_method']['#attached']['css'][] = drupal_get_path('module', 'commerce_cardonfile') . '/theme/commerce_cardonfile.checkout.css';
                             }
                         }
+                    }else{
+                    	$form['commerce_payment']['payment_details'] = commerce_braintree_credit_card_form($payment_method);
                     }
                 }
             }
@@ -741,6 +744,7 @@ function _commerce_braintree_default_process_transaction($result, $order, $payme
             $commerce_transaction->status = COMMERCE_PAYMENT_STATUS_FAILURE;
             commerce_payment_transaction_save($commerce_transaction);
             // There was an error, go back to the previous pane.
+			drupal_set_message(t('There was an error: %error.', array('%error' => $result->message)), 'error');
             commerce_payment_redirect_pane_previous_page($order);
         }
         else {

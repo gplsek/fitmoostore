@@ -89,6 +89,24 @@ function fitmoo_preprocess_page(&$vars) {
 		
 	}
 	
+    if(arg(0) == 'cart'){
+	  if(isset($_GET['checkout'])){
+ 	     $_SESSION['callback'] = $_GET['checkout'];
+        }else{
+         $_SESSION['callback'] = $_SERVER['HTTP_REFERER'];
+        }
+    }
+	
+    if(arg(0) == 'checkout'){
+        //drupal_add_js('misc/checkout.js');
+		
+ 	   if(isset($_GET['checkout'])){
+ 	     $_SESSION['callback'] = $_GET['checkout'];
+        }else{
+         $_SESSION['callback'] = $_SERVER['HTTP_REFERER'];
+        }
+    }
+	
 	if($vars['user']->uid != 1){
 	 $url = array('checkout','cart','user');
 	
@@ -119,19 +137,9 @@ function fitmoo_preprocess_page(&$vars) {
 
 	
 	
-   // if(arg(0) == 'cart'){
-// 	   $_SESSION['callback'] = $_GET['checkout'];
-// 	   fitmoo_checkout_check_stock();
-// 	   drupal_goto('checkout');
-//    }
+
    
-   if(arg(0) == 'checkout'){
-       //drupal_add_js('misc/checkout.js');
-	   if(isset($_GET['checkout'])){
-	     $_SESSION['callback'] = $_GET['checkout'];
-       }
-	   //fitmoo_checkout_check_stock();
-   }
+  
    
   // Prepare header.
   $site_fields = array();
