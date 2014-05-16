@@ -1237,7 +1237,7 @@ function fitmoo_checkout_commerce_order_presave($order) {
 	$prev_orderstat = commerce_order_load($order->order_id);
 	if($order->status <> $prev_orderstat->status){
 		switch ($order->status) {
-		    case "Shipping: Delivered":
+		    case "Completed:Accepted":
 			if($order->data['payment_method'] == 'braintree_tr|commerce_payment_braintree_tr'){
 			 $order = fitmoo_checkout_braintree_settle($order);
 		    }else{
