@@ -71,6 +71,10 @@ function fitmoo_checkout_theme() {
       'template' => 'templates/labelbuyer',
       'arguments' => array('data' => NULL),
     ),
+    'confirmationcodeemail' => array(
+      'template' => 'templates/confirmationcodeemail',
+      'arguments' => array('data' => NULL),
+    ),
  );
 }
 
@@ -423,10 +427,10 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
 	  $info['product'] = $product->title;
 	  $info['orderDate'] = $order->changed;
 	  $info['total'] = $total;
-  }else if($line_item->type == 'shipping'){
+    }else if($line_item->type == 'shipping'){
 	  $info['shipping'] = commerce_currency_amount_to_decimal($line_item->commerce_unit_price['und'][0]['amount'],'USD');
 	  
-  }
+    }
   
   }
   $info['ordertotal'] = commerce_currency_amount_to_decimal($order->commerce_order_total['und'][0]['amount'],'USD');
@@ -962,9 +966,12 @@ function fitmoo_checkout_LabelEmail($seller_uid,$buyer_uid,$info,$info_buyer){
 
 function fitmoo_checkout_test_email(){
 	
-	fitmoo_checkout_release_moola(79);
-$order = commerce_order_load(65);
+// 	fitmoo_checkout_release_moola(79);
+// $order = commerce_order_load(65);
 
+$random_hash = substr(md5(65), 8, 8);
+print $random_hash;
+die();
 
 $info = array();
 foreach (field_get_items('commerce_order', $order, 'commerce_line_items') as $line_item_id) {
@@ -1245,14 +1252,140 @@ function fitmoo_checkout_commerce_order_presave($order) {
 				fitmoo_checkout_release_moola($order->order_id);
 		    }
 		        break;
-		    case "Some : Status":
-		        //echo "i is bar";
+		    case "Pending:AcceptEvent":
+		        $order = fitmoo_checkout_accept_event($order);
 		        break;
-		    case "Some : Status":
-		        //echo "Some : Status";
+		    case "Some:Status":
+			///some call
 		        break;
 		}
 	}
+}
+
+function fitmoo_checkout_accept_event($order){
+	
+	$order->field_confirmation_code['und'][0]['value'] = substr(md5($order->order_id), 8, 8);
+	$order->status = 'Competed:WaitingConfirmation';
+	fitmoo_checkout_email_eventconf_buyer($order);
+	
+    $payment_method = commerce_payment_method_instance_load('braintree_tr|commerce_payment_braintree_tr');
+    commerce_braintree_initialize($payment_method);
+    $transactions = commerce_payment_transaction_load_multiple(array(), array('order_id' => $order->order_id));
+
+    foreach ($transactions as $transaction) {
+	  
+        if ($transaction->remote_status == 'authorized') {
+            //$result = Braintree_Transaction::submitForSettlement('the_transaction_id', '35.00');
+            $result = Braintree_Transaction::submitForSettlement($transaction->remote_id);
+           if ($result->success) {
+			   // something on success
+           } else {
+               //print_r($result->errors);
+           }
+        }
+    }
+	
+	return $order;
+}
+
+function _get_order_info($order){
+    // Iterate through every commerce line item added in product.
+    $info = array();
+    foreach (field_get_items('commerce_order', $order, 'commerce_line_items') as $line_item_id) {
+
+      // Load commerce line item by line item id.
+      $line_item = commerce_line_item_load($line_item_id['line_item_id']);
+
+      // We do not want to include shipping cost in userpoints.
+      if ($line_item->type != 'shipping') {
+        // Load commerce product by product id.
+        $temp = field_get_items('commerce_line_item', $line_item, 'commerce_product');
+	  
+        $product = commerce_product_load($temp[0]['product_id']);
+	 
+
+        // Create parameters.
+        $params = array(
+          'seller_uid' => $product->uid,  //seller uid
+          'total' => commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount'], $product->commerce_price['und'][0]['currency_code']),
+  		'buyer_uid' => $order->uid,
+  		'orderID' => $order->order_id,
+  		'productID' => $product->product_id,
+  	      );
+
+        // Grant userpoints programmatically.
+
+  	  $seller = user_load($product->uid);
+
+  	  //send email to seller
+  	  $total =  commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount'],'USD');
+        $info['qty'] = $line_item->quantity;
+        $info['uri'] = $product->field_image['und'][0]['uri'];
+  	  $term = taxonomy_term_load($product->field_size['und'][0]['tid']);
+  	  $info['size'] = $term->name;
+      
+  	  $info['orderID'] = $order->order_id;
+  	  $buyer = user_load($order->uid);
+  	  $info['buyerEmail'] = $buyer->mail;
+  	  $info['product'] = $product->title;
+  	  $info['orderDate'] = $order->changed;
+  	  $info['total'] = $total;
+      }else if($line_item->type == 'shipping'){
+  	  $info['shipping'] = commerce_currency_amount_to_decimal($line_item->commerce_unit_price['und'][0]['amount'],'USD');
+	  
+      }
+  
+    }
+    $info['ordertotal'] = commerce_currency_amount_to_decimal($order->commerce_order_total['und'][0]['amount'],'USD');
+	
+	return $info;
+}
+
+function fitmoo_checkout_email_eventconf_buyer($order){
+	
+	
+	$info = _get_order_info($order);
+	
+    $module = 'fitmoo_checkout';
+    $key = 'order';
+    $language = language_default();
+    $params = array();
+    $send = TRUE;
+    $to_user = user_load($order->uid);
+    $from = 'store@fitmoo.com';
+    $to = $to_user->mail;
+ 
+
+
+    $headers = array(
+    'MIME-Version' => '1.0',
+    'Content-Type' => 'text/html; charset=UTF-8; format=flowed',
+    'Content-Transfer-Encoding' => '8Bit',
+    'X-Mailer' => 'Drupal'
+    );
+    $params['headers'] = $headers;
+    $message = drupal_mail($module, $key, $to, $language, $params, $from, FALSE);
+
+
+    $message['subject'] = "Your purchase at Fitmoo.com order #".$info['orderID']." was accepted  ";
+    
+	
+	$info['confirmation_code'] = $order->field_confirmation_code['und'][0]['value'];
+
+
+    $body = theme('confirmationcodeemail',$info);
+  
+    $message['body'] = array();
+    $message['body'][] = $body;
+    
+    // Retrieve the responsible implementation for this message.
+    $system = drupal_mail_system($module, $key);
+    // Format the message body.
+    $message = $system->format($message);
+    // Send e-mail.
+    $message['result'] = $system->mail($message);
+    return TRUE;
+	
 }
 
 
