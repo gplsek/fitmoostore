@@ -1,0 +1,71 @@
+<?php
+
+
+/**
+ * Implements hook_menu().
+ */
+function fitmoo_admintools_menu() {
+  $items = array();
+  
+
+  $items['user/%user/moola'] = array(
+    'title' => 'Moola',
+    'page callback' => 'fitmoo_admintools_moola',
+    'page arguments' => array(1),
+    'access callback' => TRUE,
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 1,
+  );
+
+  
+  return $items;
+}
+
+function fitmoo_admintools_moola($user){
+	//pending
+   	$q = db_select('fitmoo_user_accounting', 'a')
+  	    ->fields('a')
+  		->condition('uid', $user->uid,'=')
+		->condition('status','pending','=');
+	$q->addExpression('SUM(ammount)', 'ammount');	
+  	$result = $q->execute()->fetchAssoc();
+	
+	$pending = $result['ammount'];
+	
+	//cleared
+   	$q = db_select('fitmoo_user_accounting', 'a')
+  	    ->fields('a')
+  		->condition('uid', $user->uid,'=')
+		->condition('status','cleared','=');
+	$q->addExpression('SUM(ammount)', 'ammount');	
+  	$result = $q->execute()->fetchAssoc();
+	
+	$cleared = $result['ammount'];
+ 
+    $total = $cleared + $pending;
+
+	
+	$header = array(
+		array('data' => t('Type')),
+		array('data' => t('Ammount')),
+	);
+    $row[] = array(
+    	array('data' => t('<b>Pending</b>')),
+		array('data' => t('$'.number_format( $pending, 2, ".", "," ))),
+    );
+    $row[] = array(
+    	array('data' => t('<b>Total Value</b>')),
+		array('data' => t('$'.number_format( $total, 2, ".", "," ))),
+    );
+    $row[] = array(
+    	array('data' => t('<b>Available</b>')),
+		array('data' => t('$'.number_format( $cleared, 2, ".", "," ))),
+    );
+    
+	$data = array(
+		'header' => $header,
+		'rows' => $row,
+	);
+	return theme('table',$data);
+	
+}
