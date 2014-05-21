@@ -1,7 +1,7 @@
 name = Fitmoo Checkout
 description = Provides hooks for remote checkout
 core = 7.x
-
+package = Fitmoo
 
 ; Information added by drupal.org packaging script on 2014-1-1
 version = "7.x-1.0-beta5+8-dev"
