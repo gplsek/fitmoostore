@@ -76,6 +76,68 @@ function fitmoo_checkout_schema() {
         'uid' => array('uid'),
 	 ),
 	);
+	
+	$schema['fitmoo_user_redemptions'] = array(
+		'description' => 'Redemptions Logs for moola account.',
+		'fields' => array(
+		 	'id' => array(
+		 		'description' => 'The primary identifier',
+		 		'type' => 'serial',
+		 		'unsigned' => TRUE,
+		 		'not null' => TRUE
+		    	),
+  			  'uid' => array(
+  			 	'description' => 'user id',
+  		 		'type' => 'int',
+  		 		'length' => '11',
+  			 	'unsigned' => TRUE,
+  			 	'not null' => TRUE
+  			    ),
+    		 'tid' => array(
+    			 'description' => 'transaction id',
+    		 	 'type' => 'int',
+    		 	 'length' => '11',
+    			 'unsigned' => TRUE,
+    			 'not null' => TRUE
+    		    ),			
+  			 'ammount' => array(
+  				  'description' => 'total amount of the transaction result',
+  				  'type' => 'float',
+  				  'length' => 'big',
+  				  'not null' => TRUE,
+  				  'default' => '0',
+  			   ),
+  			 'status' => array(
+  				  'description' => 'status of the transaction',
+  				  'type' => 'varchar',
+  				  'length' => 255,
+  				  'not null' => TRUE,
+  				  'default' => '',
+  			   ),
+    		'transfer_type' => array(
+    			  'description' => 'type check or ach',
+    			  'type' => 'varchar',
+    			  'length' => 255,
+    			  'not null' => TRUE,
+    			  'default' => '',
+    		 ),
+
+			  'created' => array(
+			       'type' => 'int',
+			       'not null' => true,
+			       'length' => '11',
+			  ),
+			  'updated' => array(
+			       'type' => 'int',
+			       'not null' => true,
+			       'length' => '11',
+			  ),
+        ),
+	  'primary key' => array('id'),
+      'indexes' => array(
+        'uid' => array('uid'),
+	 ),
+	);
  return $schema;
 }
 
@@ -164,6 +226,79 @@ function fitmoo_checkout_update_6008() {
       db_create_table('fitmoo_user_accounting', $fitmoo_user_accounting);
     }
 	return t('The update ran successfully. Created table fitmoo_user_accounting');
+}
+
+function fitmoo_checkout_update_6009() {
+	
+	
+	$fitmoo_user_redemptions = array(
+		'description' => 'Redemptions Logs for moola account.',
+		'fields' => array(
+		 	'id' => array(
+		 		'description' => 'The primary identifier',
+		 		'type' => 'serial',
+		 		'unsigned' => TRUE,
+		 		'not null' => TRUE
+		    	),
+  			  'uid' => array(
+  			 	'description' => 'user id',
+  		 		'type' => 'int',
+  		 		'length' => '11',
+  			 	'unsigned' => TRUE,
+  			 	'not null' => TRUE
+  			    ),
+    		 'tid' => array(
+    			 'description' => 'transaction id',
+    		 	 'type' => 'int',
+    		 	 'length' => '11',
+    			 'unsigned' => TRUE,
+    			 'not null' => TRUE
+    		    ),			
+  			 'ammount' => array(
+  				  'description' => 'total amount of the transaction result',
+  				  'type' => 'float',
+  				  'length' => 'big',
+  				  'not null' => TRUE,
+  				  'default' => '0',
+  			   ),
+  			 'status' => array(
+  				  'description' => 'status of the transaction',
+  				  'type' => 'varchar',
+  				  'length' => 255,
+  				  'not null' => TRUE,
+  				  'default' => '',
+  			   ),
+    		'transfer_type' => array(
+    			  'description' => 'type check or ach',
+    			  'type' => 'varchar',
+    			  'length' => 255,
+    			  'not null' => TRUE,
+    			  'default' => '',
+    		 ),
+
+			  'created' => array(
+			       'type' => 'int',
+			       'not null' => true,
+			       'length' => '11',
+			  ),
+			  'updated' => array(
+			       'type' => 'int',
+			       'not null' => true,
+			       'length' => '11',
+			  ),
+        ),
+	  'primary key' => array('id'),
+      'indexes' => array(
+        'uid' => array('uid'),
+	 ),
+	);
+	
+	
+    if (!db_table_exists('fitmoo_user_redemptions')) {
+      db_create_table('fitmoo_user_redemptions', $fitmoo_user_redemptions);
+    }
+	return t('The update ran successfully. Created table fitmoo_user_redemptions');
+	
 }
 
 

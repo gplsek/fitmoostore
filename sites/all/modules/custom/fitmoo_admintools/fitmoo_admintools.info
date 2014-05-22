@@ -1,0 +1,10 @@
+name = Fitmoo Admin Tools
+description = Provides hooks for admin actions
+core = 7.x
+package = Fitmoo
+
+; Information added by drupal.org packaging script on 2014-5-20
+version = "7.x-1.0"
+core = "7.x"
+project = "fitmoo"
+datestamp = "1381401231"
