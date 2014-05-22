@@ -132,6 +132,44 @@ function fitmoo_api_default_services_endpoint() {
         ),
       ),
     ),
+    'btcustomer' => array(
+      'operations' => array(
+        'index' => array(
+          'enabled' => '1',
+        ),
+        'retrieve' => array(
+          'enabled' => '1',
+        ),
+        'create' => array(
+          'enabled' => '1',
+        ),
+        'update' => array(
+          'enabled' => '1',
+        ),
+        'delete' => array(
+          'enabled' => '1',
+        ),
+      ),
+    ),
+    'checkout' => array(
+      'operations' => array(
+        'index' => array(
+          'enabled' => '1',
+        ),
+        'retrieve' => array(
+          'enabled' => '1',
+        ),
+        'create' => array(
+          'enabled' => '1',
+        ),
+        'update' => array(
+          'enabled' => '1',
+        ),
+        'delete' => array(
+          'enabled' => '1',
+        ),
+      ),
+    ),
     'line-item' => array(
       'operations' => array(
         'index' => array(
