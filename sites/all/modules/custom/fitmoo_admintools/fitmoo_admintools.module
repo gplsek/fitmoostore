@@ -16,6 +16,14 @@ function fitmoo_admintools_menu() {
     'type' => MENU_LOCAL_TASK,
     'weight' => 1,
   );
+  
+  $items['moola/migrate'] = array(
+    'title' => 'Moola',
+    'page callback' => '_migrate_moola',
+    'access callback' => TRUE,
+    'type' => MENU_CALLBACK,
+    'weight' => 1,
+  );
 
   
   return $items;
@@ -69,3 +77,71 @@ function fitmoo_admintools_moola($user){
 	return theme('table',$data);
 	
 }
+
+
+
+      	
+	   
+
+
+function _migrate_moola(){
+
+  	    $q = db_select('fitmoo_user_accounting', 's');
+ 		// ->condition('SESSION', $ses_id,'=')
+ 		// ->condition('step', 'planfeatures','=')
+		$q->addExpression('distinct(uid)', 'uid');	
+	  	$result = $q->execute()->fetchAllAssoc('uid');
+
+
+
+
+    foreach($result as $data){
+    	$uid = $data->uid;
+		
+		
+	   	$q = db_select('fitmoo_user_accounting', 'a')
+	  	    ->fields('a')
+	  		->condition('uid', $uid,'=')
+			->condition('status','pending','=');
+		$q->addExpression('SUM(ammount)', 'ammount');	
+	  	$result = $q->execute()->fetchAssoc();
+	
+		$pending = $result['ammount'];
+	
+		//cleared
+	   	$q = db_select('fitmoo_user_accounting', 'a')
+	  	    ->fields('a')
+	  		->condition('uid', $uid,'=')
+			->condition('status','cleared','=');
+		$q->addExpression('SUM(ammount)', 'ammount');	
+	  	$result = $q->execute()->fetchAssoc();
+	
+		$cleared = $result['ammount'];
+		
+		
+		//total
+	   	$q = db_select('fitmoo_user_accounting', 'a')
+	  	    ->fields('a')
+	  		->condition('uid', $uid,'=');
+		$q->addExpression('SUM(ammount)', 'ammount');	
+	  	$result = $q->execute()->fetchAssoc();
+	
+		$total = $result['ammount'];
+		
+		$user = user_load($uid);
+		
+		$user->field_balance_pending['und'][0]['value'] = $pending;
+		$user->field_balance_available['und'][0]['value'] = $cleared;
+        $user->field_balance_total['und'][0]['value'] = $total;		
+		user_save($user);
+		
+		
+    }
+
+
+	
+}
+	
+	
+	
+	
