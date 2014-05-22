@@ -318,7 +318,7 @@ function fitmoo_checkout_calc_comisions($params){
 		'updated' => REQUEST_TIME,
       ))
       ->execute(); 
-	  
+	  _update_user_balance($params['seller_uid']);
 	  
   	//buyer
   	$buyer_com = ($params['total']/100)*variable_get("buyer_perc", "");
@@ -336,7 +336,7 @@ function fitmoo_checkout_calc_comisions($params){
   		  'updated' => REQUEST_TIME,
         ))
         ->execute(); 
-		
+		_update_user_balance($params['buyer_uid']);
 		
 	  	//buyer
 	  	$fitmoo_com = ($params['total']/100)*variable_get("fitmoo_perc", "");
@@ -354,7 +354,7 @@ function fitmoo_checkout_calc_comisions($params){
 	  		'updated' => REQUEST_TIME,
 	        ))
 	        ->execute(); 
-	
+	        _update_user_balance(1);
 			$fitperc = variable_get("fitmoo_perc", "");
 			
 			
@@ -1451,7 +1451,7 @@ function fitmoo_checkout_release_moola($order_id){
   	      ))
   	      ->execute();
 		
-		
+		_update_user_balance($result['uid']);
 	}
 	
      
