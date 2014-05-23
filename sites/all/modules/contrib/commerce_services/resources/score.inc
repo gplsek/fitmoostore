@@ -38,21 +38,29 @@ function commerce_services_score_create_access($data){
 function commerce_services_score_retrieve($uid) {
     global $user;
     $uid =  $user->uid;
-
+    $user_object = user_load($uid);
     if (is_array($user->roles) && in_array('administrator', $user->roles)) {
         if (!empty($data['uid'])) {$uid = $data['uid'];}
     }
 
-    $pending_sell_income = db_query("SELECT SUM( ammount ) as ammount FROM `fitmoo_user_accounting` WHERE uid = $uid and status ='pending' and type='seller'")->fetchField();
-    $pending_buy_income = db_query("SELECT SUM( ammount ) as ammount FROM `fitmoo_user_accounting` WHERE uid = $uid and status ='pending' and type='buyer'")->fetchField();
-    $pending = $pending_sell_income + $pending_buy_income;
+    //$pending_sell_income = db_query("SELECT SUM( ammount ) as ammount FROM `fitmoo_user_accounting` WHERE uid = $uid and status ='pending' and type='seller'")->fetchField();
+    //$pending_buy_income = db_query("SELECT SUM( ammount ) as ammount FROM `fitmoo_user_accounting` WHERE uid = $uid and status ='pending' and type='buyer'")->fetchField();
+    //$pending = $pending_sell_income + $pending_buy_income;
 
-    $complete_sell_income = db_query("SELECT SUM( ammount ) as ammount FROM `fitmoo_user_accounting` WHERE uid = $uid and status ='cleared' and type='seller'")->fetchField();
-    $complete_buy_income = db_query("SELECT SUM( ammount ) as ammount FROM `fitmoo_user_accounting` WHERE uid = $uid and status ='cleared' and type='buyer'")->fetchField();
-    $complete = $complete_sell_income+$complete_buy_income;
-    $result['ballance'] = $complete + $pending;
-    $result['pending'] = $pending;
-    $result['redeemable'] = $complete;
+    //$complete_sell_income = db_query("SELECT SUM( ammount ) as ammount FROM `fitmoo_user_accounting` WHERE uid = $uid and status ='cleared' and type='seller'")->fetchField();
+    //$complete_buy_income = db_query("SELECT SUM( ammount ) as ammount FROM `fitmoo_user_accounting` WHERE uid = $uid and status ='cleared' and type='buyer'")->fetchField();
+    //$complete = $complete_sell_income+$complete_buy_income;
+	
+    //$result['ballance'] = $complete + $pending;
+    //$result['pending'] = $pending;
+    //$result['redeemable'] = $complete;
+	
+    $result['ballance'] = $user_object->field_balance_total['und'][0]['value'];
+    $result['pending'] = $user_object->field_balance_pending['und'][0]['value'];
+    $result['redeemable'] = $user_object->field_balance_available['und'][0]['value'];
+	
+	unset($user_object);
+	
     return $result;
 }
 
@@ -64,21 +72,28 @@ function commerce_services_score_retrieve_access() {
 function commerce_services_score_index($uid) {
     global $user;
     $uid =  $user->uid;
-
+    $user_object = user_load($uid);
     if (is_array($user->roles) && in_array('administrator', $user->roles)) {
         if (!empty($data['uid'])) {$uid = $data['uid'];}
     }
 
-    $pending_sell_income = db_query("SELECT SUM( ammount ) as ammount FROM `fitmoo_user_accounting` WHERE uid = $uid and status ='pending' and type='seller'")->fetchField();
-    $pending_buy_income = db_query("SELECT SUM( ammount ) as ammount FROM `fitmoo_user_accounting` WHERE uid = $uid and status ='pending' and type='buyer'")->fetchField();
-    $pending = round($pending_sell_income + $pending_buy_income,2);
+    //$pending_sell_income = db_query("SELECT SUM( ammount ) as ammount FROM `fitmoo_user_accounting` WHERE uid = $uid and status ='pending' and type='seller'")->fetchField();
+    //$pending_buy_income = db_query("SELECT SUM( ammount ) as ammount FROM `fitmoo_user_accounting` WHERE uid = $uid and status ='pending' and type='buyer'")->fetchField();
+    //$pending = round($pending_sell_income + $pending_buy_income,2);
 
-    $complete_sell_income = db_query("SELECT SUM( ammount ) as ammount FROM `fitmoo_user_accounting` WHERE uid = $uid and status ='cleared' and type='seller'")->fetchField();
-    $complete_buy_income = db_query("SELECT SUM( ammount ) as ammount FROM `fitmoo_user_accounting` WHERE uid = $uid and status ='cleared' and type='buyer'")->fetchField();
-    $complete = round($complete_sell_income+$complete_buy_income,2);
-    $result['ballance'] = $complete + $pending;
-    $result['pending'] = $pending;
-    $result['redeemable'] = $complete;
+    //$complete_sell_income = db_query("SELECT SUM( ammount ) as ammount FROM `fitmoo_user_accounting` WHERE uid = $uid and status ='cleared' and type='seller'")->fetchField();
+    //$complete_buy_income = db_query("SELECT SUM( ammount ) as ammount FROM `fitmoo_user_accounting` WHERE uid = $uid and status ='cleared' and type='buyer'")->fetchField();
+    ///$complete = round($complete_sell_income+$complete_buy_income,2);
+    //$result['ballance'] = $complete + $pending;
+    //$result['pending'] = $pending;
+    //$result['redeemable'] = $complete;
+	
+    $result['ballance'] = $user_object->field_balance_total['und'][0]['value'];
+    $result['pending'] = $user_object->field_balance_pending['und'][0]['value'];
+    $result['redeemable'] = $user_object->field_balance_available['und'][0]['value'];
+	
+	unset($user_object);
+	
     return $result;
 }
 
