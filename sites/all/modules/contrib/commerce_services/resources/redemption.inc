@@ -85,7 +85,7 @@ function commerce_services_redemption_create($data, $flatten_fields)
         $transfer_type = 'check';
         if (empty($data['mail']) and (empty($user_fields->mail))) {
             return services_error(t('Mail field is empty'), 401);
-        } elseif (empty($user_fields->mail)) {
+        } elseif (!empty($data['mail'])) {
             if (valid_email_address($data['mail'])) {
                 user_save($user_fields, $edit = array('mail' => $data['mail']));
             } else {
@@ -107,34 +107,26 @@ function commerce_services_redemption_create($data, $flatten_fields)
         if ((empty($data['bank_account_name'])) and (empty($user_fields->field_bank_account_name))) {
             return services_error(t('field_bank_account_name is empty'), 401);
         }
-        if ((empty($data['bank_account_name'])) and (empty($user_fields->field_bank_account_name))) {
-            return services_error(t('field_bank_account_name is empty'), 401);
-        }
         if ((empty($data['bank_name'])) and (empty($user_fields->field_bank_name))) {
             return services_error(t('field_bank_name is empty'), 401);
         }
         //$save = false;
-        if (empty($user_fields->field_bank_rounting_number)) {
+        if (!empty($data['bank_account_name'])) {
             $edit = array('field_bank_rounting_number' => array('und' => array(0 => array('value' => $data['bank_rounting_number'],),),),);
             user_save($user_fields, $edit);
             //$save = true;
         }
-        if (empty($user_fields->field_bank_account_number)) {
+        if (!empty($data['bank_account_number'])) {
             $edit = array('field_bank_account_number' => array('und' => array(0 => array('value' => $data['bank_account_number'],),),),);
             user_save($user_fields, $edit);
             //$save = true;
         }
-        if (empty($user_fields->field_bank_account_name)) {
+        if (!empty($data['bank_account_name'])) {
             $edit = array('field_bank_account_name' => array('und' => array(0 => array('value' => $data['bank_account_name'],),),),);
             user_save($user_fields, $edit);
             //$save = true;
         }
-        if (empty($user_fields->field_account_name)) {
-            $edit = array('field_account_name' => array('und' => array(0 => array('value' => $data['bank_account_name'],),),),);
-            user_save($user_fields, $edit);
-            //$save = true;
-        }
-        if (empty($user_fields->field_bank_name)) {
+        if (!empty($data['bank_name'])) {
             $edit = array('field_bank_name' => array('und' => array(0 => array('value' => $data['bank_name'],),),),);
             user_save($user_fields, $edit);
             //$save = true;
