@@ -1255,6 +1255,143 @@ function commerce_services_services_resources() {
         ),
     );
 
+
+    $resources['redemption'] = array(
+        '#api_version' => 3002,
+        'operations' => array(
+            // Define the index callback for a GET to /redemption.
+            'index' => array(
+                'help' => 'Returns a stored cards by user_id',
+                'callback' => 'commerce_services_redemption_index',
+                'file' => array('type' => 'inc', 'module' => 'commerce_services', 'name' => 'resources/redemption'),
+                'access callback' => 'commerce_services_redemption_index_access',
+                'args' => array(
+                    array(
+                        'name' => 'fields',
+                        'type' => 'string',
+                        'description' => '',
+                        'optional' => TRUE,
+                        'source' => array('param' => 'fields'),
+                        'default value' => '',
+                    ),
+                ),
+            ),
+
+            // Define the retrieve callback for a GET to /redemption/%commerce_redemption.
+            'retrieve' => array(
+                'help' => '',
+                'callback' => 'commerce_services_redemption_retrieve',
+                'file' => array('type' => 'inc', 'module' => 'commerce_services', 'name' => 'resources/redemption'),
+                'access callback' => 'commerce_services_redemption_retrieve_access',
+                'access arguments append' => TRUE,
+                'args' => array(
+                    array(
+                        'name' => 'user_id',
+                        'type' => 'int',
+                        'description' => 'The user_id.',
+                        'optional' => FALSE,
+                        'source' => array('path' => 0),
+                    ),
+                    array(
+                        'name' => 'expand_entities',
+                        'type' => 'int',
+                        'description' => 'An integer depth to which entity reference field values should be expanded into full entities in a corresponding property on returned entities.',
+                        'optional' => TRUE,
+                        'source' => array('param' => 'expand_entities'),
+                        'default value' => 1,
+                    ),
+                    array(
+                        'name' => 'flatten_fields',
+                        'type' => 'string',
+                        'description' => 'A string indicating whether or not field value arrays should be flattened; accepts true or false.',
+                        'optional' => TRUE,
+                        'source' => array('param' => 'flatten_fields'),
+                        'default value' => 'true',
+                    ),
+                ),
+            ),
+
+            // Define the create callback for a POST to /redemption.
+            'create' => array(
+                'help' => 'Creates a new redemption for the current API user.',
+                'callback' => 'commerce_services_redemption_create',
+                'file' => array('type' => 'inc', 'module' => 'commerce_services', 'name' => 'resources/redemption'),
+                'access callback' => 'commerce_services_redemption_create_access',
+                'args' => array(
+                    // The data array must include valid values for the type, sku, and
+                    // title properties and at least an amount and currency_code value
+                    // for the default commerce_price field.
+                    array(
+                        'name' => 'data',
+                        'type' => 'array',
+                        'description' => 'The redemption data to set on create.',
+                        'optional' => FALSE,
+                        'source' => 'data',
+                    ),
+                    array(
+                        'name' => 'flatten_fields',
+                        'type' => 'string',
+                        'description' => 'A string indicating whether or not field value arrays are flattened; accepts true or false.',
+                        'optional' => TRUE,
+                        'source' => array('param' => 'flatten_fields'),
+                        'default value' => 'true',
+                    ),
+                ),
+            ),
+
+            // Define the update callback for a PUT to /redemption/%commerce_redemption.
+            'update' => array(
+                'help' => 'Updates a single redemption specified by its redemption ID.',
+                'callback' => 'commerce_services_redemption_update',
+                'file' => array('type' => 'inc', 'module' => 'commerce_services', 'name' => 'resources/redemption'),
+                'access callback' => 'commerce_services_redemption_update_access',
+                'access arguments append' => TRUE,
+                'args' => array(
+                    array(
+                        'name' => 'redemption_id',
+                        'type' => 'int',
+                        'description' => 'The redemption ID of the redemption to delete.',
+                        'optional' => FALSE,
+                        'source' => array('path' => 0),
+                    ),
+                    array(
+                        'name' => 'data',
+                        'type' => 'array',
+                        'description' => 'The redemption data to update.',
+                        'optional' => FALSE,
+                        'source' => 'data',
+                    ),
+                    array(
+                        'name' => 'flatten_fields',
+                        'type' => 'string',
+                        'description' => 'A string indicating whether or not field value arrays are flattened; accepts true or false.',
+                        'optional' => TRUE,
+                        'source' => array('param' => 'flatten_fields'),
+                        'default value' => 'true',
+                    ),
+                ),
+            ),
+
+            // Define the delete callback for a DELETE to /redemption/%commerce_redemption.
+            'delete' => array(
+                'help' => 'Deletes a single redemption specified by its redemption ID.',
+                'callback' => 'commerce_services_redemption_delete',
+                'file' => array('type' => 'inc', 'module' => 'commerce_services', 'name' => 'resources/redemption'),
+                'access callback' => 'commerce_services_redemption_delete_access',
+                'access arguments append' => TRUE,
+                'args' => array(
+                    array(
+                        'name' => 'redemption_id',
+                        'type' => 'int',
+                        'description' => 'The redemption ID of the redemption to delete.',
+                        'optional' => FALSE,
+                        'source' => array('path' => 0),
+                    ),
+                ),
+            ),
+        ),
+    );
+
   if (module_exists('commerce_line_item')) {
     // Define a resource for retrieving a collection of line items.
     $resources['line-item'] = array(
