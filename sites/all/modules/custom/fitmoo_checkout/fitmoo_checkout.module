@@ -966,7 +966,8 @@ function fitmoo_checkout_LabelEmail($seller_uid,$buyer_uid,$info,$info_buyer){
 
 function fitmoo_checkout_test_email(){
 	
-// 	fitmoo_checkout_release_moola(79);
+ 	fitmoo_checkout_release_moola(74);
+	die();
 // $order = commerce_order_load(65);
 
 $random_hash = substr(md5(65), 8, 8);
@@ -1421,6 +1422,23 @@ function fitmoo_checkout_braintree_settle($order){
 
 function fitmoo_checkout_release_moola($order_id){
 	///create transaction record to release the funds for that order
+	
+	//make sure it was not already cleared to 
+	
+	$results = db_select('fitmoo_user_accounting', 'm')
+	    ->fields('m')
+	    ->condition('orderID', $order_id,'=')
+	    ->condition('status', 'cleared','=')
+	    ->execute();
+	
+	while($result = $results->fetchAssoc()){
+		if($result['uid']){
+			//already creadited
+			return;
+		}
+		
+	}
+	
 	
 	$results = db_select('fitmoo_user_accounting', 'm')
 	    ->fields('m')
