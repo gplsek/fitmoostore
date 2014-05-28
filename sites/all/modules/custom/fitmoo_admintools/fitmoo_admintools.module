@@ -24,6 +24,32 @@ function fitmoo_admintools_menu() {
     'type' => MENU_CALLBACK,
     'weight' => 1,
   );
+  
+  $items['admin/commerce/redemptions/pending'] = array(
+    'title' => 'Pending Redemptions',
+    'page callback' => 'fitmoo_admintools_redemptions',
+	'page arguments' => array(3),
+    'access callback' => TRUE,
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 1,
+  );
+  
+  $items['admin/commerce/redemptions/%/view'] = array(
+    'title' => 'Redemptions',
+    'page callback' => 'fitmoo_admintools_redemptions_view',
+	'page arguments' => array(3),
+    'access callback' => TRUE,
+    'type' => MENU_NORMAL_ITEM,
+    'weight' => 1,
+  );
+  $items['admin/commerce/redemptions/all'] = array(
+    'title' => 'All Redemptions',
+    'page callback' => 'fitmoo_admintools_redemptions',
+	'page arguments' => array(3),
+    'access callback' => TRUE,
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 1,
+  );
 
   
   return $items;
@@ -146,7 +172,213 @@ function _update_user_balance($uid){
     }
 	
 }
+
+function fitmoo_admintools_redemptions($status = 'pending'){
+	
+	if($status = 'all'){
+		$results = db_select('fitmoo_user_redemptions', 'm')
+		    ->fields('m')
+		    ->execute();
+	}else if($status = 'complete'){
+		$results = db_select('fitmoo_user_redemptions', 'm')
+		    ->fields('m')
+		    ->condition('status', 'complete','=')
+		    ->execute();
+	}else{
+	$results = db_select('fitmoo_user_redemptions', 'm')
+	    ->fields('m')
+	    ->condition('status', 'pending','=')
+	    ->execute();
+    }
+	
+	while($result = $results->fetchAssoc()){
+		
+		$user = user_load($result['uid']);
+		$link = '<a href="/admin/commerce/redemptions/'.$result['id'].'/view">view</a>';
+	    $row[] = array(
+			
+	    	array('data' => $user->name),
+			array('data' => t('$'.number_format( $result['ammount'], 2, ".", "," ))),
+			array('data' => $result['transfer_type']),
+			array('data' => $result['status']),
+			array('data' => $link),
+	    );
+	}
 	
 	
+	$header = array(
+		array('data' => t('User')),
+		array('data' => t('Ammount')),
+		array('data' => t('Type')),
+		array('data' => t('Status')),
+		array('data' => t('Operations')),
+	);
+    
+    
+    
+	$data = array(
+		'header' => $header,
+		'rows' => $row,
+	);
+	return theme('table',$data);
+	
+}
+
+
+	
+function fitmoo_admintools_redemptions_view($id){
+	
+	$results = db_select('fitmoo_user_redemptions', 'm')
+	    ->fields('m')
+	    ->condition('id', $id,'=')
+	    ->execute();
+	
+	while($result = $results->fetchAssoc()){
+		$data = $result;
+	}
+	
+	return drupal_get_form('fitmoo_admin_tools_redeem_form',$data);
+}
+
+function fitmoo_admin_tools_redeem_form($form, &$form_state,$data){
+	$user = user_load($data['uid']);
+
+    $form['id'] = array(
+    	'#type' => 'hidden',
+		'#value' => $data['id'],
+    );
+
+    $form['user'] = array(
+        '#type' => 'textfield',
+        '#size' => 10,
+        '#title' => t('User'),
+        '#value' => $user->name,
+		'#attributes' => array(
+		    'readonly'=>'readonly',
+		    'style'=>'background: none repeat scroll 0 0 #EAEAEA;'
+		),
+
+    );
+    $form['amount'] = array(
+        '#type' => 'textfield',
+        '#size' => 10,
+        '#title' => t('Amount $'),
+		'#disabled' => TRUE,
+        '#value' => $data['ammount'],
+		'#attributes' => array(
+		    'readonly'=>'readonly',
+		    'style'=>'background: none repeat scroll 0 0 #EAEAEA;'
+		),
+
+    );
+    $form['transfer_type'] = array(
+        '#type' => 'textfield',
+        '#size' => 10,
+        '#title' => t('Transaction Type'),
+		'#disabled' => TRUE,
+        '#value' => $data['transfer_type'],
+		'#attributes' => array(
+		    'readonly'=>'readonly',
+		    'style'=>'background: none repeat scroll 0 0 #EAEAEA;'
+		),
+
+    );
+	
+	
+	if($data['transfer_type'] == 'ach'){
+		//show bank info
+	    $form['bankname'] = array(
+	        '#type' => 'textfield',
+	        '#size' => 20,
+	        '#title' => t('Bank Name'),
+			'#disabled' => TRUE,
+	        '#value' => $user->field_bank_name['und'][0]['value'],
+			'#attributes' => array(
+			    'readonly'=>'readonly',
+			    'style'=>'background: none repeat scroll 0 0 #EAEAEA;'
+			),
+
+	    );
+	    $form['accountname'] = array(
+	        '#type' => 'textfield',
+	        '#size' => 20,
+	        '#title' => t('Account Name'),
+			'#disabled' => TRUE,
+	        '#value' => $user->field_bank_account_name['und'][0]['value'],
+			'#attributes' => array(
+			    'readonly'=>'readonly',
+			    'style'=>'background: none repeat scroll 0 0 #EAEAEA;'
+			),
+
+	    );
+	    $form['rountingnumber'] = array(
+	        '#type' => 'textfield',
+	        '#size' => 20,
+	        '#title' => t('Routing Number'),
+			'#disabled' => TRUE,
+	        '#value' => $user->field_bank_rounting_number['und'][0]['value'],
+			'#attributes' => array(
+			    'readonly'=>'readonly',
+			    'style'=>'background: none repeat scroll 0 0 #EAEAEA;'
+			),
+
+	    );
+	    $form['accountnumber'] = array(
+	        '#type' => 'textfield',
+	        '#size' => 20,
+	        '#title' => t('Account Number'),
+			'#disabled' => TRUE,
+	        '#value' => $user->field_bank_account_number['und'][0]['value'],
+			'#attributes' => array(
+			    'readonly'=>'readonly',
+			    'style'=>'background: none repeat scroll 0 0 #EAEAEA;'
+			),
+
+	    );
+		
+		
+	}
+	
+	$form['status'] = array(
+		'#type' => 'select',
+		'#options' => array(
+			'' => 'Status',
+			'pending' => 'Pending',
+		    'complete' => 'Complete',
+	     ),
+		'#default_value' => $data['status'],
+	);
+    
+
+    $form['submit'] = array(
+        '#type' => 'submit',
+        '#value' => t('Submit'),
+    );
+
+
+    return $form;
+	
+	
+}
+
+function fitmoo_admin_tools_redeem_form_submit($form, &$form_state){
+	
+	
+	
+	$id = $form_state['values']['id'];
+	$status = $form_state['values']['status'];
+	
+	$num_updated = db_update('fitmoo_user_redemptions') // Table name no longer needs {}
+	  ->fields(array(
+	    'updated' => REQUEST_TIME,
+	    'status' => $status,
+	  ))
+	  ->condition('id', $id, '=')
+	  ->execute();
+	
+	drupal_set_message('Updated Redemption Request');
+	drupal_goto('/admin/commerce/redemptions');
+	
+}
 	
 	
