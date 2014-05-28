@@ -99,7 +99,12 @@ function fitmoo_checkout_schema() {
     		 	 'length' => '11',
     			 'unsigned' => TRUE,
     			 'not null' => TRUE
-    		    ),			
+    		    ),	
+       		 'profile_id' => array(
+       			 'description' => 'id for mailing address',
+       		 	 'type' => 'int',
+       		 	 'length' => '11',
+       		    ),		
   			 'ammount' => array(
   				  'description' => 'total amount of the transaction result',
   				  'type' => 'float',
@@ -253,7 +258,12 @@ function fitmoo_checkout_update_6009() {
     		 	 'length' => '11',
     			 'unsigned' => TRUE,
     			 'not null' => TRUE
-    		    ),			
+    		    ),
+             'profile_id' => array(
+          			 'description' => 'id for mailing address',
+          		 	 'type' => 'int',
+          		 	 'length' => '11',
+          	 ),			
   			 'ammount' => array(
   				  'description' => 'total amount of the transaction result',
   				  'type' => 'float',
