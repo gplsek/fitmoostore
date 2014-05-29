@@ -104,6 +104,9 @@ function fitmoo_checkout_schema() {
        			 'description' => 'id for mailing address',
        		 	 'type' => 'int',
        		 	 'length' => '11',
+                 'unsigned' => TRUE,
+                 'not null' => TRUE
+
        		    ),		
   			 'ammount' => array(
   				  'description' => 'total amount of the transaction result',
@@ -263,7 +266,9 @@ function fitmoo_checkout_update_6009() {
           			 'description' => 'id for mailing address',
           		 	 'type' => 'int',
           		 	 'length' => '11',
-          	 ),			
+          			 'unsigned' => TRUE,
+                     'not null' => TRUE
+          	 ),
   			 'ammount' => array(
   				  'description' => 'total amount of the transaction result',
   				  'type' => 'float',
