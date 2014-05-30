@@ -189,6 +189,7 @@ function commerce_braintree_tr_redirect_form($form, &$form_state, $order, $payme
             'transaction' => array(
                 'type' => Braintree_Transaction::SALE,
                 'amount' => $amount,
+				//'merchantAccountId' => 'a_merchant_account_id',  //get merchant_id from user/seler
                 'customer' => array(
                     'firstName' => $customer_name,
                     'email' => $customer_mail,
@@ -204,8 +205,10 @@ function commerce_braintree_tr_redirect_form($form, &$form_state, $order, $payme
                 'options' => array(
                     'storeInVault' => TRUE,
                     // 'submitForSettlement' => TRUE,
+					'holdInEscrow' => true,
                     'submitForSettlement' => $payment_method['settings']['commerce_braintree_settle'] == 'settle_now' ? TRUE : FALSE,
                 ),
+				//'serviceFeeAmount' => "10.00" //calculate the service fee 
             ),
             'redirectUrl' => url('checkout/' . $order->order_id . '/payment/return/' . $order->data['payment_redirect_key'], array('absolute' => TRUE)),
         ));
