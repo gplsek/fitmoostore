@@ -69,8 +69,7 @@ function commerce_services_score_retrieve($uid) {
 		
 		$redemption['id'] = $trans['id'];
 		$redemption['amount'] = $trans['ammount'];
-		$redemption['type'] = $trans['ammount'];
-		$redemption['id'] = $trans['transfer_type'];
+		$redemption['type'] = $trans['transfer_type'];
 		$redemption['status'] = $trans['status'];
 		$redemption['created'] = $trans['created'];
 		$redemption['updated'] = $trans['updated'];
@@ -120,8 +119,7 @@ function commerce_services_score_index($uid) {
 		
 		$redemption['id'] = $trans['id'];
 		$redemption['amount'] = $trans['ammount'];
-		$redemption['type'] = $trans['ammount'];
-		$redemption['id'] = $trans['transfer_type'];
+		$redemption['type'] = $trans['transfer_type'];
 		$redemption['status'] = $trans['status'];
 		$redemption['created'] = $trans['created'];
 		$redemption['updated'] = $trans['updated'];
