@@ -59,6 +59,24 @@ function commerce_services_score_retrieve($uid) {
     $result['pending'] = $user_object->field_balance_pending['und'][0]['value'];
     $result['redeemable'] = $user_object->field_balance_available['und'][0]['value'];
 	
+	$results = db_select('fitmoo_user_redemptions', 'm')
+	    ->fields('m')
+		->condition('uid', $user_object->uid,'=')
+	    ->execute();
+		
+	$redemption = array();	
+	while($trans = $results->fetchAssoc()){
+		
+		$redemption['id'] = $trans['id'];
+		$redemption['amount'] = $trans['ammount'];
+		$redemption['type'] = $trans['ammount'];
+		$redemption['id'] = $trans['transfer_type'];
+		$redemption['status'] = $trans['status'];
+		$redemption['created'] = $trans['created'];
+		$redemption['updated'] = $trans['updated'];
+		$result['redemptions'][] = $redemption;
+	}
+	
 	unset($user_object);
 	
     return $result;
@@ -91,6 +109,24 @@ function commerce_services_score_index($uid) {
     $result['ballance'] = $user_object->field_balance_total['und'][0]['value'];
     $result['pending'] = $user_object->field_balance_pending['und'][0]['value'];
     $result['redeemable'] = $user_object->field_balance_available['und'][0]['value'];
+	
+	$results = db_select('fitmoo_user_redemptions', 'm')
+	    ->fields('m')
+		->condition('uid', $user_object->uid,'=')
+	    ->execute();
+		
+	$redemption = array();	
+	while($trans = $results->fetchAssoc()){
+		
+		$redemption['id'] = $trans['id'];
+		$redemption['amount'] = $trans['ammount'];
+		$redemption['type'] = $trans['ammount'];
+		$redemption['id'] = $trans['transfer_type'];
+		$redemption['status'] = $trans['status'];
+		$redemption['created'] = $trans['created'];
+		$redemption['updated'] = $trans['updated'];
+		$result['redemptions'][] = $redemption;
+	}
 	
 	unset($user_object);
 	

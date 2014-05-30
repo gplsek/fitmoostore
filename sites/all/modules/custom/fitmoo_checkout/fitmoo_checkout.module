@@ -12,6 +12,7 @@ function fitmoo_checkout_menu() {
   
   $items['fitmoo/email'] = array(
     'page callback' => 'fitmoo_checkout_test_email',
+	//'file' => array('type' => 'inc', 'module' => 'commerce_services', 'name' => 'resources/score'),
     'access callback' => TRUE,
     'type' => MENU_CALLBACK,
   );
@@ -965,8 +966,9 @@ function fitmoo_checkout_LabelEmail($seller_uid,$buyer_uid,$info,$info_buyer){
 }
 
 function fitmoo_checkout_test_email(){
-	
-// 	fitmoo_checkout_release_moola(79);
+	_test_accounts(1);
+ 	//fitmoo_checkout_release_moola(74);
+	die();
 // $order = commerce_order_load(65);
 
 $random_hash = substr(md5(65), 8, 8);
@@ -1402,10 +1404,17 @@ function fitmoo_checkout_braintree_settle($order){
               $result = Braintree_Transaction::submitForSettlement($transaction->remote_id);
              if ($result->success) {
                  $order->status = 'Completed';
+                 $transaction->message = $result->processorResponseText;
+                 $transaction->remote_status = $result->status;
+                 $transaction->status = 'success';
 				 fitmoo_checkout_release_moola($order->order_id);
              } else {
+                 $transaction->message = $result->message;
+                 $transaction->status = 'failure';
+                 $transaction->remote_status = 'error';
                  //print_r($result->errors);
              }
+             commerce_payment_transaction_save($transaction);
           }
       }
 	
@@ -1414,6 +1423,23 @@ function fitmoo_checkout_braintree_settle($order){
 
 function fitmoo_checkout_release_moola($order_id){
 	///create transaction record to release the funds for that order
+	
+	//make sure it was not already cleared to 
+	
+	$results = db_select('fitmoo_user_accounting', 'm')
+	    ->fields('m')
+	    ->condition('orderID', $order_id,'=')
+	    ->condition('status', 'cleared','=')
+	    ->execute();
+	
+	while($result = $results->fetchAssoc()){
+		if($result['uid']){
+			//already creadited
+			return;
+		}
+		
+	}
+	
 	
 	$results = db_select('fitmoo_user_accounting', 'm')
 	    ->fields('m')
@@ -1458,4 +1484,39 @@ function fitmoo_checkout_release_moola($order_id){
 	
 }
 
+function _test_accounts($uid){
+	
+    global $user;
+    $uid =  $user->uid;
+    $user_object = user_load($uid);
+    // if (is_array($user->roles) && in_array('administrator', $user->roles)) {
+//         if (!empty($data['uid'])) {$uid = $data['uid'];}
+//     }
 
+    $result['ballance'] = $user_object->field_balance_total['und'][0]['value'];
+    $result['pending'] = $user_object->field_balance_pending['und'][0]['value'];
+    $result['redeemable'] = $user_object->field_balance_available['und'][0]['value'];
+
+	$results = db_select('fitmoo_user_redemptions', 'm')
+	    ->fields('m')
+		->condition('uid', $user_object->uid,'=')
+	    ->execute();
+		
+	$redemption = array();	
+	while($trans = $results->fetchAssoc()){
+		
+		$redemption['id'] = $trans['id'];
+		$redemption['amount'] = $trans['ammount'];
+		$redemption['type'] = $trans['ammount'];
+		$redemption['id'] = $trans['transfer_type'];
+		$redemption['status'] = $trans['status'];
+		$redemption['created'] = $trans['created'];
+		$redemption['updated'] = $trans['updated'];
+		$result['redemptions'][] = $redemption;
+	}
+	
+	unset($user_object);
+	
+    print_r($result);
+	
+}
