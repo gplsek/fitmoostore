@@ -60,19 +60,20 @@ function commerce_services_score_retrieve($uid) {
     $result['redeemable'] = $user_object->field_balance_available['und'][0]['value'];
 	
 	$results = db_select('fitmoo_user_redemptions', 'm')
-	    ->fields('m'),
-		->condition('uid', $user_object->uid,'='),
+	    ->fields('m')
+		->condition('uid', $user_object->uid,'=')
 	    ->execute();
-	$redemption = array();	
-	while($result = $results->fetchAssoc()){
 		
-		$redemption['id'] = $result['id'];
-		$redemption['amount'] = $result['ammount'];
-		$redemption['type'] = $result['ammount'];
-		$redemption['id'] = $result['transfer_type'];
-		$redemption['status'] = $result['status'];
-		$redemption['created'] = $result['created'];
-		$redemption['updated'] = $result['updated'];
+	$redemption = array();	
+	while($trans = $results->fetchAssoc()){
+		
+		$redemption['id'] = $trans['id'];
+		$redemption['amount'] = $trans['ammount'];
+		$redemption['type'] = $trans['ammount'];
+		$redemption['id'] = $trans['transfer_type'];
+		$redemption['status'] = $trans['status'];
+		$redemption['created'] = $trans['created'];
+		$redemption['updated'] = $trans['updated'];
 		$result['redemptions'][] = $redemption;
 	}
 	
@@ -110,19 +111,20 @@ function commerce_services_score_index($uid) {
     $result['redeemable'] = $user_object->field_balance_available['und'][0]['value'];
 	
 	$results = db_select('fitmoo_user_redemptions', 'm')
-	    ->fields('m'),
-		->condition('uid', $user_object->uid,'='),
+	    ->fields('m')
+		->condition('uid', $user_object->uid,'=')
 	    ->execute();
-	$redemption = array();	
-	while($result = $results->fetchAssoc()){
 		
-		$redemption['id'] = $result['id'];
-		$redemption['amount'] = $result['ammount'];
-		$redemption['type'] = $result['ammount'];
-		$redemption['id'] = $result['transfer_type'];
-		$redemption['status'] = $result['status'];
-		$redemption['created'] = $result['created'];
-		$redemption['updated'] = $result['updated'];
+	$redemption = array();	
+	while($trans = $results->fetchAssoc()){
+		
+		$redemption['id'] = $trans['id'];
+		$redemption['amount'] = $trans['ammount'];
+		$redemption['type'] = $trans['ammount'];
+		$redemption['id'] = $trans['transfer_type'];
+		$redemption['status'] = $trans['status'];
+		$redemption['created'] = $trans['created'];
+		$redemption['updated'] = $trans['updated'];
 		$result['redemptions'][] = $redemption;
 	}
 	
