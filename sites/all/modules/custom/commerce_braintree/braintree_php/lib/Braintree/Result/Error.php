@@ -4,7 +4,7 @@
  *
  * @package    Braintree
  * @subpackage Result
- * @copyright  2010 Braintree Payment Solutions
+ * @copyright  2014 Braintree, a division of PayPal, Inc.
  */
 
 /**
@@ -27,7 +27,7 @@
  *
  * @package    Braintree
  * @subpackage Result
- * @copyright  2010 Braintree Payment Solutions
+ * @copyright  2014 Braintree, a division of PayPal, Inc.
  *
  * @property-read array $params original passed params
  * @property-read object $errors Braintree_Error_ErrorCollection
@@ -56,7 +56,11 @@ class Braintree_Result_Error extends Braintree
        foreach(array_slice($pieces, 0, -1) as $key) {
            $params = $params[Braintree_Util::delimiterToCamelCase($key)];
        }
-       $finalKey = Braintree_Util::delimiterToCamelCase(end($pieces));
+       if ($key != 'custom_fields') {
+           $finalKey = Braintree_Util::delimiterToCamelCase(end($pieces));
+       } else {
+           $finalKey = end($pieces);
+       }
        $fieldValue = isset($params[$finalKey]) ? $params[$finalKey] : null;
        return $fieldValue;
    }
@@ -87,6 +91,12 @@ class Braintree_Result_Error extends Braintree
            $this->_set('subscription', Braintree_Subscription::factory($response['subscription']));
        } else {
            $this->_set('subscription', null);
+       }
+
+       if(isset($response['merchantAccount'])) {
+           $this->_set('merchantAccount', Braintree_MerchantAccount::factory($response['merchantAccount']));
+       } else {
+           $this->_set('merchantAccount', null);
        }
    }
 
