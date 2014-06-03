@@ -21,6 +21,14 @@ function commerce_braintree_menu() {
         'access callback' => TRUE,
         'type' => MENU_CALLBACK,
     );
+	
+	//webkook
+    $items['fit_store/btwebhook'] = array(
+        'page callback' => 'commerce_braintree_webhook',
+        'page arguments' => array(),
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
 
     return $items;
 }
@@ -793,4 +801,10 @@ function commerce_braintree_initialize($payment_method) {
 function commerce_braintree_price_amount($amount, $currency_code) {
     $rounded_amount = commerce_currency_round($amount, commerce_currency_load($currency_code));
     return number_format(commerce_currency_amount_to_decimal($rounded_amount, $currency_code), 2, '.', '');
+}
+
+
+function commerce_braintree_webhook(){
+	
+	Braintree_WebhookNotification::verify($_GET["bt_challenge"]);
 }
