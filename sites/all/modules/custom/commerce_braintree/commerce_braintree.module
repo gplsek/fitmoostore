@@ -806,5 +806,7 @@ function commerce_braintree_price_amount($amount, $currency_code) {
 
 function commerce_braintree_webhook(){
 	
-	Braintree_WebhookNotification::verify($_GET["bt_challenge"]);
+	if(isset($_GET["bt_challenge"])) {
+	    echo(Braintree_WebhookNotification::verify($_GET["bt_challenge"]));
+	}
 }
