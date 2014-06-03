@@ -884,7 +884,7 @@ function commerce_braintree_create_merchant(){
 	  )
 	);
 	
-	
+	print "Finished";
 	print_r($result);
 	
 }
