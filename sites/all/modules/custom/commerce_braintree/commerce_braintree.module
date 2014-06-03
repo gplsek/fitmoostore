@@ -805,7 +805,14 @@ function commerce_braintree_price_amount($amount, $currency_code) {
 
 
 function commerce_braintree_webhook(){
-	print "HERE";die();
+	$payment_method = commerce_payment_method_instance_load('braintree_tr|commerce_payment_braintree_tr');
+    require_once drupal_get_path('module', 'commerce_braintree') . '/braintree_php/lib/Braintree.php';
+
+    Braintree_Configuration::merchantId($payment_method['settings']['merchant_id']);
+    Braintree_Configuration::publicKey($payment_method['settings']['public_key']);
+    Braintree_Configuration::privateKey($payment_method['settings']['private_key']);
+    Braintree_Configuration::environment($payment_method['settings']['environment']);
+	
 	if(isset($_GET["bt_challenge"])) {
 	    echo(Braintree_WebhookNotification::verify($_GET["bt_challenge"]));
 	}
