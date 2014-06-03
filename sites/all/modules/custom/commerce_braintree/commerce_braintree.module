@@ -29,6 +29,13 @@ function commerce_braintree_menu() {
         'access callback' => TRUE,
         'type' => MENU_CALLBACK,
     );
+	
+    $items['fit_store/btcreatemerchant'] = array(
+        'page callback' => 'commerce_braintree_create_merchant',
+        'page arguments' => array(),
+        'access callback' => TRUE,
+        'type' => MENU_CALLBACK,
+    );
 
     return $items;
 }
@@ -816,4 +823,68 @@ function commerce_braintree_webhook(){
 	if(isset($_GET["bt_challenge"])) {
 	    echo(Braintree_WebhookNotification::verify($_GET["bt_challenge"]));
 	}
+	
+	$notification = Braintree_WebhookNotification::parse(
+	  $_POST['bt_signature'],
+	  $_POST['bt_payload']
+	);
+	
+	if($notification->kind == Braintree_WebhookNotification::SUB_MERCHANT_ACCOUNT_APPROVED){
+	
+	// true
+	//$notification->merchantAccount->status;
+	// "active"
+	//$notification->merchantAccount->id;
+	// "blue_ladders_store"
+	//$notification->merchantAccount->masterMerchantAccount->id;
+	// "14ladders_marketplace"
+	//$notification->merchantAccount->masterMerchantAccount->status;
+	// "active"
+	watchdog(WATCHDOG_ALERT, $notification->merchantAccount->id.' '.$notification->merchantAccount->status);
+	$user = user_load(1);
+	$user->field_merchant_id['und']['0']['value'] = $notification->merchantAccount->id;
+	user_save($user);
+	
+    }else if ($notification->kind == Braintree_WebhookNotification::SUB_MERCHANT_ACCOUNT_DECLINED){
+		//$notification->message;
+		// "Credit score is too low"
+		watchdog(WATCHDOG_ALERT, $notification->message);
+		//$notification->errors;
+		// Braintree_Error_ValidationErrorCollection Object ( ... )
+    }
+}
+
+function commerce_braintree_create_merchant(){
+	
+	$payment_method = commerce_payment_method_instance_load('braintree_tr|commerce_payment_braintree_tr');
+    require_once drupal_get_path('module', 'commerce_braintree') . '/braintree_php/lib/Braintree.php';
+
+    Braintree_Configuration::merchantId($payment_method['settings']['merchant_id']);
+    Braintree_Configuration::publicKey($payment_method['settings']['public_key']);
+    Braintree_Configuration::privateKey($payment_method['settings']['private_key']);
+    Braintree_Configuration::environment($payment_method['settings']['environment']);
+	
+	
+	
+	$result = Braintree_MerchantAccount::create(
+	  array(
+	    'individual' => array(
+	      'firstName' => 'George',
+	      'lastName' => 'Plsek',
+	      'email' => 'george@plsek.us',
+	      'dateOfBirth' => '1969-03-09',
+	    ),
+	    'funding' => array(
+	      'destination' => Braintree_MerchantAccount::FUNDING_DESTINATION_EMAIL,
+	      'email' => 'george@plsek.us',
+	    ),
+	    'tosAccepted' => true,
+	    'masterMerchantAccountId' => "hknbqyj4j9xs2ts9",
+	    'id' => "georgeplsek"
+	  )
+	);
+	
+	
+	print_r($result);
+	
 }
