@@ -871,16 +871,23 @@ function commerce_braintree_create_merchant(){
 	    'individual' => array(
 	      'firstName' => 'George',
 	      'lastName' => 'Plsek',
-	      'email' => 'george@plsek.us',
-	      'dateOfBirth' => '1969-03-09',
+	      'email' => 'tms@tatomotorsports.com',
+		  'phone' => '8183621142',
+	      'dateOfBirth' => '1949-04-18',
+		  'address' => array(
+		          'streetAddress' => '12633 Herron st',
+		          'locality' => 'Sylmar',
+		          'region' => 'CA',
+		          'postalCode' => '91342'
+		        )
 	    ),
 	    'funding' => array(
 	      'destination' => Braintree_MerchantAccount::FUNDING_DESTINATION_EMAIL,
-	      'email' => 'george@plsek.us',
+	      'email' => 'tms@tatomotorsports.com',
 	    ),
 	    'tosAccepted' => true,
-	    'masterMerchantAccountId' => "hknbqyj4j9xs2ts9",
-	    'id' => "georgeplsek"
+	    'masterMerchantAccountId' => 'nf3zjt6d5yn4hx99',
+	    'id' => "tatomotorsports"
 	  )
 	);
 	

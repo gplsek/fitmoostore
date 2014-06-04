@@ -170,6 +170,25 @@ function fitmoo_api_default_services_endpoint() {
         ),
       ),
     ),
+    'redemption' => array(
+      'operations' => array(
+        'index' => array(
+          'enabled' => '1',
+        ),
+        'retrieve' => array(
+          'enabled' => '1',
+        ),
+        'create' => array(
+          'enabled' => '1',
+        ),
+        'update' => array(
+          'enabled' => '1',
+        ),
+        'delete' => array(
+          'enabled' => '1',
+        ),
+      ),
+    ),
     'line-item' => array(
       'operations' => array(
         'index' => array(
@@ -198,6 +217,54 @@ function fitmoo_api_default_services_endpoint() {
           'enabled' => '1',
         ),
         'index' => array(
+          'enabled' => '1',
+        ),
+      ),
+    ),
+    'comment' => array(
+      'operations' => array(
+        'create' => array(
+          'enabled' => '1',
+        ),
+        'retrieve' => array(
+          'enabled' => '1',
+        ),
+        'update' => array(
+          'enabled' => '1',
+        ),
+        'delete' => array(
+          'enabled' => '1',
+        ),
+        'index' => array(
+          'enabled' => '1',
+        ),
+      ),
+      'actions' => array(
+        'countAll' => array(
+          'enabled' => '1',
+        ),
+        'countNew' => array(
+          'enabled' => '1',
+        ),
+      ),
+    ),
+    'file' => array(
+      'operations' => array(
+        'create' => array(
+          'enabled' => '1',
+        ),
+        'retrieve' => array(
+          'enabled' => '1',
+        ),
+        'delete' => array(
+          'enabled' => '1',
+        ),
+        'index' => array(
+          'enabled' => '1',
+        ),
+      ),
+      'actions' => array(
+        'create_raw' => array(
           'enabled' => '1',
         ),
       ),
