@@ -5122,6 +5122,39 @@ function fitmoo_store_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'user-user-field_braintreemerchant_id'
+  $field_instances['user-user-field_braintreemerchant_id'] = array(
+    'bundle' => 'user',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 10,
+      ),
+    ),
+    'entity_type' => 'user',
+    'field_name' => 'field_braintreemerchant_id',
+    'label' => 'BrainTreeMerchant ID',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => 0,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 14,
+    ),
+  );
+
   // Translatables
   // Included for use with string extractors like potx.
   t('Address');
@@ -5134,6 +5167,7 @@ function fitmoo_store_field_default_field_instances() {
   t('Bank Rounting number');
   t('Billing information');
   t('Body');
+  t('BrainTreeMerchant ID');
   t('Brand');
   t('Date');
   t('Description');
