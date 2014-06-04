@@ -4,7 +4,7 @@
  *
  * @package    Braintree
  * @category   Resources
- * @copyright  2010 Braintree Payment Solutions
+ * @copyright  2014 Braintree, a division of PayPal, Inc.
  */
 
 /**
@@ -16,8 +16,8 @@
  *
  * @package    Braintree
  * @category   Resources
- * @copyright  2010 Braintree Payment Solutions
- * 
+ * @copyright  2014 Braintree, a division of PayPal, Inc.
+ *
  * @property-read array  $addresses
  * @property-read string $company
  * @property-read string $createdAt
@@ -36,7 +36,7 @@ class Braintree_Customer extends Braintree
 {
     public static function all()
     {
-        $response = braintree_http::post('/customers/advanced_search_ids');
+        $response = Braintree_Http::post('/customers/advanced_search_ids');
         $pager = array(
             'className' => __CLASS__,
             'classMethod' => 'fetch',
@@ -53,9 +53,9 @@ class Braintree_Customer extends Braintree
             $criteria[$term->name] = $term->toparam();
         }
         $criteria["ids"] = Braintree_CustomerSearch::ids()->in($ids)->toparam();
-        $response = braintree_http::post('/customers/advanced_search', array('search' => $criteria));
+        $response = Braintree_Http::post('/customers/advanced_search', array('search' => $criteria));
 
-        return braintree_util::extractattributeasarray(
+        return Braintree_Util::extractattributeasarray(
             $response['customers'],
             'customer'
         );
@@ -150,7 +150,8 @@ class Braintree_Customer extends Braintree
         unset($creditCardSignature['customerId']);
         $signature = array(
             'id', 'company', 'email', 'fax', 'firstName',
-            'lastName', 'phone', 'website',
+            'lastName', 'phone', 'website', 'deviceData',
+            'deviceSessionId', 'fraudMerchantId',
             array('creditCard' => $creditCardSignature),
             array('customFields' => array('_anyKey_')),
             );
@@ -173,7 +174,8 @@ class Braintree_Customer extends Braintree
 
         $signature = array(
             'id', 'company', 'email', 'fax', 'firstName',
-            'lastName', 'phone', 'website',
+            'lastName', 'phone', 'website', 'deviceData',
+            'deviceSessionId', 'fraudMerchantId',
             array('creditCard' => $creditCardSignature),
             array('customFields' => array('_anyKey_')),
             );
@@ -302,7 +304,7 @@ class Braintree_Customer extends Braintree
             $criteria[$term->name] = $term->toparam();
         }
 
-        $response = braintree_http::post('/customers/advanced_search_ids', array('search' => $criteria));
+        $response = Braintree_Http::post('/customers/advanced_search_ids', array('search' => $criteria));
         $pager = array(
             'className' => __CLASS__,
             'classMethod' => 'fetch',

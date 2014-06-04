@@ -3,14 +3,14 @@
  * Braintree Utility methods
  * PHP version 5
  *
- * @copyright  2010 Braintree Payment Solutions
+ * @copyright  2014 Braintree, a division of PayPal, Inc.
  */
 
 /**
  * Braintree Utility methods
  *
  *
- * @copyright  2010 Braintree Payment Solutions
+ * @copyright  2014 Braintree, a division of PayPal, Inc.
  */
 class Braintree_Util
 {
@@ -87,14 +87,22 @@ class Braintree_Util
      */
     public static function cleanClassName($name)
     {
-        $name = str_replace('Braintree_', '', $name);
-        // lcfirst only exists >= 5.3
-        if ( false === function_exists('lcfirst') ):
-            function lcfirst( $str )
-            { return (string)(strtolower(substr($str,0,1)).substr($str,1));}
-        endif;
+        $classNamesToResponseKeys = array(
+            'CreditCard' => 'creditCard',
+            'Customer' => 'customer',
+            'Subscription' => 'subscription',
+            'Transaction' => 'transaction',
+            'CreditCardVerification' => 'verification',
+            'AddOn' => 'addOn',
+            'Discount' => 'discount',
+            'Plan' => 'plan',
+            'Address' => 'address',
+            'SettlementBatchSummary' => 'settlementBatchSummary',
+            'MerchantAccount' => 'merchantAccount'
+        );
 
-        return lcfirst($name);
+        $name = str_replace('Braintree_', '', $name);
+        return $classNamesToResponseKeys[$name];
     }
 
     /**
@@ -104,7 +112,21 @@ class Braintree_Util
      */
     public static function buildClassName($name)
     {
-        return 'Braintree_' . ucfirst($name);
+        $responseKeysToClassNames = array(
+            'creditCard' => 'CreditCard',
+            'customer' => 'Customer',
+            'subscription' => 'Subscription',
+            'transaction' => 'Transaction',
+            'verification' => 'CreditCardVerification',
+            'addOn' => 'AddOn',
+            'discount' => 'Discount',
+            'plan' => 'Plan',
+            'address' => 'Address',
+            'settlementBatchSummary' => 'SettlementBatchSummary',
+            'merchantAccount' => 'MerchantAccount'
+        );
+
+        return 'Braintree_' . $responseKeysToClassNames[$name];
     }
 
     /**
@@ -116,7 +138,15 @@ class Braintree_Util
      */
     public static function delimiterToCamelCase($string, $delimiter = '[\-\_]')
     {
-        return preg_replace('/' . $delimiter . '(\w)/e', 'strtoupper("$1")',$string);
+        // php doesn't garbage collect functions created by create_function()
+        // so use a static variable to avoid adding a new function to memory
+        // every time this function is called.
+        static $callback = null;
+        if ($callback === null) {
+            $callback = create_function('$matches', 'return strtoupper($matches[1]);');
+        }
+
+        return preg_replace_callback('/' . $delimiter . '(\w)/', $callback, $string);
     }
 
     /**
@@ -141,7 +171,15 @@ class Braintree_Util
      */
     public static function camelCaseToDelimiter($string, $delimiter = '-')
     {
-        return preg_replace('/([A-Z])/e', '"' . $delimiter . '" . strtolower("$1")', $string);
+        // php doesn't garbage collect functions created by create_function()
+        // so use a static variable to avoid adding a new function to memory
+        // every time this function is called.
+        static $callbacks = array();
+        if (!isset($callbacks[$delimiter])) {
+            $callbacks[$delimiter] = create_function('$matches', "return '$delimiter' . strtolower(\$matches[1]);");
+        }
+
+        return preg_replace_callback('/([A-Z])/', $callbacks[$delimiter], $string);
     }
 
     /**
@@ -163,12 +201,10 @@ class Braintree_Util
     }
 
     public static function attributesToString($attributes) {
+        $printableAttribs = array();
         foreach ($attributes AS $key => $value) {
             if (is_array($value)) {
-                $pAttrib = "";
-                foreach ($value AS $obj) {
-                    $pAttrib .= sprintf('%s', $obj);
-                }
+                $pAttrib = Braintree_Util::attributesToString($value);
             } else if ($value instanceof DateTime) {
                 $pAttrib = $value->format(DateTime::RFC850);
             } else {
