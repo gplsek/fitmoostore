@@ -238,6 +238,18 @@ function commerce_services_redemption_create($data, $flatten_fields)
         ))
         ->execute();
 
+    //to logs===
+     db_insert('fitmoo_user_accounting_log')
+        ->fields(array(
+            'uaID' => $id,
+            'uid' => $data['userID'],
+            'ammount' => -$data['amount'],
+            'type' => '',
+            'status' => 'redemption',
+            'created' => REQUEST_TIME,
+        ))
+        ->execute();
+
 
     $redid = db_insert('fitmoo_user_redemptions') // Table name no longer needs {}
         ->fields(array(
