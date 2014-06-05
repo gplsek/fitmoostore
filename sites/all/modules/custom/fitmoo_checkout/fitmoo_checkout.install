@@ -76,6 +76,81 @@ function fitmoo_checkout_schema() {
         'uid' => array('uid'),
 	 ),
 	);
+
+
+		$schema['fitmoo_user_accounting_log'] = array(
+    		'description' => 'fitmoo_user_accounting Logs.',
+    		'fields' => array(
+  			       'uaID' => array(
+  			 	    'description' => 'user_accounting id',
+  		 		    'type' => 'int',
+  		 		    'length' => '11',
+  			 	    'unsigned' => TRUE,
+  			 	    'not null' => TRUE
+  			      ),
+      			  'uid' => array(
+      			 	'description' => 'user id',
+      		 		'type' => 'int',
+      		 		'length' => '11',
+      			 	'unsigned' => TRUE,
+      			 	'not null' => TRUE
+      			    ),
+    			 'type' => array(
+    				  'description' => 'buyer or seller',
+    				  'type' => 'varchar',
+    				  'length' => 32,
+    				  'not null' => TRUE,
+    				  'default' => '',
+    			   ),
+      			 'ammount' => array(
+      				  'description' => 'total amount of the transaction result',
+      				  'type' => 'float',
+      				  'length' => 'big',
+      				  'not null' => TRUE,
+      				  'default' => '0',
+      			   ),
+      			 'percentage' => array(
+      				  'description' => 'percentage slipt at the time',
+      				  'type' => 'float',
+      				  'length' => 'big',
+      				  'not null' => TRUE,
+      				  'default' => '0',
+      			   ),
+      			 'status' => array(
+      				  'description' => 'status of the transaction',
+      				  'type' => 'varchar',
+      				  'length' => 255,
+      				  'not null' => TRUE,
+      				  'default' => '',
+      			   ),
+    	  		   'orderID' => array(
+    	  			 	'description' => 'order ID',
+    	  		 		'type' => 'int',
+    	  		 		'length' => '11',
+    	  			 	'unsigned' => TRUE,
+    	  			 	'not null' => TRUE,
+    					'default' => '0',
+    	  			    ),
+    	    		'productID' => array(
+    	    	    	'description' => 'product ID',
+    	    	 		'type' => 'int',
+    	    	 		'length' => '11',
+    	   			 	'unsigned' => TRUE,
+    	   			 	'not null' => TRUE,
+    					'default' => '0',
+    	   			    ),
+    			  'created' => array(
+    			       'type' => 'int',
+    			       'not null' => true,
+    			       'length' => '11',
+    			  ),
+            ),
+    	  'primary key' => array('id'),
+          'indexes' => array(
+            'uid' => array('uid'),
+    	 ),
+    	);
+
 	
 	$schema['fitmoo_user_redemptions'] = array(
 		'description' => 'Redemptions Logs for moola account.',
