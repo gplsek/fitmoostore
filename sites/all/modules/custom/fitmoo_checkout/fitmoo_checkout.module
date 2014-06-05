@@ -748,7 +748,7 @@ function fitmoo_checkout_commerce_checkout_router($order, $checkout_page) {
 //}
 
         //===========1st_call=============
-        $data = "id={$product_id}&stock={$in_stock}";
+        $data = '{"id" : "'.$product_id.'" , "stock" : "'.$in_stock.'"}';
         $options = array(
             'method' => 'PUT',
             'data' => $data,
@@ -760,8 +760,7 @@ function fitmoo_checkout_commerce_checkout_router($order, $checkout_page) {
 
 
         //==========2nd call==============
-
-        $data = "order_id={$order->order_id}&seller_email={$product_seller->mail}&buyer_email={$product_buyer->mail}&product_id=$product_id";
+        $data = '{"order_id" : "'.$order->order_id.'" , "seller_email" : "'.$product_seller->mail.'" , "buyer_email" : "'.$product_buyer->mail.'", "product_id" : "'.$product_id.'"}';
         $options = array(
             'method' => 'POST',
             'data' => $data,
