@@ -1544,55 +1544,64 @@ function fitmoo_checkout_release_moola($order_id){
 	    ->condition('status', 'pending','=')
 	    ->execute();
 	
+	$num_updated = db_update('fitmoo_user_accounting')
+	  ->fields(array(
+	    'status' => 'cleared',
+		'updated' => REQUEST_TIME,
+	  ))
+  	  ->condition('orderID', $order_id,'=')
+  	  ->condition('status', 'pending','=')
+	  ->execute();
+	
 	
 	while($result = $results->fetchAssoc()){
-	   $id =  db_insert('fitmoo_user_accounting')
-	      ->fields(array(
-	      'uid' => $result['uid'],   //user ID
-	      'type' => $result['type'], // buyer, seller, reference, fitmoo
-	      'ammount' => '-'.$result['ammount'], // 20.00
-	  	  'percentage' => $result['percentage'], // commisions percent example seller now is 80
-		  'orderID' => $result['orderID'],
-		  'productID' => $result['productID'],
-		  'status' => 'pending', //pending, cleared, credit , withdrawn
-	      'created' => REQUEST_TIME,
-	   	  'updated' => REQUEST_TIME,
-	      ))
-	      ->execute();
+	   // $id =  db_insert('fitmoo_user_accounting')
+// 	      ->fields(array(
+// 	      'uid' => $result['uid'],   //user ID
+// 	      'type' => $result['type'], // buyer, seller, reference, fitmoo
+// 	      'ammount' => '-'.$result['ammount'], // 20.00
+// 	  	  'percentage' => $result['percentage'], // commisions percent example seller now is 80
+// 		  'orderID' => $result['orderID'],
+// 		  'productID' => $result['productID'],
+// 		  'status' => 'pending', //pending, cleared, credit , withdrawn
+// 	      'created' => REQUEST_TIME,
+// 	   	  'updated' => REQUEST_TIME,
+// 	      ))
+// 	      ->execute();
+        //log
+        // db_insert('fitmoo_user_accounting_log')
+//             ->fields(array(
+//                 'uaID' => $id,
+//                 'uid' => $result['uid'],   //user ID
+//                 'type' => $result['type'], // buyer, seller, reference, fitmoo
+//                 'ammount' => '-'.$result['ammount'], // 20.00
+//                 'percentage' => $result['percentage'], // commisions percent example seller now is 80
+//                 'orderID' => $result['orderID'],
+//                 'productID' => $result['productID'],
+//                 'status' => 'pending', //pending, cleared, credit , withdrawn
+//                 'created' => REQUEST_TIME,
+//             ))
+//             ->execute();
+
+
+
+        // db_insert('fitmoo_user_accounting')
+//   	      ->fields(array(
+//   	      'uid' => $result['uid'],   //user ID
+//   	      'type' => $result['type'], // buyer, seller, reference, fitmoo
+//   	      'ammount' => $result['ammount'], // 20.00
+//   	  	  'percentage' => $result['percentage'], // commisions percent example seller now is 80
+//   		  'orderID' => $result['orderID'],
+//   		  'productID' => $result['productID'],
+//   		  'status' => 'cleared', //pending, cleared, credit , withdrawn
+//   	      'created' => REQUEST_TIME,
+//   		  'updated' => REQUEST_TIME,
+//   	      ))
+//   	      ->execute();
         //log
         db_insert('fitmoo_user_accounting_log')
             ->fields(array(
-                'uaID' => $id,
-                'uid' => $result['uid'],   //user ID
-                'type' => $result['type'], // buyer, seller, reference, fitmoo
-                'ammount' => '-'.$result['ammount'], // 20.00
-                'percentage' => $result['percentage'], // commisions percent example seller now is 80
-                'orderID' => $result['orderID'],
-                'productID' => $result['productID'],
-                'status' => 'pending', //pending, cleared, credit , withdrawn
-                'created' => REQUEST_TIME,
-            ))
-            ->execute();
-
-
-
-        db_insert('fitmoo_user_accounting')
-  	      ->fields(array(
-  	      'uid' => $result['uid'],   //user ID
-  	      'type' => $result['type'], // buyer, seller, reference, fitmoo
-  	      'ammount' => $result['ammount'], // 20.00
-  	  	  'percentage' => $result['percentage'], // commisions percent example seller now is 80
-  		  'orderID' => $result['orderID'],
-  		  'productID' => $result['productID'],
-  		  'status' => 'cleared', //pending, cleared, credit , withdrawn
-  	      'created' => REQUEST_TIME,
-  		  'updated' => REQUEST_TIME,
-  	      ))
-  	      ->execute();
-        //log
-        db_insert('fitmoo_user_accounting_log')
-            ->fields(array(
-                'uaID' => $id,
+                'uaID' => $result['$id'],
                 'uid' => $result['uid'],   //user ID
                 'type' => $result['type'], // buyer, seller, reference, fitmoo
                 'ammount' => $result['ammount'], // 20.00
