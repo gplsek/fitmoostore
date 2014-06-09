@@ -318,6 +318,9 @@ function commerce_braintree_tr_process_transaction($order, $payment_method, $fee
     commerce_braintree_initialize($payment_method);
 
     $result = Braintree_TransparentRedirect::confirm($feedback);
+	
+	
+	
     $context = commerce_braintree_payment_session_load($order->order_id);
 
     if (module_exists('commerce_cardonfile') && !empty($payment_method['settings']['cardonfile']) && ($context === NULL || $context == 'new') && $result->success) {

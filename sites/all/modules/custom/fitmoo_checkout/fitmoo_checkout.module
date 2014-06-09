@@ -148,6 +148,12 @@ function fitmoo_checkout_commisions(){
 		
 	);
 	
+	$form['info2'] = array(
+		'#type'=> 'item',
+		 '#markup'=> t('Set percentage splits for Products'),
+		
+	);
+	
     $form['seller'] = array(
     '#type' => 'textfield',
 	'#size' => 10,
@@ -167,6 +173,33 @@ function fitmoo_checkout_commisions(){
 	'#size' => 10,
     '#title' => t('Fitmoo %'),
     '#default_value' => variable_get("fitmoo_perc", ""),
+    
+    );
+	
+	$form['info3'] = array(
+		'#type'=> 'item',
+		 '#markup'=> t('Set percentage splits for Events'),
+		
+	);
+    $form['eventseller'] = array(
+    '#type' => 'textfield',
+	'#size' => 10,
+    '#title' => t('Seller %'),
+    '#default_value' => variable_get("seller_event_perc", ""),
+    
+    );
+    $form['eventbuyer'] = array(
+    '#type' => 'textfield',
+	'#size' => 10,
+    '#title' => t('Buer %'),
+    '#default_value' => variable_get("buyer_event_perc", ""),
+    
+    );
+    $form['eventfitmoo'] = array(
+    '#type' => 'textfield',
+	'#size' => 10,
+    '#title' => t('Fitmoo %'),
+    '#default_value' => variable_get("fitmoo_event_perc", ""),
     
     );
 	
@@ -257,9 +290,14 @@ function fitmoo_checkout_setShippingFee(){
 function fitmoo_checkout_commisions_submit($form, &$form_state) {
     if ($form_state['values']['seller']) {
 
+        variable_set("seller_event_perc", $form_state['values']['eventseller']);
+        variable_set("buyer_event_perc", $form_state['values']['eventbuyer']);
+        variable_set("fitmoo_event_perc", $form_state['values']['eventfitmoo']);
+		
         variable_set("seller_perc", $form_state['values']['seller']);
         variable_set("buyer_perc", $form_state['values']['buyer']);
         variable_set("fitmoo_perc", $form_state['values']['fitmoo']);
+		
         drupal_set_message(t("Updated Commission Percentages."));
 
     }
@@ -302,9 +340,20 @@ function fitmoo_checkout_setShippingFee_submit($form, &$form_state) {
 
 function fitmoo_checkout_calc_comisions($params){
 	
+	if($params['productType']){
+		$seller_perc = variable_get("seller_event_perc", "");
+		$buyer_perc = variable_get("buyer_event_perc", "");
+		$fitmoo_perc = variable_get("fitmoo_event_perc", "");
+	}else{
+		$seller_perc = variable_get("seller_perc", "");
+		$buyer_perc = variable_get("buyer_perc", "");
+		$fitmoo_perc = variable_get("fitmoo_perc", "");
+		
+	}
+	
 	
 	//seller
-	$sell_com = ($params['total']/100)*variable_get("seller_perc", "");
+	$sell_com = ($params['total']/100)*$seller_perc;
 	
     $id = db_insert('fitmoo_user_accounting')
       ->fields(array(
@@ -338,7 +387,7 @@ function fitmoo_checkout_calc_comisions($params){
 
 
     //buyer
-  	$buyer_com = ($params['total']/100)*variable_get("buyer_perc", "");
+  	$buyer_com = ($params['total']/100)*$buyer_perc;
 	
       $id = db_insert('fitmoo_user_accounting')
         ->fields(array(
@@ -370,7 +419,7 @@ function fitmoo_checkout_calc_comisions($params){
         ->execute();
 		
 	  	//buyer
-	  	$fitmoo_com = ($params['total']/100)*variable_get("fitmoo_perc", "");
+	  	$fitmoo_com = ($params['total']/100)*$fitmoo_perc;
 	
 	      $id = db_insert('fitmoo_user_accounting')
 	        ->fields(array(
@@ -400,13 +449,13 @@ function fitmoo_checkout_calc_comisions($params){
             ))
             ->execute();
 	        _update_user_balance(1);
-			$fitperc = variable_get("fitmoo_perc", "");
+			$fitperc = $fitmoo_perc;
 			
 			
-			$sellperc = variable_get("seller_perc", "");
+			$sellperc = $seller_perc;
 			
 			
-			$buyperc = variable_get("buyer_perc", "");
+			$buyperc = $buyer_perc;
 			
 			
 			$data = array(
@@ -449,6 +498,7 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
 		'buyer_uid' => $order->uid,
 		'orderID' => $order->order_id,
 		'productID' => $product->product_id,
+		'productType' => $product->type,
 	      );
 
       // Grant userpoints programmatically.
@@ -1344,12 +1394,12 @@ function fitmoo_checkout_commerce_order_presave($order) {
 	if($order->status <> $prev_orderstat->status){
 		switch ($order->status) {
 		    case "Completed:Accepted":
-			if($order->data['payment_method'] == 'braintree_tr|commerce_payment_braintree_tr'){
-			 $order = fitmoo_checkout_braintree_settle($order);
-		    }else{
+			//if($order->data['payment_method'] == 'braintree_tr|commerce_payment_braintree_tr'){
+			 //$order = fitmoo_checkout_braintree_settle($order);
+		    //}else{
 		    	//could be pay by points
 				fitmoo_checkout_release_moola($order->order_id);
-		    }
+		   // }
 		        break;
 		    case "Pending:AcceptEvent":
 		        $order = fitmoo_checkout_accept_event($order);
@@ -1544,55 +1594,64 @@ function fitmoo_checkout_release_moola($order_id){
 	    ->condition('status', 'pending','=')
 	    ->execute();
 	
+	$num_updated = db_update('fitmoo_user_accounting')
+	  ->fields(array(
+	    'status' => 'cleared',
+		'updated' => REQUEST_TIME,
+	  ))
+  	  ->condition('orderID', $order_id,'=')
+  	  ->condition('status', 'pending','=')
+	  ->execute();
+	
 	
 	while($result = $results->fetchAssoc()){
-	   $id =  db_insert('fitmoo_user_accounting')
-	      ->fields(array(
-	      'uid' => $result['uid'],   //user ID
-	      'type' => $result['type'], // buyer, seller, reference, fitmoo
-	      'ammount' => '-'.$result['ammount'], // 20.00
-	  	  'percentage' => $result['percentage'], // commisions percent example seller now is 80
-		  'orderID' => $result['orderID'],
-		  'productID' => $result['productID'],
-		  'status' => 'pending', //pending, cleared, credit , withdrawn
-	      'created' => REQUEST_TIME,
-	   	  'updated' => REQUEST_TIME,
-	      ))
-	      ->execute();
+	   // $id =  db_insert('fitmoo_user_accounting')
+// 	      ->fields(array(
+// 	      'uid' => $result['uid'],   //user ID
+// 	      'type' => $result['type'], // buyer, seller, reference, fitmoo
+// 	      'ammount' => '-'.$result['ammount'], // 20.00
+// 	  	  'percentage' => $result['percentage'], // commisions percent example seller now is 80
+// 		  'orderID' => $result['orderID'],
+// 		  'productID' => $result['productID'],
+// 		  'status' => 'pending', //pending, cleared, credit , withdrawn
+// 	      'created' => REQUEST_TIME,
+// 	   	  'updated' => REQUEST_TIME,
+// 	      ))
+// 	      ->execute();
+        //log
+        // db_insert('fitmoo_user_accounting_log')
+//             ->fields(array(
+//                 'uaID' => $id,
+//                 'uid' => $result['uid'],   //user ID
+//                 'type' => $result['type'], // buyer, seller, reference, fitmoo
+//                 'ammount' => '-'.$result['ammount'], // 20.00
+//                 'percentage' => $result['percentage'], // commisions percent example seller now is 80
+//                 'orderID' => $result['orderID'],
+//                 'productID' => $result['productID'],
+//                 'status' => 'pending', //pending, cleared, credit , withdrawn
+//                 'created' => REQUEST_TIME,
+//             ))
+//             ->execute();
+
+
+
+        // db_insert('fitmoo_user_accounting')
+//   	      ->fields(array(
+//   	      'uid' => $result['uid'],   //user ID
+//   	      'type' => $result['type'], // buyer, seller, reference, fitmoo
+//   	      'ammount' => $result['ammount'], // 20.00
+//   	  	  'percentage' => $result['percentage'], // commisions percent example seller now is 80
+//   		  'orderID' => $result['orderID'],
+//   		  'productID' => $result['productID'],
+//   		  'status' => 'cleared', //pending, cleared, credit , withdrawn
+//   	      'created' => REQUEST_TIME,
+//   		  'updated' => REQUEST_TIME,
+//   	      ))
+//   	      ->execute();
         //log
         db_insert('fitmoo_user_accounting_log')
             ->fields(array(
-                'uaID' => $id,
-                'uid' => $result['uid'],   //user ID
-                'type' => $result['type'], // buyer, seller, reference, fitmoo
-                'ammount' => '-'.$result['ammount'], // 20.00
-                'percentage' => $result['percentage'], // commisions percent example seller now is 80
-                'orderID' => $result['orderID'],
-                'productID' => $result['productID'],
-                'status' => 'pending', //pending, cleared, credit , withdrawn
-                'created' => REQUEST_TIME,
-            ))
-            ->execute();
-
-
-
-        db_insert('fitmoo_user_accounting')
-  	      ->fields(array(
-  	      'uid' => $result['uid'],   //user ID
-  	      'type' => $result['type'], // buyer, seller, reference, fitmoo
-  	      'ammount' => $result['ammount'], // 20.00
-  	  	  'percentage' => $result['percentage'], // commisions percent example seller now is 80
-  		  'orderID' => $result['orderID'],
-  		  'productID' => $result['productID'],
-  		  'status' => 'cleared', //pending, cleared, credit , withdrawn
-  	      'created' => REQUEST_TIME,
-  		  'updated' => REQUEST_TIME,
-  	      ))
-  	      ->execute();
-        //log
-        db_insert('fitmoo_user_accounting_log')
-            ->fields(array(
-                'uaID' => $id,
+                'uaID' => $result['$id'],
                 'uid' => $result['uid'],   //user ID
                 'type' => $result['type'], // buyer, seller, reference, fitmoo
                 'ammount' => $result['ammount'], // 20.00
