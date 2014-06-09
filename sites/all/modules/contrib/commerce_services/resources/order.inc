@@ -108,13 +108,14 @@ function commerce_services_order_retrieve($order_id, $expand_entities, $flatten_
  *   Boolean indicating the user's access to retrieve the order.
  */
 function commerce_services_order_retrieve_access($order_id) {
+
   // Attempt to load the order.
   if ($order = commerce_order_load($order_id)) {
   $result = false;
   foreach ($order->commerce_line_items['und'] as $key=>$value) {
         $line_item =  $entity = entity_load_single('commerce_line_item', $value['line_item_id']);
         //commerce_services_retrieve_entity('commerce_line_item', $value->line_item_id);
-            //commerce_services_line_item_retrieve($value->line_item_id);
+        //commerce_services_line_item_retrieve($value->line_item_id);
         $product = commerce_product_load_by_sku($line_item->line_item_label);
         $result = commerce_services_product_retrieve_access($product->product_id);
         if ($result == true) {return TRUE;}
