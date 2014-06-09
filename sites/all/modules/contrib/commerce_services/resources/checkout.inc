@@ -126,8 +126,8 @@ function commerce_services_checkout_create($data, $flatten_fields) {
                     ),
                     'options' => array(
                         'storeInVault' => TRUE,
-                        // 'submitForSettlement' => TRUE,
-                        'submitForSettlement' => $payment_method['settings']['commerce_braintree_settle'] == 'settle_now' ? TRUE : FALSE,
+                        'submitForSettlement' => TRUE,
+                        //'submitForSettlement' => $payment_method['settings']['commerce_braintree_settle'] == 'settle_now' ? TRUE : FALSE,
                     ),
                 ),
                 'redirectUrl' => url('/fit_store/checkout/' . $order->order_id . '?payment_redirect_key=' . $order->data['payment_redirect_key'], array('absolute' => TRUE)),
