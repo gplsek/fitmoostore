@@ -219,9 +219,9 @@ function commerce_braintree_tr_redirect_form($form, &$form_state, $order, $payme
                 ),
                 'options' => array(
                     'storeInVault' => TRUE,
-                    // 'submitForSettlement' => TRUE,
+                    'submitForSettlement' => TRUE,
 					//'holdInEscrow' => true,
-                    'submitForSettlement' => $payment_method['settings']['commerce_braintree_settle'] == 'settle_now' ? TRUE : FALSE,
+                //    'submitForSettlement' => $payment_method['settings']['commerce_braintree_settle'] == 'settle_now' ? TRUE : FALSE,
                 ),
 				//'serviceFeeAmount' => "10.00" //calculate the service fee 
             ),
