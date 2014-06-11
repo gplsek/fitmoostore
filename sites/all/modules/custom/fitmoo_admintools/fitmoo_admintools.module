@@ -380,5 +380,54 @@ function fitmoo_admin_tools_redeem_form_submit($form, &$form_state){
 	drupal_goto('/admin/commerce/redemptions');
 	
 }
+
+function fitmoo_admintools_notify_redemption($userID,$amount,$transfer_type){
+	
+	$user = user_load($userID);
+	
+
+	
+    $module = 'fitmoo_admintools';
+    $key = 'redemption';
+    $language = language_default();
+    $params = array();
+    $send = TRUE;
+    $to_user = 'sales@fitmoo.com';
+    $from = 'store@fitmoo.com';
+    $to = $to_user->mail;
+ 
+
+
+    $headers = array(
+    'MIME-Version' => '1.0',
+    'Content-Type' => 'text/html; charset=UTF-8; format=flowed',
+    'Content-Transfer-Encoding' => '8Bit',
+    'X-Mailer' => 'Drupal'
+    );
+    $params['headers'] = $headers;
+    $message = drupal_mail($module, $key, $to, $language, $params, $from, FALSE);
+
+
+    $message['subject'] = "Redemption Rquest at Fitmoo.com user #".$user->name;
+    
+	
+	
+
+
+    $body = $user->name." has requested a redemption of $".$amount." via ".$transfer_type;
+  
+    $message['body'] = array();
+    $message['body'][] = $body;
+    
+    // Retrieve the responsible implementation for this message.
+    $system = drupal_mail_system($module, $key);
+    // Format the message body.
+    $message = $system->format($message);
+    // Send e-mail.
+    $message['result'] = $system->mail($message);
+    return TRUE;
+	
+	return;
+}
 	
 	
