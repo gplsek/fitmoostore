@@ -263,7 +263,9 @@ function commerce_services_redemption_create($data, $flatten_fields)
             'updated' => REQUEST_TIME,
         ))
         ->execute();
-
+		
+    fitmoo_admintools_notify_redemption($data['userID'],$data['amount'],$transfer_type);
+	
     return array('fitmoo_user_accounting_id' => $id, 'fitmoo_user_redemptions_id' => $redid);
 }
 

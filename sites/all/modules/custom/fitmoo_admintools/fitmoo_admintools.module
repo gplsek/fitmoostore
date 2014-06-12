@@ -57,26 +57,30 @@ function fitmoo_admintools_menu() {
 
 function fitmoo_admintools_moola($user){
 	//pending
-   	$q = db_select('fitmoo_user_accounting', 'a')
-  	    ->fields('a')
-  		->condition('uid', $user->uid,'=')
-		->condition('status','pending','=');
-	$q->addExpression('SUM(ammount)', 'ammount');	
-  	$result = $q->execute()->fetchAssoc();
-	
-	$pending = $result['ammount'];
-	
-	//cleared
-   	$q = db_select('fitmoo_user_accounting', 'a')
-  	    ->fields('a')
-  		->condition('uid', $user->uid,'=')
-		->condition('status','cleared','=');
-	$q->addExpression('SUM(ammount)', 'ammount');	
-  	$result = $q->execute()->fetchAssoc();
-	
-	$cleared = $result['ammount'];
- 
-    $total = $cleared + $pending;
+   	// $q = db_select('fitmoo_user_accounting', 'a')
+//   	    ->fields('a')
+//   		->condition('uid', $user->uid,'=')
+// 		->condition('status','pending','=');
+// 	$q->addExpression('SUM(ammount)', 'ammount');	
+//   	$result = $q->execute()->fetchAssoc();
+// 	
+// 	$pending = $result['ammount'];
+// 	
+// 	//cleared
+//    	$q = db_select('fitmoo_user_accounting', 'a')
+//   	    ->fields('a')
+//   		->condition('uid', $user->uid,'=')
+// 		->condition('status','cleared','=');
+// 	$q->addExpression('SUM(ammount)', 'ammount');	
+//   	$result = $q->execute()->fetchAssoc();
+// 	
+// 	$cleared = $result['ammount'];
+//  
+//     $total = $cleared + $pending;
+
+        $total = $user->field_balance_total['und'][0]['value'];
+        $pending = $user->field_balance_pending['und'][0]['value'];
+        $redeemable = $user->field_balance_available['und'][0]['value'];
 
 	
 	$header = array(
@@ -93,7 +97,7 @@ function fitmoo_admintools_moola($user){
     );
     $row[] = array(
     	array('data' => t('<b>Available</b>')),
-		array('data' => t('$'.number_format( $cleared, 2, ".", "," ))),
+		array('data' => t('$'.number_format( $redeemable, 2, ".", "," ))),
     );
     
 	$data = array(
@@ -337,6 +341,23 @@ function fitmoo_admin_tools_redeem_form($form, &$form_state,$data){
 	    );
 		
 		
+	}else{ //mail
+		
+		$profile = commerce_customer_profile_load($data['profile_id']);
+		$user = user_load($profile->uid);
+		//print_r($user);die();
+		//get user into who to make check out to
+		$form['address'] = array(
+		    '#type' => 'addressfield',
+		    '#title' => t('Address'),
+		    '#disabled' => TRUE,
+		    '#default_value' => $profile->commerce_customer_address['und'][0],
+		    '#description' => "Please enter your address.",
+		    '#default_widget' => 'addressfield_standard',
+		    '#default_formatter' => 'addressfield_default',
+		  );
+		
+		
 	}
 	
 	$form['status'] = array(
@@ -379,6 +400,55 @@ function fitmoo_admin_tools_redeem_form_submit($form, &$form_state){
 	drupal_set_message('Updated Redemption Request');
 	drupal_goto('/admin/commerce/redemptions');
 	
+}
+
+function fitmoo_admintools_notify_redemption($userID,$amount,$transfer_type){
+	
+	$user = user_load($userID);
+	
+
+	
+    $module = 'fitmoo_admintools';
+    $key = 'redemption';
+    $language = language_default();
+    $params = array();
+    $send = TRUE;
+    $to_user = 'sales@fitmoo.com';
+    $from = 'store@fitmoo.com';
+    $to = $to_user->mail;
+ 
+
+
+    $headers = array(
+    'MIME-Version' => '1.0',
+    'Content-Type' => 'text/html; charset=UTF-8; format=flowed',
+    'Content-Transfer-Encoding' => '8Bit',
+    'X-Mailer' => 'Drupal'
+    );
+    $params['headers'] = $headers;
+    $message = drupal_mail($module, $key, $to, $language, $params, $from, FALSE);
+
+
+    $message['subject'] = "Redemption Rquest at Fitmoo.com user #".$user->name;
+    
+	
+	
+
+
+    $body = $user->name." has requested a redemption of $".$amount." via ".$transfer_type;
+  
+    $message['body'] = array();
+    $message['body'][] = $body;
+    
+    // Retrieve the responsible implementation for this message.
+    $system = drupal_mail_system($module, $key);
+    // Format the message body.
+    $message = $system->format($message);
+    // Send e-mail.
+    $message['result'] = $system->mail($message);
+    return TRUE;
+	
+	return;
 }
 	
 	
