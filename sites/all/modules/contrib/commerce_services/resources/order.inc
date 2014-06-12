@@ -95,6 +95,7 @@ function commerce_services_order_retrieve($order_id, $expand_entities, $flatten_
    foreach ($item->commerce_line_items as $itemkey=>$itemvalue) {
         $item->commerce_line_items_data[$itemvalue] = commerce_services_retrieve_entity('commerce_line_item', $itemvalue, 1, true);
    }
+
    return $item;
 }
 

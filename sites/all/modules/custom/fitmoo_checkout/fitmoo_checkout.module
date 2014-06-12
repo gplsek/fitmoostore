@@ -911,6 +911,20 @@ function fitmoo_checkout_cronShippingStatus(){
     return;
 }
 
+function fitmoo_checkout_cronCompleteStatus(){
+    $orders = commerce_order_load_multiple(array(), array('status'=>'Shipping: Delivered'), $reset = FALSE);
+
+    foreach ($orders as $order) {
+        $last_changed = $order->changed;
+        $now =  time();
+        $difference = floor(($now - $last_changed)/86400);
+        if ($difference >= 3) {
+            $order->status = 'Completed:Accepted';
+            commerce_order_save($order);
+        }
+    }
+}
+
 function fitmoo_checkout_seller_email($uid,$info){
 
   $module = 'fitmoo_checkout';
@@ -1451,6 +1465,22 @@ function _get_order_info($order){
 	
 	return $info;
 }
+
+function fitmoo_checkout_cron() {
+    $interval = variable_get('cron_period', 60 * 60 * 5);
+    if (time() >= variable_get('cron_next_execution', 0)) {
+
+        fitmoo_checkout_cronShippingStatus();
+        fitmoo_checkout_cronCompleteStatus
+
+        watchdog('cron', 'cron ran');
+        if (!empty($GLOBALS['cron_show_status_message'])) {
+            drupal_set_message(t('cron executed at %time', array('%time' => date_iso8601(time(0)))));
+        }
+        variable_set('cron_next_execution', time() + $interval);
+    }
+}
+
 
 function fitmoo_checkout_email_eventconf_buyer($order){
 	
