@@ -61,12 +61,12 @@ function commerce_services_score_retrieve($uid) {
 	
 	$results = db_select('fitmoo_user_redemptions', 'm')
 	    ->fields('m')
-		->condition('uid', $user_object->uid,'=')
+		->condition('uid', $uid,'=')
 	    ->execute();
-		
+	
 	$redemption = array();	
 	while($trans = $results->fetchAssoc()){
-		
+			
 		$redemption['id'] = $trans['id'];
 		$redemption['amount'] = $trans['ammount'];
 		$redemption['type'] = $trans['transfer_type'];
