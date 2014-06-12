@@ -115,11 +115,14 @@ function commerce_services_order_retrieve_access($order_id) {
   $result = false;
   foreach ($order->commerce_line_items['und'] as $key=>$value) {
         $line_item =  $entity = entity_load_single('commerce_line_item', $value['line_item_id']);
+		//print_r($line_item);die(0)
         //commerce_services_retrieve_entity('commerce_line_item', $value->line_item_id);
         //commerce_services_line_item_retrieve($value->line_item_id);
-        $product = commerce_product_load_by_sku($line_item->line_item_label);
-        $result = commerce_services_product_retrieve_access($product->product_id);
-        if ($result == true) {return TRUE;}
+		if($line_item->line_item_label){ // check on this, beore it was returning product not founf for orderID 404
+          $product = commerce_product_load_by_sku($line_item->line_item_label);
+          $result = commerce_services_product_retrieve_access($product->product_id);
+          if ($result == true) {return TRUE;}
+		}
   }
 
 

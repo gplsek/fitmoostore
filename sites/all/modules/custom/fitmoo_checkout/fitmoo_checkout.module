@@ -1471,7 +1471,7 @@ function fitmoo_checkout_cron() {
     if (time() >= variable_get('cron_next_execution', 0)) {
 
         fitmoo_checkout_cronShippingStatus();
-        fitmoo_checkout_cronCompleteStatus
+        fitmoo_checkout_cronCompleteStatus();
 
         watchdog('cron', 'cron ran');
         if (!empty($GLOBALS['cron_show_status_message'])) {
