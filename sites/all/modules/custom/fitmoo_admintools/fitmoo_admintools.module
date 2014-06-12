@@ -116,23 +116,25 @@ function fitmoo_admintools_moola($user){
 
 function _migrate_moola(){
 
-  	    $q = db_select('fitmoo_user_accounting', 's');
- 		// ->condition('SESSION', $ses_id,'=')
- 		// ->condition('step', 'planfeatures','=')
-		$q->addExpression('distinct(uid)', 'uid');	
-	  	$result = $q->execute()->fetchAllAssoc('uid');
+    _update_user_balance(327);
 
-
-
-
-    foreach($result as $data){
-    	
-		_update_user_balance($data->uid);
-		
-		
-    }
-
-    return;
+  	    // $q = db_select('fitmoo_user_accounting', 's');
+//  		// ->condition('SESSION', $ses_id,'=')
+//  		// ->condition('step', 'planfeatures','=')
+// 		$q->addExpression('distinct(uid)', 'uid');	
+// 	  	$result = $q->execute()->fetchAllAssoc('uid');
+// 
+// 
+// 
+// 
+//     foreach($result as $data){
+//     	
+// 		_update_user_balance($data->uid);
+// 		
+// 		
+//     }
+// 
+//     return;
 	
 }
 
@@ -157,6 +159,18 @@ function _update_user_balance($uid){
 
 	$cleared = $result['ammount'];
 	
+	
+	//redeemed
+   	$q = db_select('fitmoo_user_accounting', 'a')
+  	    ->fields('a')
+  		->condition('uid', $uid,'=')
+		->condition('status','redemption','=');
+	$q->addExpression('SUM(ammount)', 'ammount');	
+  	$result = $q->execute()->fetchAssoc();
+
+	$redemption = $result['ammount'];
+	
+	$cleared = $cleared - ($redemption * -1);
 	
 	//total
    	$q = db_select('fitmoo_user_accounting', 'a')
