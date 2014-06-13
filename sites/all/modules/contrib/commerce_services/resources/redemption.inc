@@ -85,6 +85,11 @@ function commerce_services_redemption_create($data, $flatten_fields)
     if (empty($data['amount'])) {
         return services_error(t('Enter amount pls'), 401);
     }
+	
+	if($data['amount'] > $user->field_balance_available['und'][0]['value']){
+	   return services_error(t('Requested amount is not available balance is: $'.field_balance_available['und'][0]['value']), 401);
+	}
+	
     if (!empty($data['check'])) {
         $transfer_type = 'check';
 
@@ -265,7 +270,7 @@ function commerce_services_redemption_create($data, $flatten_fields)
         ->execute();
 		
     fitmoo_admintools_notify_redemption($data['userID'],$data['amount'],$transfer_type);
-	
+	_update_user_balance($data['userID']);
     return array('fitmoo_user_accounting_id' => $id, 'fitmoo_user_redemptions_id' => $redid);
 }
 
