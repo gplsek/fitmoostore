@@ -1467,11 +1467,11 @@ function _get_order_info($order){
 }
 
 function fitmoo_checkout_cron() {
-    $interval = variable_get('cron_period', 60 * 60 * 5);
+    $interval = variable_get('cron_period', 60 * 60 * 4);
     if (time() >= variable_get('cron_next_execution', 0)) {
 
         fitmoo_checkout_cronShippingStatus();
-        fitmoo_checkout_cronCompleteStatus
+        fitmoo_checkout_cronCompleteStatus();
 
         watchdog('cron', 'cron ran');
         if (!empty($GLOBALS['cron_show_status_message'])) {
