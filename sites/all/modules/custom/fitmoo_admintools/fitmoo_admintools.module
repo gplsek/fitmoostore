@@ -494,8 +494,7 @@ join field_data_commerce_stock as cs on cp.product_id = cs.entity_id where cp.ui
 	              'headers' => array('Content-Type' => 'application/json'),
 	          );
 
-	          $results['stock'] = drupal_http_request('http://admin:fitmoo@beta.fitmoo.com/api/update_stock', $options);
-			  print $results['stock'];
+	          print_r(drupal_http_request('http://admin:fitmoo@beta.fitmoo.com/api/update_stock', $options));
 			  print "<Br>";
 	}
 	
