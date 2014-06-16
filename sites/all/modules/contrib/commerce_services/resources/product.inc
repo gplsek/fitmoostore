@@ -426,7 +426,23 @@ function _cs_product_update($product_id, $data, $flatten_fields) {
         }
         unset($data['size']);
     }
-    return commerce_services_update_entity('commerce_product', $product_id, $data, $flatten_fields);
+
+    $product = commerce_services_update_entity('commerce_product', $product_id, $data, $flatten_fields);
+    if (!empty($data['commerce_stock']))
+    {
+        //===========fitmoo call=============
+        $data = '{"id" : "'.$product_id.'" , "stock" : "'.$data['commerce_stock'].'"}';
+        $options = array(
+            'method' => 'PUT',
+            'data' => $data,
+            'timeout' => 30,
+            'headers' => array('Content-Type' => 'application/json'),
+        );
+
+        $result['stock'] = drupal_http_request('http://admin:fitmoo@staging.fitmoo.com/api/update_stock', $options);
+    }
+
+    return $product;
 }
 
 /**
