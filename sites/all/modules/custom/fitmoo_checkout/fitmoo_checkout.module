@@ -496,9 +496,9 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
 	  $info['fitfee'] =  $fitmoo_fee;
   
   
-  $shipping = commerce_customer_profile_load($order->commerce_customer_shipping['und'][0]['profile_id']);
+      $shipping = commerce_customer_profile_load($order->commerce_customer_shipping['und'][0]['profile_id']);
   
-  
+      $info['shipto'] = $shipping;
   
   
    fitmoo_checkout_seller_email($product->uid,$info);
