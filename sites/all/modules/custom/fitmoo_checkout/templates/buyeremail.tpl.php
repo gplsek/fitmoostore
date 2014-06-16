@@ -258,9 +258,9 @@ $fitfeeperc = $buyperc + $fitperc;
                 <div class="content-div" style="padding-top: 20px;">
                     <div class="lcolumn">
                         <div style="font-weight: bold;">Shipped to:</div>
-                        <div><?php print $shipto['name_line'];?></div>
-                        <div><?php print $shipto['thoroughfare'];?> <?php print $shipto['premise'];?></div>
-                        <div><?php print $shipto['locality'];?>, <?php print $shipto['administrative_area'];?> <?php print $shipto['postal_code'];?> <?php print $shipto['country'];?></div>
+                        <div><?php //print //$shipto['name_line'];?></div>
+                        <div><?php //print //$shipto['thoroughfare'];?> <?php //print //$shipto['premise'];?></div>
+                        <div><?php //print //$shipto['locality'];?>, <?php //print //$shipto['administrative_area'];?> <?php //print $shipto['postal_code'];?> <?php //print //$shipto['country'];?></div>
                     </div>
                     <div class="rcolumn">
                         <!-- <div style="font-weight: bold;">Payment info:</div>
