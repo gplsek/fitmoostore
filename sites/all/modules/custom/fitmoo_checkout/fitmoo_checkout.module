@@ -1109,7 +1109,7 @@ $info['ordertotal'] = commerce_currency_amount_to_decimal($order->commerce_order
  
 
   $shipping = commerce_customer_profile_load($profile);
-  $info['shipto'] = $shipping->commerce_customer_address['und'][0];
+  //$info['shipto'] = $shipping->commerce_customer_address['und'][0];
  
   print theme('selleremail',$info);
   
