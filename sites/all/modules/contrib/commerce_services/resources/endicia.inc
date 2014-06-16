@@ -97,6 +97,18 @@ function _endicia_print_label_data_validate($data) {
     // WE MUST REFACTOR HERE AFTER ORDER CAN INCLUDE MORE 1 PRODUCT
     foreach ($order->commerce_line_items['und'] as $key=>$value) {
        $line_item =  commerce_services_retrieve_entity('commerce_line_item', $value['line_item_id'], 1, false);
+	   
+       $temp = field_get_items('commerce_line_item', $line_item, 'commerce_product');
+       $types = array("clothing","shoes","pants-shorts");
+       $product = commerce_product_load($temp[0]['product_id']);
+	  
+	   if (!(in_array($product->type, $types))) {
+	       $order->status = "Pending:AcceptEvent";
+		   commerce_order_save($order);
+		   return services_error(t("Non shippable Item, status was set to Pending:AcceptEvent"));
+	   }
+	   
+	   
        if ($line_item->type != 'shipping') {break;}
     }
 
@@ -105,7 +117,7 @@ function _endicia_print_label_data_validate($data) {
         $data['package_info']['weight'] = variable_get($line_item->commerce_product_entities[$line_item->commerce_product['und'][0]['product_id']]->type."_w", "0");
     }
     if (empty($data['package_info']["mail_shape"])) {
-            $data['package_info']["mail_shape"] = 'Parcel';
+            $data['package_info']["mail_shape"] = 'SmallFlatRateBox';
     }
     if (empty($data['package_info']['description'])) {
         $data['package_info']['description'] = $line_item->commerce_product_entities[$line_item->commerce_product['und'][0]['product_id']]->type;
@@ -441,7 +453,7 @@ function _endicia_ui_print_label_confirm_form_submit($form_state) {
         $form_type = 'Form2976';
         // This is ugly, but there isn't much we can do.
         $general_case = ( $label_type == 'International' && in_array($data['Class'], array('PriorityMailInternational', 'ExpressMailInternational')) );
-        $exception_int_flenv_prio = $label_type == 'International' && $data['Packaging'] == 'FlatRateEnvelope' && $data['Class'] == 'PriorityMailInternational';
+        $exception_int_flenv_prio = $label_type == 'International' && $data['Packaging'] == 'SmallFlatRateBox' && $data['Class'] == 'PriorityMailInternational';
         if ($general_case && !$exception_int_flenv_prio) {
             $form_type .= 'A';
         }

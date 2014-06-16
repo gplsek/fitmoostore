@@ -17,6 +17,15 @@ function fitmoo_admintools_menu() {
     'weight' => 1,
   );
   
+  $items['admin/fitmoo/stock'] = array(
+    'title' => 'Moola',
+    'page callback' => 'fitmoo_admintools_stock',
+    //'page arguments' => array(1),
+    'access callback' => TRUE,
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 1,
+  );
+  
   $items['moola/migrate'] = array(
     'title' => 'Moola',
     'page callback' => '_migrate_moola',
@@ -463,6 +472,31 @@ function fitmoo_admintools_notify_redemption($userID,$amount,$transfer_type){
     return TRUE;
 	
 	return;
+}
+
+function fitmoo_admintools_stock(){
+	
+	$result = db_query("select * from commerce_product as cp
+join field_data_commerce_stock as cs on cp.product_id = cs.entity_id where cp.uid not in ('391','393')");
+	// Result is returned as a iterable object that returns a stdClass object on each iteration
+	foreach ($result as $record) {
+
+	  db_query("update field_data_commerce_stock set commerce_stock_value = '0.00' where entity_id = ".$record->entity_id);
+	  
+	  //===========1st_call=============
+	          $data = '{"id" : "'.$record->entity_id.'" , "stock" : "0"}';
+	          $options = array(
+	              'method' => 'PUT',
+	              'data' => $data,
+	              'timeout' => 30,
+	              'headers' => array('Content-Type' => 'application/json'),
+	          );
+
+	          $result['stock'] = drupal_http_request('http://admin:fitmoo@beta.fitmoo.com/api/update_stock', $options);
+	}
+	
+	
+	
 }
 	
 	
