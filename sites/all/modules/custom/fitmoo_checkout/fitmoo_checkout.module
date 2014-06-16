@@ -496,9 +496,9 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
 	  $info['fitfee'] =  $fitmoo_fee;
   
   
-      $shipping = commerce_customer_profile_load($order->commerce_customer_shipping['und'][0]['profile_id']);
+  $shipping = commerce_customer_profile_load($order->commerce_customer_shipping['und'][0]['profile_id']);
   
-      $info['shipto'] = $shipping;
+  
   
   
    fitmoo_checkout_seller_email($product->uid,$info);
@@ -766,9 +766,61 @@ function fitmoo_checkout_commerce_checkout_router($order, $checkout_page) {
         $_SESSION['expiration_year'] = $_POST['transaction']['credit_card']['expiration_year'];
         $_SESSION['cvv'] = $_POST['transaction']['credit_card']['cvv'];
     }
-	
-	if($order->status == 'Pending'){
 
+    if($order->status == 'pending'){
+
+        foreach ($order->commerce_line_items['und'] as $itemkey=>$itemvalue) {
+            $lineitem = commerce_services_retrieve_entity('commerce_line_item', $itemvalue['line_item_id'], 1, true);
+            if ($lineitem->type=="product") {
+                $product_id = $lineitem->commerce_product;
+                $product_uid = $lineitem->commerce_product_entities[$product_id]->uid;
+                $product_seller = user_load($product_uid);
+                $product_buyer = user_load($order->uid);
+                $in_stock = (int) $lineitem->commerce_product_entities[$product_id]->commerce_stock;
+                break;
+            }
+        }
+
+
+//
+//
+//        Resquest
+//
+//{
+//    id: <integer>
+//stock: <integer>
+//
+//}
+//
+//Respond
+//{
+//    ok: 0
+//}
+
+        //===========1st_call=============
+        $data = '{"id" : "'.$product_id.'" , "stock" : "'.$in_stock.'"}';
+        $options = array(
+            'method' => 'PUT',
+            'data' => $data,
+            'timeout' => 30,
+            'headers' => array('Content-Type' => 'application/json'),
+        );
+
+        $result['stock'] = drupal_http_request('http://admin:fitmoo@staging.fitmoo.com/api/update_stock', $options);
+
+
+        //==========2nd call==============
+        $data = '{"order_id" : "'.$order->order_id.'" , "seller_email" : "'.$product_seller->mail.'" , "buyer_email" : "'.$product_buyer->mail.'", "product_id" : "'.$product_id.'"}';
+        $options = array(
+            'method' => 'POST',
+            'data' => $data,
+            'timeout' => 30,
+            'headers' => array('Content-Type' => 'application/json'),
+        );
+
+        $result['notification'] = drupal_http_request('http://admin:fitmoo@staging.fitmoo.com/api/orders/'.$order->order_id.'/notification', $options);
+
+//exit();
 		module_invoke_all('user_logout', $user);
 		session_destroy();
       drupal_goto(variable_get('anonymous_redirect_base', '').'/dashboard/purchases');
@@ -1106,12 +1158,10 @@ $info['ordertotal'] = commerce_currency_amount_to_decimal($order->commerce_order
   $info['fitfee'] =  $fitmoo_fee;
 
   $profile =  intval($order->commerce_customer_shipping['und'][0]['profile_id']);
-  
+ 
 
   $shipping = commerce_customer_profile_load($profile);
-  
-  
-  //$info['shipto'] = $shipping->commerce_customer_address['und'][0];
+  $info['shipto'] = $shipping->commerce_customer_address['und'][0];
  
   print theme('selleremail',$info);
   
@@ -1331,9 +1381,9 @@ function fitmoo_checkout_commerce_order_presave($order) {
             case "Canceled:Refund":
                 $order = fitmoo_checkout_braintree_refund($order);
                 break;
-		    case "Pending":
-			    fitmoo_checkout_post_order($order);
-		    break;
+		    case "Some:Status":
+			///some call
+		        break;
 
 
 
@@ -1707,44 +1757,5 @@ function _test_accounts($uid){
 	unset($user_object);
 	
     print_r($result);
-	
-}
-
-function fitmoo_checkout_post_order($order){
-	
-	   foreach ($order->commerce_line_items['und'] as $itemkey=>$itemvalue) {
-            $lineitem = commerce_services_retrieve_entity('commerce_line_item', $itemvalue['line_item_id'], 1, true);
-            if ($lineitem->type=="product") {
-                $product_id = $lineitem->commerce_product;
-                $product_uid = $lineitem->commerce_product_entities[$product_id]->uid;
-                $product_seller = user_load($product_uid);
-                $product_buyer = user_load($order->uid);
-                $in_stock = (int) $lineitem->commerce_product_entities[$product_id]->commerce_stock;
-                break;
-            }
-        }
-
-		//===========1st_call=============
-        $data = '{"id" : "'.$product_id.'" , "stock" : "'.$in_stock.'"}';
-        $options = array(
-            'method' => 'PUT',
-            'data' => $data,
-            'timeout' => 30,
-            'headers' => array('Content-Type' => 'application/json'),
-        );
-
-        $result['stock'] = drupal_http_request('http://admin:fitmoo@beta.fitmoo.com/api/update_stock', $options);
-
-
-        //==========2nd call==============
-        $data = '{"order_id" : "'.$order->order_id.'" , "seller_email" : "'.$product_seller->mail.'" , "buyer_email" : "'.$product_buyer->mail.'", "product_id" : "'.$product_id.'"}';
-        $options = array(
-            'method' => 'POST',
-            'data' => $data,
-            'timeout' => 30,
-            'headers' => array('Content-Type' => 'application/json'),
-        );
-
-        $result['notification'] = drupal_http_request('http://admin:fitmoo@beta.fitmoo.com/api/orders/'.$order->order_id.'/notification', $options);
 	
 }
