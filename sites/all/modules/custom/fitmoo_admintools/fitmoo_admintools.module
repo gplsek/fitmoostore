@@ -480,8 +480,10 @@ function fitmoo_admintools_stock(){
 join field_data_commerce_stock as cs on cp.product_id = cs.entity_id where cp.uid not in ('391','393')");
 	// Result is returned as a iterable object that returns a stdClass object on each iteration
 	foreach ($result as $record) {
-
-	  db_query("update field_data_commerce_stock set commerce_stock_value = '0.00' where entity_id = ".$record->entity_id);
+		print "HERE";
+	 db_query("update field_data_commerce_stock set commerce_stock_value = '0.00' where entity_id = ".$record->entity_id);
+	 print "update field_data_commerce_stock set commerce_stock_value = '0.00' where entity_id = ".$record->entity_id;
+	 print "<br>";
 	  
 	  //===========1st_call=============
 	          $data = '{"id" : "'.$record->entity_id.'" , "stock" : "0"}';
@@ -492,7 +494,9 @@ join field_data_commerce_stock as cs on cp.product_id = cs.entity_id where cp.ui
 	              'headers' => array('Content-Type' => 'application/json'),
 	          );
 
-	          $result['stock'] = drupal_http_request('http://admin:fitmoo@beta.fitmoo.com/api/update_stock', $options);
+	          $results['stock'] = drupal_http_request('http://admin:fitmoo@beta.fitmoo.com/api/update_stock', $options);
+			  print $results['stock'];
+			  print "<Br>";
 	}
 	
 	
