@@ -245,14 +245,14 @@ $fitfeeperc = $buyperc + $fitperc;
         <section class="mailtext">
             <div class="section-wrapper clearfix">
                 <div class="content-div">
-                    <p>Thank you for shopping with us. We recieved ypur order, and have already
+                    <p>Thank you for shopping with us. We recieved your order, and have already
                         notified the seller. The seller will have 5 days to prepare the shipment. Once your order is
-                        shipped the estimated delivery date is 5-10 business days. If you'd like to view the status of
-                        your order, pls visit <a href="<?php print $redirect_base;?>/dashboard/orders/<?php print $orderID;?>">Your order</a> on Fitmoo.com </p>
+                        shipped the estimated delivery date is 5-10 business days. If you like to view the status of
+                        your order, please visit <a href="<?php print $redirect_base;?>/dashboard/purchases">Your order</a> on Fitmoo.com </p>
                 </div>
                 <div class="content-div" style="padding-top: 20px;">
                 <h1>Order Details</h1>
-                    <div style="float: left;">Order #: <a href="<?php print $redirect_base;?>/dashboard/orders/<?php print $orderID;?>"><?php print $orderID;?></a></div>
+                    <div style="float: left;">Order #: <a href="<?php print $redirect_base;?>/dashboard/purchases"><?php print $orderID;?></a></div>
                     <div style="float: right;">Placed on: <?php print date("m-d-Y", $orderDate);?></div>
                 </div>
                 <div class="content-div" style="padding-top: 20px;">
@@ -263,9 +263,9 @@ $fitfeeperc = $buyperc + $fitperc;
                         <div><?php print $shipto['locality'];?>, <?php print $shipto['administrative_area'];?> <?php print $shipto['postal_code'];?> <?php print $shipto['country'];?></div>
                     </div>
                     <div class="rcolumn">
-                        <div style="font-weight: bold;">Payment info:</div>
+                        <!-- <div style="font-weight: bold;">Payment info:</div>
                         <div>Americaan Express</div>
-                        <div>Last4: 5252</div>
+                        <div>Last4: 5252</div> -->
                     </div>
                 </div>
             </div>
