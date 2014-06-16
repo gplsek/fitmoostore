@@ -263,9 +263,9 @@ $fitfeeperc = $buyperc + $fitperc;
                         <div><?php print $shipto['locality'];?>, <?php print $shipto['administrative_area'];?> <?php print $shipto['postal_code'];?> <?php print $shipto['country'];?></div>
                     </div>
                     <div class="rcolumn">
-                        <div style="font-weight: bold;">Payment info:</div>
+                        <!-- <div style="font-weight: bold;">Payment info:</div>
                         <div>Americaan Express</div>
-                        <div>Last4: 5252</div>
+                        <div>Last4: 5252</div> -->
                     </div>
                 </div>
             </div>
