@@ -767,7 +767,7 @@ function fitmoo_checkout_commerce_checkout_router($order, $checkout_page) {
         $_SESSION['cvv'] = $_POST['transaction']['credit_card']['cvv'];
     }
 	
-	if($order->status == 'pending'){
+	if($order->status == 'Pending'){
 
 		module_invoke_all('user_logout', $user);
 		session_destroy();
@@ -1106,9 +1106,11 @@ $info['ordertotal'] = commerce_currency_amount_to_decimal($order->commerce_order
   $info['fitfee'] =  $fitmoo_fee;
 
   $profile =  intval($order->commerce_customer_shipping['und'][0]['profile_id']);
- 
+  
 
   $shipping = commerce_customer_profile_load($profile);
+  
+  
   //$info['shipto'] = $shipping->commerce_customer_address['und'][0];
  
   print theme('selleremail',$info);
