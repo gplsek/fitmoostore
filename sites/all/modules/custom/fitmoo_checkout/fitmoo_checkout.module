@@ -496,15 +496,14 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
 	  $info['fitfee'] =  $fitmoo_fee;
   
   
-  $shipping = commerce_customer_profile_load($order->commerce_customer_shipping['und'][0]['profile_id']);
-  
-  
-  
-  
-   fitmoo_checkout_seller_email($product->uid,$info);
-   fitmoo_checkout_buyer_email($order->uid,$info);
+      $shipping = commerce_customer_profile_load($order->commerce_customer_shipping['und'][0]['profile_id']);
+     
+      $info['shipto'] = $shipping->commerce_customer_address['und'][0];
+	  
+	  fitmoo_checkout_seller_email($product->uid,$info);
+      fitmoo_checkout_buyer_email($order->uid,$info);
  
-  commerce_order_save($order);
+      commerce_order_save($order);
 }
 
 function fitmoo_checkout_commerce_cart_product_prepare($order, $product, $quantity) {
@@ -796,7 +795,7 @@ function fitmoo_checkout_commerce_checkout_router($order, $checkout_page) {
 //{
 //    ok: 0
 //}
-
+         $redirect_base = variable_get('redirect_base', '');
         //===========1st_call=============
         $data = '{"id" : "'.$product_id.'" , "stock" : "'.$in_stock.'"}';
         $options = array(
@@ -806,7 +805,7 @@ function fitmoo_checkout_commerce_checkout_router($order, $checkout_page) {
             'headers' => array('Content-Type' => 'application/json'),
         );
 
-        $result['stock'] = drupal_http_request('http://admin:fitmoo@staging.fitmoo.com/api/update_stock', $options);
+        $result['stock'] = drupal_http_request('http://admin:fitmoo@'.$redirect_base.'/api/update_stock', $options);
 
 
         //==========2nd call==============
@@ -818,7 +817,7 @@ function fitmoo_checkout_commerce_checkout_router($order, $checkout_page) {
             'headers' => array('Content-Type' => 'application/json'),
         );
 
-        $result['notification'] = drupal_http_request('http://admin:fitmoo@staging.fitmoo.com/api/orders/'.$order->order_id.'/notification', $options);
+        $result['notification'] = drupal_http_request('http://admin:fitmoo@'.$redirect_base.'/api/orders/'.$order->order_id.'/notification', $options);
 
 //exit();
 		module_invoke_all('user_logout', $user);
@@ -1759,3 +1758,4 @@ function _test_accounts($uid){
     print_r($result);
 	
 }
+
