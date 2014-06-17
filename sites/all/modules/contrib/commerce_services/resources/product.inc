@@ -298,6 +298,8 @@ function commerce_services_product_create($data, $flatten_fields) {
 
       // Create the new product.
       $product = commerce_product_new($data['type']);
+	  
+	  
 
       // Remove the type from the data array since it's been set.
       unset($data['type']);
@@ -438,8 +440,8 @@ function _cs_product_update($product_id, $data, $flatten_fields) {
             'timeout' => 30,
             'headers' => array('Content-Type' => 'application/json'),
         );
-
-        $result['stock'] = drupal_http_request('http://admin:fitmoo@staging.fitmoo.com/api/update_stock', $options);
+        $redirect_base = variable_get('redirect_base', '');
+        $result['stock'] = drupal_http_request('http://admin:fitmoo@'.$redirect_base.'/api/update_stock', $options);
     }
 
     return $product;
