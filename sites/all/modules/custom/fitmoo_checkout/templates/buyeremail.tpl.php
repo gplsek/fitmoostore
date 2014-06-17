@@ -248,11 +248,11 @@ $fitfeeperc = $buyperc + $fitperc;
                     <p>Thank you for shopping with us. We recieved your order, and have already
                         notified the seller. The seller will have 5 days to prepare the shipment. Once your order is
                         shipped the estimated delivery date is 5-10 business days. If you like to view the status of
-                        your order, please visit <a href="<?php print $redirect_base;?>dashboard/purchases">Your order</a> on Fitmoo.com </p>
+                        your order, please visit <a href="<?php print $redirect_base;?>/dashboard/purchases">Your order</a> on Fitmoo.com </p>
                 </div>
                 <div class="content-div" style="padding-top: 20px;">
                 <h1>Order Details</h1>
-                    <div style="float: left;">Order #: <a href="<?php print $redirect_base;?>dashboard/purchases"><?php print $orderID;?></a></div>
+                    <div style="float: left;">Order #: <a href="<?php print $redirect_base;?>/dashboard/purchases"><?php print $orderID;?></a></div>
                     <div style="float: right;">Placed on: <?php print date("m-d-Y", $orderDate);?></div>
                 </div>
                 <div class="content-div" style="padding-top: 20px;">
