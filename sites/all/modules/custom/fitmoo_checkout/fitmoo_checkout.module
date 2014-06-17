@@ -1611,7 +1611,7 @@ function fitmoo_checkout_braintree_refund($order){
 function _save_transaction ($order, $transaction, $refundedTransactionId, $result) {
     $transaction1 = commerce_payment_transaction_new('commerce_payment_braintree_tr', $order->order_id);
     $transaction1->instance_id = 'braintree_tr';
-    $transaction1->amount = $transaction->amount*10;
+    $transaction1->amount = $transaction->amount*100;
     $transaction1->currency_code = $transaction->currency_code;
     $transaction1->remote_id = $refundedTransactionId;
     $transaction1->status = $transaction->status;
