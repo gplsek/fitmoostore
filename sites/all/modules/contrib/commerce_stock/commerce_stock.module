@@ -444,8 +444,8 @@ function commerce_stock_checkout_validate($order_wrapper) {
   }
   // If out of stock items send back to the cart form.
   if ($found_errors) {
-    drupal_set_message(t('Requested quantity is not available for this item, please update quantity to a lower amount.'));
-    $cart_url = url('checkout', array('absolute' => TRUE));
+    //drupal_set_message(t('Requested quantity is not available for this item, please update quantity to a lower amount.'));
+    //$cart_url = url('checkout', array('absolute' => TRUE));
    // drupal_goto($cart_url);
   }
 }
