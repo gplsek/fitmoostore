@@ -99,7 +99,7 @@ function _endicia_print_label_data_validate($data) {
        $line_item =  commerce_services_retrieve_entity('commerce_line_item', $value['line_item_id'], 1, false);
 	   
        $temp = field_get_items('commerce_line_item', $line_item, 'commerce_product');
-       $types = array("clothing","shoes","pants-shorts");
+       $types = array("clothing","shoes","pants-shorts","product");
        $product = commerce_product_load($temp[0]['product_id']);
 	  
 	   if (!(in_array($product->type, $types))) {
