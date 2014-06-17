@@ -1553,7 +1553,9 @@ function fitmoo_checkout_braintree_refund($order){
         }
     }
     if (empty ($remote_transaction_id)) {
-        return services_error(t("Can't refund order"), 500);
+        //return services_error(t("Can't refund order"), 500);
+		drupal_set_message(t("Can't refund order"));
+		return;
     }
 
     $transaction = Braintree_Transaction::find($remote_transaction_id);
@@ -1565,7 +1567,9 @@ function fitmoo_checkout_braintree_refund($order){
             _save_transaction ($order, $transaction, $refundedTransactionId, $result);
             return $order;
         } else {
-            return services_error(t($result->message), 500);
+            //return services_error(t($result->message), 500);
+			drupal_set_message(t($result->message));
+			return;
         }
     } else if ($transaction->status == Braintree_Transaction::SETTLED) {
         $result = Braintree_Transaction::refund($remote_transaction_id);
@@ -1575,10 +1579,29 @@ function fitmoo_checkout_braintree_refund($order){
             _save_transaction ($order, $transaction, $refundedTransactionId, $result);
             return $order;
         } else {
-            return services_error(t($result->message), 500);
+            //return services_error(t($result->message), 500);
+			drupal_set_message(t($result->message));
+			return;
         }
-    } else {
-        return services_error(t("Can't refund order (Trans status)"), 500);
+    }else if ($transaction->status == Braintree_Transaction::AUTHORIZED) {
+        $result = Braintree_Transaction::void($remote_transaction_id);
+        if ($result->success) {
+            $refund = $result->transaction;
+            $refundedTransactionId = $refund->refundedTransactionId;
+            _save_transaction ($order, $transaction, $refundedTransactionId, $result);
+            return $order;
+        } else {
+            //return services_error(t($result->message), 500);
+			drupal_set_message(t($result->message));
+			return;
+        }
+    } 
+	
+	
+	else {
+        //return services_error(t("Can't refund order (Trans status)"), 500);
+		drupal_set_message(t("Can't refund order ($transaction->status)"));
+		return;
     }
 
 
