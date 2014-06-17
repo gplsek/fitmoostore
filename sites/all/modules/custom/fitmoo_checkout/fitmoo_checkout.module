@@ -796,7 +796,7 @@ function fitmoo_checkout_commerce_checkout_router($order, $checkout_page) {
 //{
 //    ok: 0
 //}
-
+         $redirect_base = variable_get('redirect_base', '');
         //===========1st_call=============
         $data = '{"id" : "'.$product_id.'" , "stock" : "'.$in_stock.'"}';
         $options = array(
@@ -806,7 +806,7 @@ function fitmoo_checkout_commerce_checkout_router($order, $checkout_page) {
             'headers' => array('Content-Type' => 'application/json'),
         );
 
-        $result['stock'] = drupal_http_request('http://admin:fitmoo@staging.fitmoo.com/api/update_stock', $options);
+        $result['stock'] = drupal_http_request('http://admin:fitmoo@'.$redirect_base.'/api/update_stock', $options);
 
 
         //==========2nd call==============
@@ -818,7 +818,7 @@ function fitmoo_checkout_commerce_checkout_router($order, $checkout_page) {
             'headers' => array('Content-Type' => 'application/json'),
         );
 
-        $result['notification'] = drupal_http_request('http://admin:fitmoo@staging.fitmoo.com/api/orders/'.$order->order_id.'/notification', $options);
+        $result['notification'] = drupal_http_request('http://admin:fitmoo@'.$redirect_base.'/api/orders/'.$order->order_id.'/notification', $options);
 
 //exit();
 		module_invoke_all('user_logout', $user);
@@ -1759,3 +1759,4 @@ function _test_accounts($uid){
     print_r($result);
 	
 }
+foreach($devices['

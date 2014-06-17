@@ -476,6 +476,7 @@ function fitmoo_admintools_notify_redemption($userID,$amount,$transfer_type){
 
 function fitmoo_admintools_stock(){
 	
+	  $redirect_base = variable_get('redirect_base', '');
 	 $result = db_query("select * from commerce_product as cp join field_data_commerce_stock as cs on cp.product_id = cs.entity_id");
 
 
@@ -497,7 +498,7 @@ function fitmoo_admintools_stock(){
 	              'headers' => array('Content-Type' => 'application/json'),
 	          );
 
-	          print_r(drupal_http_request('http://admin:fitmoo@beta.fitmoo.com/api/update_stock', $options));
+	          print_r(drupal_http_request('http://admin:fitmoo@'.$redirect_base.'/api/update_stock', $options));
 			  print "<Br>";
 	}
 	
