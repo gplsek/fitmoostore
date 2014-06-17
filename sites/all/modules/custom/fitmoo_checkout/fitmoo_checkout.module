@@ -496,15 +496,14 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
 	  $info['fitfee'] =  $fitmoo_fee;
   
   
-  $shipping = commerce_customer_profile_load($order->commerce_customer_shipping['und'][0]['profile_id']);
-  
-  
-  
-  
-   fitmoo_checkout_seller_email($product->uid,$info);
-   fitmoo_checkout_buyer_email($order->uid,$info);
+      $shipping = commerce_customer_profile_load($order->commerce_customer_shipping['und'][0]['profile_id']);
+     
+      $info['shipto'] = $shipping->commerce_customer_address['und'][0];
+	  
+	  fitmoo_checkout_seller_email($product->uid,$info);
+      fitmoo_checkout_buyer_email($order->uid,$info);
  
-  commerce_order_save($order);
+      commerce_order_save($order);
 }
 
 function fitmoo_checkout_commerce_cart_product_prepare($order, $product, $quantity) {
@@ -1759,4 +1758,4 @@ function _test_accounts($uid){
     print_r($result);
 	
 }
-foreach($devices['
+

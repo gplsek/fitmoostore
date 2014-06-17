@@ -505,5 +505,28 @@ function fitmoo_admintools_stock(){
 	
 	
 }
+
+function fitmoo_admintools_disablecheckout($product){
+	
+	$product->field_commerce_stock['und'][0]['value'] = 0.00;
+	commerce_product_save($product);
+	
+  //===========1st_call=============
+          $data = '{"id" : "'.$product->product_id.'" , "stock" : "0"}';
+          $options = array(
+              'method' => 'PUT',
+              'data' => $data,
+              'timeout' => 30,
+              'headers' => array('Content-Type' => 'application/json'),
+          );
+
+          print_r(drupal_http_request('http://admin:fitmoo@'.$redirect_base.'/api/update_stock', $options));
+		  print "<Br>";
+	
+	
+	
+	
+	
+}
 	
 	
