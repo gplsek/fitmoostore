@@ -476,8 +476,12 @@ function fitmoo_admintools_notify_redemption($userID,$amount,$transfer_type){
 
 function fitmoo_admintools_stock(){
 	
-	$result = db_query("select * from commerce_product as cp
-join field_data_commerce_stock as cs on cp.product_id = cs.entity_id where cp.uid not in ('391','393')");
+	// $result = db_query("select * from commerce_product as cp
+// join field_data_commerce_stock as cs on cp.product_id = cs.entity_id where cp.uid not in ('391','393')");
+
+
+	$result = db_query("select * from commerce_product");
+
 	// Result is returned as a iterable object that returns a stdClass object on each iteration
 	foreach ($result as $record) {
 		print "HERE";
