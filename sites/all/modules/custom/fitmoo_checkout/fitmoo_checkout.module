@@ -340,7 +340,7 @@ function fitmoo_checkout_setShippingFee_submit($form, &$form_state) {
 
 function fitmoo_checkout_calc_comisions($params){
 	
-	if($params['productType']){
+	if($params['productType'] == 'event'){
 		$seller_perc = variable_get("seller_event_perc", "");
 		$buyer_perc = variable_get("buyer_event_perc", "");
 		$fitmoo_perc = variable_get("fitmoo_event_perc", "");
@@ -461,8 +461,8 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
       $commisions = fitmoo_checkout_calc_comisions($params);
 	  $seller = user_load($product->uid);
 	  $fitmoo_fee = $commisions['buycom'] + $commisions['fitcom'];
-	  $order->field_fitmoo_fee['und'][0]['value'] = $fitmoo_fee * 100;
-	  $order->field_new_total['und'][0]['value'] = $order->commerce_order_total['und'][0]['amount'] - ($fitmoo_fee * 100);
+	  $order->field_fitmoo_fee['und'][0]['value'] = $fitmoo_fee;
+	  $order->field_new_total['und'][0]['value'] = $order->commerce_order_total['und'][0]['amount'] - ($fitmoo_fee);
 	  $order->field_seller_email['und'][0]['value'] = $seller->mail;
 	  $order->field_seller['und'][0]['uid'] = $product->uid;
 	  //send email to seller
@@ -1544,8 +1544,8 @@ function fitmoo_checkout_braintree_refund($order){
 
     $payment_method = commerce_payment_method_instance_load('braintree_tr|commerce_payment_braintree_tr');
     commerce_braintree_initialize($payment_method);
-
-    foreach ($transactions as $transaction) {
+	
+	    foreach ($transactions as $transaction) {
         if ($transaction->status == 'success') {
             $remote_transaction_id = $transaction->remote_id;
             break;
