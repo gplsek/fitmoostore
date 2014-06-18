@@ -172,12 +172,12 @@ function _endicia_print_label_data_validate($data) {
         return services_error(t("The package's entered weight must not be 0"));
     }
 
-    foreach (array('origin' => 'pickup', 'destination' => 'delivery') as $parent_key => $type) {
-        $digitsonly = preg_replace("/[^0-9]/", "", $data[$type . '_phone']);
-        if (strlen($digitsonly) > 10) {
-            return services_error(t('Phone numbers must not contain more than 10 digits.'));
-        }
-    }
+//    foreach (array('origin' => 'pickup', 'destination' => 'delivery') as $parent_key => $type) {
+//        $digitsonly = preg_replace("/[^0-9]/", "", $data[$type . '_phone']);
+//        if (strlen($digitsonly) > 10) {
+//            return services_error(t('Phone numbers must not contain more than 10 digits.'));
+//        }
+//    }
     // Prepare for API call and create session data
     $_SESSION['endicia'] = array();
     $_SESSION['endicia']['package'] = array();
