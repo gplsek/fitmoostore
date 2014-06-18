@@ -13,11 +13,13 @@
  */
 function commerce_services_endicia_index($fields) {
     global $user;
-    $uid =  $user->uid;
+    //$uid =  $user->uid;
     if (empty($_REQUEST['mail_class'])) {
         return services_error(t('Error Mail class is empty'));
     }
-    if (!empty($_SESSION['endicia']) and !empty($uid)) {
+
+    //and !empty($uid)
+    if (!empty($_SESSION['endicia'])) {
        module_load_include('module', 'endicia',drupal_get_path('module', 'endicia'));
        module_load_include('module', 'endicia_ui',drupal_get_path('module', 'endicia_ui'));
        $result = _endicia_ui_print_label_confirm_form($_SESSION['endicia']);
