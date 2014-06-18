@@ -100,7 +100,10 @@ function _endicia_print_label_data_validate($data) {
        if ($line_item->type == 'shipping') {continue;}
        $temp = field_get_items('commerce_line_item', $line_item, 'commerce_product');
        $types = array("clothing","shoes","pants-shorts","product");
+//$types = array("event","service","membership");
        $product = commerce_product_load($temp[0]['product_id']);
+//   if (!(in_array($product->type, $types))) {
+//	   if (in_array($product->type, $types)) {
 
 	   if (!(in_array($product->type, $types))) {
 	       $order->status = "Pending:AcceptEvent";

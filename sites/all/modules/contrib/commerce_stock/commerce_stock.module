@@ -422,6 +422,7 @@ function commerce_stock_form_after_build($form, &$form_state) {
  * Common stock validation function.
  */
 function commerce_stock_checkout_validate($order_wrapper) {
+	//print_r($order_wrapper::{'id:protected'});die();
   $found_errors = FALSE;
   // Check each line item.
   foreach ($order_wrapper->commerce_line_items as $index => $line_item_wrapper) {
@@ -443,9 +444,9 @@ function commerce_stock_checkout_validate($order_wrapper) {
   }
   // If out of stock items send back to the cart form.
   if ($found_errors) {
-    drupal_set_message(t('Please adjust quantities before continuing to checkout.'));
-    $cart_url = url('cart', array('absolute' => TRUE));
-    drupal_goto($cart_url);
+    //drupal_set_message(t('Requested quantity is not available for this item, please update quantity to a lower amount.'));
+    //$cart_url = url('checkout', array('absolute' => TRUE));
+   // drupal_goto($cart_url);
   }
 }
 
