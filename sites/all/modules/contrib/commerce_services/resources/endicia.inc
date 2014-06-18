@@ -99,10 +99,10 @@ function _endicia_print_label_data_validate($data) {
        $line_item =  commerce_services_retrieve_entity('commerce_line_item', $value['line_item_id'], 1, false);
 	   
        $temp = field_get_items('commerce_line_item', $line_item, 'commerce_product');
-       $types = array("clothing","shoes","pants-shorts","product");
+       $types = array("event","service","membership");
        $product = commerce_product_load($temp[0]['product_id']);
 	  
-	   if (!(in_array($product->type, $types))) {
+	   if (in_array($product->type, $types)) {
 	       $order->status = "Pending:AcceptEvent";
 		   commerce_order_save($order);
 		   return services_error(t("Non shippable Item, status was set to Pending:AcceptEvent"));
