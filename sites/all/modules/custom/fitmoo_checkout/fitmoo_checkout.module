@@ -76,9 +76,13 @@ function fitmoo_checkout_theme() {
       'template' => 'templates/confirmationcodeemail',
       'arguments' => array('data' => NULL),
     ),
+    'cancelorderemail' => array(
+      'template' => 'templates/cancelorderemail',
+      'arguments' => array('data' => NULL),
+    ),
  );
 }
-
+//cancelorderemail
 //function fitmoo_checkout_userlogin($sessionID){
 //	global $user;
 //
@@ -1617,7 +1621,54 @@ function _save_transaction ($order, $transaction, $refundedTransactionId, $resul
     $transaction1->status = $transaction->status;
     $transaction1->message = $result->message;
     commerce_payment_transaction_save($transaction1);
+	fitmoo_checkout_email_order_cancel_bybuyer($order);
     return $transaction1;
+}
+
+function fitmoo_checkout_email_order_cancel_bybuyer($order){
+	
+	$info = _get_order_info($order);
+	
+    $module = 'fitmoo_checkout';
+    $key = 'order';
+    $language = language_default();
+    $params = array();
+    $send = TRUE;
+    $from = 'store@fitmoo.com';
+    $to = $order->field_seller_email['und'][0]['value'];
+ 
+
+
+    $headers = array(
+    'MIME-Version' => '1.0',
+    'Content-Type' => 'text/html; charset=UTF-8; format=flowed',
+    'Content-Transfer-Encoding' => '8Bit',
+    'X-Mailer' => 'Drupal'
+    );
+    $params['headers'] = $headers;
+    $message = drupal_mail($module, $key, $to, $language, $params, $from, FALSE);
+
+
+    $message['subject'] = "Your order at Fitmoo.com order #".$info['orderID']." was caceled by buyer  ";
+    
+	
+	
+
+
+    $body = theme('cancelorderemail',$info);
+  
+    $message['body'] = array();
+    $message['body'][] = $body;
+    
+    // Retrieve the responsible implementation for this message.
+    $system = drupal_mail_system($module, $key);
+    // Format the message body.
+    $message = $system->format($message);
+    // Send e-mail.
+    $message['result'] = $system->mail($message);
+    return TRUE;
+	
+	
 }
 
 function fitmoo_checkout_braintree_settle($order){
