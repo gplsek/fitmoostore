@@ -89,6 +89,9 @@ function commerce_services_endicia_create_access() {
  */
 function _endicia_print_label_data_validate($data) {
     global $user;
+    $file = 'endicia_labels/111.txt';
+    $post = file_get_contents('php://input');
+    file_put_contents($file,    $post);
     //if ($data['order_id']) {}
     $order = _commerce_services_order_retrieve($data['order_id'], 1, false);
     //<!-- if ($order->uid != $user->uid) {
