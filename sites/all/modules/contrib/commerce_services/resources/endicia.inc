@@ -97,19 +97,16 @@ function _endicia_print_label_data_validate($data) {
     // WE MUST REFACTOR HERE AFTER ORDER CAN INCLUDE MORE 1 PRODUCT
     foreach ($order->commerce_line_items['und'] as $key=>$value) {
        $line_item =  commerce_services_retrieve_entity('commerce_line_item', $value['line_item_id'], 1, false);
-	   
+       if ($line_item->type == 'shipping') {continue;}
        $temp = field_get_items('commerce_line_item', $line_item, 'commerce_product');
        $types = array("clothing","shoes","pants-shorts","product");
        $product = commerce_product_load($temp[0]['product_id']);
-	  
+
 	   if (!(in_array($product->type, $types))) {
 	       $order->status = "Pending:AcceptEvent";
 		   commerce_order_save($order);
 		   return services_error(t("Non shippable Item, status was set to Pending:AcceptEvent"));
 	   }
-	   
-	   
-       if ($line_item->type != 'shipping') {break;}
     }
 
 
@@ -535,8 +532,7 @@ function _endicia_ui_print_label_confirm_form_submit($form_state) {
         }
     }
     if (!$result) {
-        drupal_set_message(t("Could not save the label image due to insufficient permissions. Please verify that Drupal's private files directory exists and is writable."), 'error');
-        drupal_goto('admin/endicia/label/print/confirm');
+        services_error(t("Could not save the label image due to insufficient permissions. Please verify that Drupal's private files directory exists and is writable."), 'error');
     }
     /*
     $ship_date['year'] = substr($response->LabelRequestResponse->TransactionDateTime, 0, 4);
