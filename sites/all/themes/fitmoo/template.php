@@ -108,7 +108,7 @@ function fitmoo_preprocess_page(&$vars) {
     }
 	
 	if($vars['user']->uid != 1){
-	 $url = array('checkout','cart','user');
+	 $url = array('checkout','cart','user','endicia');
 	
 	 if (!(in_array(arg(0), $url))){
  	    // Make sure there isn't a redirect loop.
