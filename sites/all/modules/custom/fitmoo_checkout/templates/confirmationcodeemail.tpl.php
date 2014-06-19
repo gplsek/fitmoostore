@@ -245,13 +245,13 @@ $fitfeeperc = $buyperc + $fitperc;
         <section class="mailtext">
             <div class="section-wrapper clearfix">
                 <div class="content-div">
-                    <p>Your order was accepeted. Please provide this confirmation Code <strong><?php print $confirmation_code;?></strong> , when redeeming the service or attending the event. If you'd like to view the status of
-                        your order, pls visit <a href="<?php print $redirect_base;?>/dashboard/orders/<?php print $orderID;?>">Your order</a> on Fitmoo.com </p>
+                    <p>Your order is now processed. You will receive a tracking number as soon  order is shipped the seller.<BR>
+                        <a href="<?php print $redirect_base;?>/dashboard/orders/<?php print $orderID;?>">Click here to view the status of your order</a></p>
                 </div>
                 <div class="content-div" style="padding-top: 20px;">
                 <h1>Order Details</h1>
                     <div style="float: left;">Order #: <a href="<?php print $redirect_base;?>/dashboard/orders/<?php print $orderID;?>"><?php print $orderID;?></a></div>
-                    <div style="float: right;">Placed on: <?php print date("m-d-Y", $orderDate);?></div>
+                    <div style="float: right;">Placed on: <?php print date("M jS, Y", $orderDate);?></div>
                 </div>
                 <!-- <div class="content-div" style="padding-top: 20px;">
                     <div class="lcolumn">

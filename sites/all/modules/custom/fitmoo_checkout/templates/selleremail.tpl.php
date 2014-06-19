@@ -267,12 +267,12 @@ setlocale(LC_MONETARY, 'en_US');
         <section class="mailtext">
             <div class="section-wrapper clearfix">
                 <div class="content-div">
-                    <p>Good news ! <?php print $buyerEmail; ?> purchased <a href=""><?php print $product;?></a> from your Fitmoo store. For details about the order and instruction to complete this order  visit <a href="<?php print $redirect_base;?>/dashboard/sales">your sales dashboard</a> on Fitmoo.com. Please be advised that we will cancel this transaction if the product is not shipped within  <b>5 days</b></p>
+                    <p>Good news ! <?php print $buyerEmail; ?> purchased <a href=""><?php print $product;?></a> from your Fitmoo store. For details and instructions to complete this order, and instruction to complete this order please visit <a href="<?php print $redirect_base;?>/dashboard/sales">your sales dashboard</a> on Fitmoo.com. Please be reminded this transaction will automatically be cancelled if its not shipped within  <b>5 days</b></p>
                 </div>
                 <div class="content-div" style="padding-top: 20px;">
                 <h1>Order Details</h1>
                     <div style="float: left;">Order #: <a href="<?php print $redirect_base;?>/dashboard/sales/<?php print $orderID;?>"><?php print $orderID;?></a></div>
-                    <div style="float: right;">Placed on: <?php print date("m-d-Y", $orderDate);?></div>
+                    <div style="float: right;">Placed on: <?php print date("M jS, Y", $orderDate);?></div>
                 </div>
 
             </div>
@@ -338,12 +338,12 @@ setlocale(LC_MONETARY, 'en_US');
                         </div>
                         <div>
                             <div class="lcolumn">Your Profit</div>
-                            <div class="rcolumn"><?php print money_format('%i',$sellcom;)?></div>
+                            <div class="rcolumn"><?php print money_format('%i',$sellcom);?></div>
                         </div>
                     </div>
                 </div>
                 <div class="button-wrapper">
-                    <a href class="blue-button" id="edit-continue" name="op">Print Mailing Label</a>
+                    <a href="<?php print $redirect_base;?>/dashboard/sales/<?php print $orderID;?>" class="blue-button" id="edit-continue" name="op">Print Mailing Label</a>
                 </div>
 
             </div>
