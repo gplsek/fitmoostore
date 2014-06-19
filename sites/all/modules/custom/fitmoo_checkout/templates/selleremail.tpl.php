@@ -11,7 +11,7 @@ $image = array(
 $redirect_base = variable_get('anonymous_redirect_base', '');
 
 $fitfeeperc = $buyperc + $fitperc;
-
+setlocale(LC_MONETARY, 'en_US');
 //print theme('image_style', $image);
 	
 ?>
@@ -267,7 +267,7 @@ $fitfeeperc = $buyperc + $fitperc;
         <section class="mailtext">
             <div class="section-wrapper clearfix">
                 <div class="content-div">
-                    <p>Good news ! <?php print $buyerEmail; ?> purchased <a href=""><?php print $product;?></a> For detail please visit <a href="<?php print $redirect_base;?>/dashboard/sales">Your Sales</a> on Fitmoo.com We will cancel this transaction if the product is not shipped within <b>5 days</b></p>
+                    <p>Good news ! <?php print $buyerEmail; ?> purchased <a href=""><?php print $product;?></a> from your Fitmoo store. For details about the order and instruction to complete this order  visit <a href="<?php print $redirect_base;?>/dashboard/sales">your sales dashboard</a> on Fitmoo.com. Please be advised that we will cancel this transaction if the product is not shipped within  <b>5 days</b></p>
                 </div>
                 <div class="content-div" style="padding-top: 20px;">
                 <h1>Order Details</h1>
@@ -302,7 +302,7 @@ $fitfeeperc = $buyperc + $fitperc;
                                                 <div class="fieldset-wrapper">
                                                     <div class="field-type-details">
                                                         <div class="field-label">Size:&nbsp;<?php print $size;?></div>
-                                                        <div class="field-label">Qty:&nbsp;<?php print $qty;?></div>
+                                                        <div class="field-label">Qty:&nbsp;<?php print number_format(floor($qty));?></div>
                                                     </div>
                                                 </div>
                                             </fieldset>
@@ -330,15 +330,15 @@ $fitfeeperc = $buyperc + $fitperc;
 						<div style="font-weight: bold;">How much did you make?</div>
                         <div>
                             <div class="lcolumn">Product Listing Price</div>
-                            <div class="rcolumn">$<?php print $total;?></div>
+                            <div class="rcolumn"><?php print money_format('%i',$total);?></div>
                         </div>
                         <div>
-                            <div class="lcolumn">Fitmoo Srv. Charge(<?php print $fitfeeperc;?>%)</div>
-                            <div class="rcolumn">$<?php print $fitfee;?></div>
+                            <div class="lcolumn">Fitmoo Service Charge(<?php print $fitfeeperc;?>%)</div>
+                            <div class="rcolumn"><?php print money_format('%i',$fitfee);?></div>
                         </div>
                         <div>
                             <div class="lcolumn">Your Profit</div>
-                            <div class="rcolumn">$<?php print $sellcom;?></div>
+                            <div class="rcolumn"><?php print money_format('%i',$sellcom;)?></div>
                         </div>
                     </div>
                 </div>
