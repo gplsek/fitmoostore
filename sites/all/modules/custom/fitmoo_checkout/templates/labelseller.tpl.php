@@ -124,12 +124,14 @@ $redirect_base = variable_get('anonymous_redirect_base', '');
             <div style="width:1000px; margin: 0 auto; border-bottom: 2px solid #a9a9a9; padding-top: 20px; padding-bottom: 20px;">
                 <div style="font-size: 18px; font-family: 'bentonsansbook'; width: 95%;">
                     <p>
-                        1. Print out a <a style="color:#38a0dc; text-decoration: none;" href="<?php print $LabelLink; ?>">shipping label</a> that we generated for you.<BR><BR>
-                        2. Pack the item. Make sure it's properly sealed and shipping label is attacjed to the package.<BR><BR>
-                        3. Drop off the item at nearby Post Office. We will take care of the postage for you.
+                        1. Print the <a style="color:#38a0dc; text-decoration: none;" href="<?php print $LabelLink; ?>">shipping label</a> that has been generated for you.<BR><BR>
+                        2. Pack the item in a box or envelope and ensure that it is properly sealed..<BR><BR>
+                        3. Attach the printed shipping label on this package.<BR><BR>
+						4. Drop off at your near USPS post off or schedule a pickup with USPS.
                     </p>
                     <h1 style="color: #333; font-size: 21px; text-decoration: none; font-family: 'bentonsansmedium'; font-weight:bold;">What next:</h1>
-                    <p style="line-height: 25px;">72 hours after your item is delivered? the credit will be reflected on your Fitmoo.com account,<br>Note: You have 7 days to ship the item. If the item is not delivered within 7 days, the buyer has option to cancel the order.</p>
+                    <p style="line-height: 25px;">72 hours after the order has been delivered, your earnings will be available for redemption from the Fitmoo dashboard. Note: You have 7 days to ship the item. If the item is not delivered within 7 days, the buyer has option to cancel the order.
+</p>
                 </div>
             </div>
         </section>
