@@ -1387,9 +1387,10 @@ function fitmoo_checkout_commerce_order_presave($order) {
 		        $order = fitmoo_checkout_accept_event($order);
 		        break;
             case "Canceled:Refund":
+			case "canceled":
                 $order = fitmoo_checkout_braintree_refund($order);
                 break;
-		    case "Canceled":
+		    case "somestatus":
 			    $order = fitmoo_checkout_braintree_refund($order);
 		        break;
 
