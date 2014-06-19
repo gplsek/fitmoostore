@@ -272,7 +272,7 @@ $fitfeeperc = $buyperc + $fitperc;
                 <div class="content-div" style="padding-top: 20px;">
                 <h1>Order Details</h1>
                     <div style="float: left;">Order #: <a href="<?php print $redirect_base;?>/dashboard/sales/<?php print $orderID;?>"><?php print $orderID;?></a></div>
-                    <div style="float: right;">Placed on: <?php print date("m-d-Y", $orderDate);?></div>
+                    <div style="float: right;">Placed on: <?php print date("M jS, Y", $orderDate);?></div>
                 </div>
 
             </div>

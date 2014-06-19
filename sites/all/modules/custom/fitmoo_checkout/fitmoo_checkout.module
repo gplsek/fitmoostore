@@ -741,12 +741,12 @@ function fitmoo_checkout_form_cancel_submit($form, &$form_state) {
   // even when the status doesn't actually change.
   if (variable_get('commerce_order_auto_revision', TRUE)) {
     $form_state['order']->revision = TRUE;
-    $form_state['order']->log = t('Customer manually canceled the checkout process.');
+    $form_state['order']->log = t('Customer manually cancelled the checkout process.');
   }
 
   commerce_order_delete($order->id);
   commerce_cart_order_empty($order) ;
-  //drupal_set_message(t('Checkout of your current order has been canceled and may be resumed when you are ready.'));
+  //drupal_set_message(t('Checkout of your current order has been cancelled and may be resumed when you are ready.'));
 
   // Redirect to firmoo on cancel.
   
@@ -1651,7 +1651,7 @@ function fitmoo_checkout_email_order_cancel_bybuyer($order){
     $message = drupal_mail($module, $key, $to, $language, $params, $from, FALSE);
 
 
-    $message['subject'] = "Your order at Fitmoo.com order #".$info['orderID']." was caceled by buyer  ";
+    $message['subject'] = "Your order at Fitmoo.com order #".$info['orderID']." was cancelled by buyer  ";
     
 	
 	

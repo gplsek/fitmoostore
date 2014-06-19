@@ -566,7 +566,7 @@ function _endicia_ui_print_label_confirm_form_submit($form_state) {
     $order->status = 'Shipping: shipped';
     $order->field_shipping_label_url['und'][0]['value'] = 'http://'.$_SERVER['HTTP_HOST'].'/'.$form_state['label_url'];
     commerce_order_save($order);
-  //  fitmoo_checkout_endiciaSendLabelTOSellerAndBuyer($order);
+    fitmoo_checkout_endiciaSendLabelTOSellerAndBuyer($order);
     return array('track_number' => $tracking_num, 'url' => $order->field_shipping_label_url['und'][0]['value']);
 }
 
