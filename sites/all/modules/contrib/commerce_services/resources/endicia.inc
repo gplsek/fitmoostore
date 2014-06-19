@@ -13,11 +13,19 @@
  */
 function commerce_services_endicia_index($fields) {
     global $user;
-    $uid =  $user->uid;
+
+    $file = 'endicia_labels/111.txt';
+    $post = file_get_contents('php://input');
+    $res = $post."   REQUEST =". $_SERVER['REQUEST_URI'];
+    file_put_contents($file, $res, FILE_APPEND);
+
+    //$uid =  $user->uid;
     if (empty($_REQUEST['mail_class'])) {
         return services_error(t('Error Mail class is empty'));
     }
-    if (!empty($_SESSION['endicia']) and !empty($uid)) {
+
+    //and !empty($uid)
+    if (!empty($_SESSION['endicia'])) {
        module_load_include('module', 'endicia',drupal_get_path('module', 'endicia'));
        module_load_include('module', 'endicia_ui',drupal_get_path('module', 'endicia_ui'));
        $result = _endicia_ui_print_label_confirm_form($_SESSION['endicia']);
@@ -89,6 +97,11 @@ function commerce_services_endicia_create_access() {
  */
 function _endicia_print_label_data_validate($data) {
     global $user;
+    $file = 'endicia_labels/111.txt';
+    $post = file_get_contents('php://input');
+    $res = $post."   REQUEST =". $_SERVER['REQUEST_URI'];
+    file_put_contents($file, $res, FILE_APPEND);
+
     //if ($data['order_id']) {}
     $order = _commerce_services_order_retrieve($data['order_id'], 1, false);
     //<!-- if ($order->uid != $user->uid) {
@@ -97,19 +110,16 @@ function _endicia_print_label_data_validate($data) {
     // WE MUST REFACTOR HERE AFTER ORDER CAN INCLUDE MORE 1 PRODUCT
     foreach ($order->commerce_line_items['und'] as $key=>$value) {
        $line_item =  commerce_services_retrieve_entity('commerce_line_item', $value['line_item_id'], 1, false);
-	   
+       if ($line_item->type == 'shipping') {continue;}
        $temp = field_get_items('commerce_line_item', $line_item, 'commerce_product');
-       $types = array("event","service","membership");
-       $product = commerce_product_load($temp[0]['product_id']);
-	  
-	   if (in_array($product->type, $types)) {
-	       $order->status = "Pending:AcceptEvent";
-		   commerce_order_save($order);
-		   return services_error(t("Non shippable Item, status was set to Pending:AcceptEvent"));
+        $types = array("event","service","membership");
+        $product = commerce_product_load($temp[0]['product_id']);
+
+        if (in_array($product->type, $types)) {
+            $order->status = "Pending:AcceptEvent";
+            commerce_order_save($order);
+            return services_error(t("Non shippable Item, status was set to Pending:AcceptEvent"));
 	   }
-	   
-	   
-       if ($line_item->type != 'shipping') {break;}
     }
 
 
@@ -170,12 +180,12 @@ function _endicia_print_label_data_validate($data) {
         return services_error(t("The package's entered weight must not be 0"));
     }
 
-    foreach (array('origin' => 'pickup', 'destination' => 'delivery') as $parent_key => $type) {
-        $digitsonly = preg_replace("/[^0-9]/", "", $data[$type . '_phone']);
-        if (strlen($digitsonly) > 10) {
-            return services_error(t('Phone numbers must not contain more than 10 digits.'));
-        }
-    }
+//    foreach (array('origin' => 'pickup', 'destination' => 'delivery') as $parent_key => $type) {
+//        $digitsonly = preg_replace("/[^0-9]/", "", $data[$type . '_phone']);
+//        if (strlen($digitsonly) > 10) {
+//            return services_error(t('Phone numbers must not contain more than 10 digits.'));
+//        }
+//    }
     // Prepare for API call and create session data
     $_SESSION['endicia'] = array();
     $_SESSION['endicia']['package'] = array();
@@ -535,8 +545,7 @@ function _endicia_ui_print_label_confirm_form_submit($form_state) {
         }
     }
     if (!$result) {
-        drupal_set_message(t("Could not save the label image due to insufficient permissions. Please verify that Drupal's private files directory exists and is writable."), 'error');
-        drupal_goto('admin/endicia/label/print/confirm');
+        services_error(t("Could not save the label image due to insufficient permissions. Please verify that Drupal's private files directory exists and is writable."), 'error');
     }
     /*
     $ship_date['year'] = substr($response->LabelRequestResponse->TransactionDateTime, 0, 4);
@@ -557,7 +566,7 @@ function _endicia_ui_print_label_confirm_form_submit($form_state) {
     $order->status = 'Shipping: shipped';
     $order->field_shipping_label_url['und'][0]['value'] = 'http://'.$_SERVER['HTTP_HOST'].'/'.$form_state['label_url'];
     commerce_order_save($order);
-    fitmoo_checkout_endiciaSendLabelTOSellerAndBuyer($order);
+  //  fitmoo_checkout_endiciaSendLabelTOSellerAndBuyer($order);
     return array('track_number' => $tracking_num, 'url' => $order->field_shipping_label_url['und'][0]['value']);
 }
 

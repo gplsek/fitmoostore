@@ -464,10 +464,11 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
       // Grant userpoints programmatically.
       $commisions = fitmoo_checkout_calc_comisions($params);
 	  $seller = user_load($product->uid);
-	  $fitmoo_fee = $commisions['fitcom'];
-	  $order->field_buyer_com['und'][0]['value'] = $commisions['buycom'];
+	  $fitmoo_fee = ($commisions['fitcom'] + $commisions['buycom'])*100;
+	  $order->field_buyer_com['und'][0]['value'] = $commisions['buycom']*100;
+	  $order->field_fitmoo_com['und'][0]['value'] = $commisions['fitcom']*100;
 	  $order->field_fitmoo_fee['und'][0]['value'] = $fitmoo_fee;
-	  $order->field_new_total['und'][0]['value'] = ($order->commerce_order_total['und'][0]['amount']/100) - ($fitmoo_fee);
+	  $order->field_new_total['und'][0]['value'] = ($order->commerce_order_total['und'][0]['amount']) - ($fitmoo_fee);
 	  $order->field_seller_email['und'][0]['value'] = $seller->mail;
 	  $order->field_seller['und'][0]['uid'] = $product->uid;
 	  //send email to seller
