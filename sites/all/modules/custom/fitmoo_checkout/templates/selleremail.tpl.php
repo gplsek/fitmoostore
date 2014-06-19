@@ -338,7 +338,7 @@ setlocale(LC_MONETARY, 'en_US');
                         </div>
                         <div>
                             <div class="lcolumn">Your Profit</div>
-                            <div class="rcolumn"><?php print money_format('%i',$sellcom;)?></div>
+                            <div class="rcolumn"><?php print money_format('%i',$sellcom);?></div>
                         </div>
                     </div>
                 </div>
