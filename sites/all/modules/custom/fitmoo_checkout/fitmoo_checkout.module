@@ -1074,6 +1074,15 @@ function fitmoo_checkout_LabelEmail($seller_email,$buyer_uid,$info,$info_buyer){
         'X-Mailer' => 'Drupal'
     );
     $params['headers'] = $headers;
+	
+	$params['attachments'][] = array(
+	  'filepath' => $info['LabelLink'],
+	  'filecontent' => 'Shipping Label.',
+	  'filename' => $info['LabelLink'],
+	  'filemime' => 'application/pdf',
+	);
+	
+	
     $message = drupal_mail($module, $key, $to, $language, $params, $from, FALSE);
 
     $message['subject'] = "Your item has shipped Order #".$info_buyer['OrderId']." from ".$info_buyer['BuyerEmail']." at Fitmoo.com";
