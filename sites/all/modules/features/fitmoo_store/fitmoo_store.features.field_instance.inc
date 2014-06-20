@@ -341,6 +341,40 @@ function fitmoo_store_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'commerce_customer_profile-billing-field_phone'
+  $field_instances['commerce_customer_profile-billing-field_phone'] = array(
+    'bundle' => 'billing',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => -9,
+      ),
+    ),
+    'entity_type' => 'commerce_customer_profile',
+    'field_name' => 'field_phone',
+    'label' => 'Phone',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => -8,
+    ),
+  );
+
   // Exported field_instance: 'commerce_customer_profile-shipping-commerce_customer_address'
   $field_instances['commerce_customer_profile-shipping-commerce_customer_address'] = array(
     'bundle' => 'shipping',
@@ -672,6 +706,40 @@ function fitmoo_store_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'commerce_customer_profile-shipping-field_phone'
+  $field_instances['commerce_customer_profile-shipping-field_phone'] = array(
+    'bundle' => 'shipping',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => -9,
+      ),
+    ),
+    'entity_type' => 'commerce_customer_profile',
+    'field_name' => 'field_phone',
+    'label' => 'Phone',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => -9,
+    ),
+  );
+
   // Exported field_instance: 'commerce_order-commerce_order-commerce_customer_billing'
   $field_instances['commerce_order-commerce_order-commerce_customer_billing'] = array(
     'bundle' => 'commerce_order',
@@ -940,7 +1008,7 @@ function fitmoo_store_field_default_field_instances() {
       'module' => 'number',
       'settings' => array(),
       'type' => 'number',
-      'weight' => 7,
+      'weight' => 6,
     ),
   );
 
@@ -1015,7 +1083,47 @@ function fitmoo_store_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 13,
+      'weight' => 14,
+    ),
+  );
+
+  // Exported field_instance: 'commerce_order-commerce_order-field_fitmoo_com'
+  $field_instances['commerce_order-commerce_order-field_fitmoo_com'] = array(
+    'bundle' => 'commerce_order',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 2,
+          'thousand_separator' => ' ',
+        ),
+        'type' => 'number_decimal',
+        'weight' => 15,
+      ),
+    ),
+    'entity_type' => 'commerce_order',
+    'field_name' => 'field_fitmoo_com',
+    'label' => 'Fitmoo Com',
+    'required' => 0,
+    'settings' => array(
+      'max' => '',
+      'min' => '',
+      'prefix' => '',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 7,
     ),
   );
 
@@ -1055,7 +1163,7 @@ function fitmoo_store_field_default_field_instances() {
       'module' => 'number',
       'settings' => array(),
       'type' => 'number',
-      'weight' => 6,
+      'weight' => 8,
     ),
   );
 
@@ -1095,7 +1203,7 @@ function fitmoo_store_field_default_field_instances() {
       'module' => 'number',
       'settings' => array(),
       'type' => 'number',
-      'weight' => 8,
+      'weight' => 9,
     ),
   );
 
@@ -1130,7 +1238,7 @@ function fitmoo_store_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'user_reference_autocomplete',
-      'weight' => 12,
+      'weight' => 13,
     ),
   );
 
@@ -1164,7 +1272,7 @@ function fitmoo_store_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 11,
+      'weight' => 12,
     ),
   );
 
@@ -1198,7 +1306,7 @@ function fitmoo_store_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 10,
+      'weight' => 11,
     ),
   );
 
@@ -1232,7 +1340,7 @@ function fitmoo_store_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 9,
+      'weight' => 10,
     ),
   );
 
@@ -5382,6 +5490,7 @@ function fitmoo_store_field_default_field_instances() {
   t('Discount reference');
   t('Enter a comma-separated list of words to describe your content.');
   t('Expire Month After Purcahse');
+  t('Fitmoo Com');
   t('Fitmoo Fee');
   t('Gender');
   t('If set PayPal will handle the recurring billing. The subscription runs as long as it gets cancelled via PayPal.');
@@ -5395,6 +5504,7 @@ function fitmoo_store_field_default_field_instances() {
   t('Order total');
   t('PayPal billing periods');
   t('PayPal recurring billing');
+  t('Phone');
   t('Price');
   t('Product');
   t('Product variations');
