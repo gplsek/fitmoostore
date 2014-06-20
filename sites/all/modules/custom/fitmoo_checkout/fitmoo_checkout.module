@@ -1074,9 +1074,12 @@ function fitmoo_checkout_LabelEmail($seller_email,$buyer_uid,$info,$info_buyer){
         'X-Mailer' => 'Drupal'
     );
     $params['headers'] = $headers;
-	
+
+    $array = explode('/',$info['LabelLink']);
+    $f_name = $array[count($array)-1];
+
 	$params['attachments'][] = array(
-	  'filepath' => $info['LabelLink'],
+	  'filepath' => DRUPAL_ROOT.'/endicia_labels/endicia_labels/'.$f_name,
 	  'filecontent' => 'Shipping Label.',
 	  'filename' => $info['LabelLink'],
 	  'filemime' => 'application/pdf',
