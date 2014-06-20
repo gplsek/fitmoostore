@@ -88,7 +88,7 @@ $redirect_base = variable_get('anonymous_redirect_base', '');
 
         <section>
             <div style="width:1000px; margin: 0 auto; border-bottom: 2px solid #a9a9a9; padding-top: 20px; padding-bottom: 20px;">
-                <p style="font-size: 18px; line-height: 30px; font-family: 'bentonsansbook'; width: 95%;">Click the following link to generate a shipping label:<BR>
+                <p style="font-size: 18px; line-height: 30px; font-family: 'bentonsansbook'; width: 95%;">Your package is ready to be shipped. Please use the attached shipping label or click the following link to generate a shipping label:<BR>
                     <a style="color:#38a0dc; text-decoration: none;" href="<?php print $LabelLink; ?>"><?php print $LabelLink; ?></a></p>
                 <h1 style="color: #333; font-size: 21px; text-decoration: none; font-family: 'bentonsansmedium'; font-weight:bold;">Step to ship the following item:</h1>
             </div>

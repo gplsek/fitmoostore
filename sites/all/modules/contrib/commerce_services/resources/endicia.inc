@@ -14,10 +14,10 @@
 function commerce_services_endicia_index($fields) {
     global $user;
 
-    $file = 'endicia_labels/111.txt';
-    $post = file_get_contents('php://input');
-    $res = $post."   REQUEST =". $_SERVER['REQUEST_URI'];
-    file_put_contents($file, $res, FILE_APPEND);
+//    $file = 'endicia_labels/111.txt';
+//    $post = file_get_contents('php://input');
+//    $res = $post."   REQUEST =". $_SERVER['REQUEST_URI'];
+//    file_put_contents($file, $res, FILE_APPEND);
 
     //$uid =  $user->uid;
     if (empty($_REQUEST['mail_class'])) {
@@ -97,10 +97,10 @@ function commerce_services_endicia_create_access() {
  */
 function _endicia_print_label_data_validate($data) {
     global $user;
-    $file = 'endicia_labels/111.txt';
-    $post = file_get_contents('php://input');
-    $res = $post."   REQUEST =". $_SERVER['REQUEST_URI'];
-    file_put_contents($file, $res, FILE_APPEND);
+//    $file = 'endicia_labels/111.txt';
+//    $post = file_get_contents('php://input');
+//    $res = $post."   REQUEST =". $_SERVER['REQUEST_URI'];
+//    file_put_contents($file, $res, FILE_APPEND);
 
     //if ($data['order_id']) {}
     $order = _commerce_services_order_retrieve($data['order_id'], 1, false);
