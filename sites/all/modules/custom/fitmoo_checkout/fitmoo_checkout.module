@@ -996,7 +996,7 @@ function fitmoo_checkout_buyer_email($uid,$info){
   $message = drupal_mail($module, $key, $to, $language, $params, $from, FALSE);
 
 
-  $message['subject'] = "Thank you for your purchase order #".$info['orderID']."  at Fitmoo.com";
+  $message['subject'] = "Thank you for your order #".$info['orderID']."  at Fitmoo.com";
   
 
   $body = theme('buyeremail',$info);
