@@ -267,7 +267,7 @@ setlocale(LC_MONETARY, 'en_US');
         <section class="mailtext">
             <div class="section-wrapper clearfix">
                 <div class="content-div">
-                    <p>Good news ! <?php print $buyerEmail; ?> purchased <a href=""><?php print $product;?></a> from your Fitmoo store. For details and instructions to complete this order, and instruction to complete this order please visit <a href="<?php print $redirect_base;?>/dashboard/sales">your sales dashboard</a> on Fitmoo.com. Please be reminded this transaction will automatically be cancelled if its not shipped within  <b>5 days</b></p>
+                    <p>Good news ! <?php print $buyerEmail; ?> purchased <a href=""><?php print $product;?></a> from your Fitmoo store. For details and instructions to ship or complete this order, please visit <a href="<?php print $redirect_base;?>/dashboard/sales">your sales dashboard</a> on Fitmoo.com. Please be  Please be advised that this transaction will automatically cancel if its not shipped within  <b>5 days</b></p>
                 </div>
                 <div class="content-div" style="padding-top: 20px;">
                 <h1>Order Details</h1>
