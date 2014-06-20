@@ -936,7 +936,10 @@ div.addressfield-container-inline > div.form-item {
 .sb.selectbox .display .text {
   float: left;
   line-height: 40px;
-  padding-left: 20px; }
+  padding-left: 20px; 
+  overflow-x: hidden;
+  width: 271px;
+}
 .sb.selectbox .display .arrow_btn {
   background: url("../images/arrow_down.png") 0 center no-repeat;
   border: 0;
