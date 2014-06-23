@@ -356,6 +356,10 @@ function commerce_services_product_create_access($data) {
   }
 }
 
+//SESS8d3b4b16bda24dae7c6b16bc7fa6f067=9Uhv7o6-VJpv14si-S36Ex3IhEwRIS-KgTi9-fWDTZs
+//i1Kthm7mnvtONtaWSMHsU_7CeOu0Vz0hMuD3xC4YhiY
+
+
 /**
  * Updates a product.
  *
@@ -427,6 +431,17 @@ function _cs_product_update($product_id, $data, $flatten_fields) {
             }
         }
         unset($data['size']);
+    }
+
+    //images saving
+    if ($data['image']) {
+        $filename = basename($data['image']);
+        // $filename = commerce_services_check_file('public://',$filename);
+        $image_file = system_retrieve_file($data['image'], 'public://'.$filename, TRUE);
+        $data['field_image']['und'][0] = (array) $image_file;
+        $data['field_image_url'] = file_create_url($image_file->uri);
+        unset($data['image-url']);
+        unset($data['image']);
     }
 
     $product = commerce_services_update_entity('commerce_product', $product_id, $data, $flatten_fields);
