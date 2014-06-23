@@ -245,12 +245,12 @@ $fitfeeperc = $buyperc + $fitperc;
         <section class="mailtext">
             <div class="section-wrapper clearfix">
                 <div class="content-div">
-                    <p>Your order was cancled by the buyer.</p>
+                    <p>Your order was cancled.</p>
                 </div>
                 <div class="content-div" style="padding-top: 20px;">
                 <h1>Order Details</h1>
                     <div style="float: left;">Order #: <a href="<?php print $redirect_base;?>/dashboard/orders/<?php print $orderID;?>"><?php print $orderID;?></a></div>
-                    <div style="float: right;">Placed on: <?php print date("M jS, Y", $orderDate);?></div>
+                    <div style="float: right;">Placed on: <?php print date("M jS, Y", $orderDate);?> was canceled. Please check your dashboard for details. Ammount refunded to the credit card was: <?php print money_format('%i',$refund);?></div>
                 </div>
                 <!-- <div class="content-div" style="padding-top: 20px;">
                     <div class="lcolumn">

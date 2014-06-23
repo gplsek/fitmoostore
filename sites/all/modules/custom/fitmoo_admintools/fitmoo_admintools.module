@@ -544,14 +544,15 @@ function fitmoo_admintools_updatestock($product_id,$stock){
 	
   //===========1st_call=============
           $data = '{"id" : "'.$product_id.'" , "stock" : "'.$stock.'"}';
+		 
           $options = array(
               'method' => 'PUT',
               'data' => $data,
               'timeout' => 30,
               'headers' => array('Content-Type' => 'application/json'),
           );
-
-          print_r(drupal_http_request('http://admin:fitmoo@'.$redirect_base.'/api/update_stock', $options));
+$redirect_base = 'beta.fitmoo.com';
+          print_r(drupal_http_request('http://'.$redirect_base.'/api/update_stock', $options));
 		  print "<Br>";
 	
 	
