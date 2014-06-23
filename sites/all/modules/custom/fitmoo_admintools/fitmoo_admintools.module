@@ -26,6 +26,16 @@ function fitmoo_admintools_menu() {
     'weight' => 1,
   );
   
+  $items['admin/fitmoo/updatestock/%/%'] = array(
+    'title' => 'Moola',
+    'page callback' => 'fitmoo_admintools_updatestock',
+    'page arguments' => array(3,4),
+    'access callback' => TRUE,
+    'type' => MENU_LOCAL_TASK,
+    'weight' => 1,
+  );
+  
+  
   $items['moola/migrate'] = array(
     'title' => 'Moola',
     'page callback' => '_migrate_moola',
@@ -484,7 +494,6 @@ function fitmoo_admintools_stock(){
 
 	// Result is returned as a iterable object that returns a stdClass object on each iteration
 	foreach ($result as $record) {
-		print "HERE";
 	 db_query("update field_data_commerce_stock set commerce_stock_value = '0.00' where entity_id = ".$record->entity_id);
 	 print "update field_data_commerce_stock set commerce_stock_value = '0.00' where entity_id = ".$record->entity_id;
 	 print "<br>";
@@ -528,5 +537,28 @@ function fitmoo_admintools_disablecheckout($product){
 	
 	
 }
+
+function fitmoo_admintools_updatestock($product_id,$stock){
+	
+
+	
+  //===========1st_call=============
+          $data = '{"id" : "'.$product_id.'" , "stock" : "'.$stock.'"}';
+          $options = array(
+              'method' => 'PUT',
+              'data' => $data,
+              'timeout' => 30,
+              'headers' => array('Content-Type' => 'application/json'),
+          );
+
+          print_r(drupal_http_request('http://admin:fitmoo@'.$redirect_base.'/api/update_stock', $options));
+		  print "<Br>";
+	
+	
+	
+	
+	
+}
+	
 	
 	
