@@ -101,7 +101,6 @@ function _endicia_print_label_data_validate($data) {
 //    $post = file_get_contents('php://input');
 //    $res = $post."   REQUEST =". $_SERVER['REQUEST_URI'];
 //    file_put_contents($file, $res, FILE_APPEND);
-
     //if ($data['order_id']) {}
     $order = _commerce_services_order_retrieve($data['order_id'], 1, false);
     //<!-- if ($order->uid != $user->uid) {
