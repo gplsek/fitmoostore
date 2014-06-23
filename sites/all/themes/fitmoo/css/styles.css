@@ -10,6 +10,18 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   font-size: 100%;
   vertical-align: baseline; }
 
+.fieldset_collapsed {
+    background: url(/misc/menu-collapsed.png) 0px 50% no-repeat;
+    padding-left: 10px;
+    cursor: pointer;
+}
+
+.fieldset-expanded {
+    background: url(/misc/menu-expanded.png) 0px 50% no-repeat;
+    padding-left: 10px;
+    cursor: pointer;
+}
+
 
 html {
   line-height: 1; }
