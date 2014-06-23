@@ -252,19 +252,9 @@ $fitfeeperc = $buyperc + $fitperc;
                     <div style="float: left;">Order #: <a href="<?php print $redirect_base;?>/dashboard/orders/<?php print $orderID;?>"><?php print $orderID;?></a></div>
                     <div style="float: right;">Placed on: <?php print date("M jS, Y", $orderDate);?> was canceled. Please check your dashboard for details. Ammount refunded to the credit card was: <?php print money_format('%i',$refund);?></div>
                 </div>
-                <!-- <div class="content-div" style="padding-top: 20px;">
-                    <div class="lcolumn">
-                        <div style="font-weight: bold;">Shipped to:</div>
-                        <div><?php //print $shipto['name_line'];?></div>
-                        <div><?php //print $shipto['thoroughfare'];?> <?php //print $shipto['premise'];?></div>
-                        <div><?php //print $shipto['locality'];?>, <?php //print $shipto['administrative_area'];?> <?php //print $shipto['postal_code'];?> <?php //print $shipto['country'];?></div>
-                    </div>
-                    <div class="rcolumn">
-                        <div style="font-weight: bold;">Payment info:</div>
-                        <div>Americaan Express</div>
-                        <div>Last4: 5252</div>
-                    </div>
-                </div> -->
+                <div class="content-div" style="padding-top: 20px;">
+                  
+                </div>
             </div>
 
         </section>
