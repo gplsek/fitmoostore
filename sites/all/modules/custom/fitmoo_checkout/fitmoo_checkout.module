@@ -355,9 +355,11 @@ function fitmoo_checkout_calc_comisions($params){
 		
 	}
 	
+	$ccfees = ($params['ordertotal'] * .0299) + .30;
+	$fit_fee = (($params['total']/100)*$fitmoo_perc) + $ccfees;
 	
 	//seller
-	$sell_com = ($params['total']/100)*$seller_perc;
+	$sell_com = $params['total'] - $fit_fee;
 	
     $id = db_insert('fitmoo_user_accounting')
       ->fields(array(
@@ -392,8 +394,8 @@ function fitmoo_checkout_calc_comisions($params){
         ->execute(); 
 		_update_user_balance($params['buyer_uid']);
 		
-	  	//buyer
-	  	$fitmoo_com = ($params['total']/100)*$fitmoo_perc;
+	  	//fitmoo
+	  	$fitmoo_com = $fit_fee;
 	
 	      $id = db_insert('fitmoo_user_accounting')
 	        ->fields(array(
@@ -459,6 +461,7 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
 		'orderID' => $order->order_id,
 		'productID' => $product->product_id,
 		'productType' => $product->type,
+		'ordertotal' => commerce_currency_amount_to_decimal($order->commerce_order_total['und'][0]['amount'],'USD'),
 	      );
 
       // Grant userpoints programmatically.
