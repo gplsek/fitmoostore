@@ -461,7 +461,7 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
 		'orderID' => $order->order_id,
 		'productID' => $product->product_id,
 		'productType' => $product->type,
-		'ordertotal' => commerce_currency_amount_to_decimal($order->commerce_order_total['und'][0]['amount'],'USD');
+		'ordertotal' => commerce_currency_amount_to_decimal($order->commerce_order_total['und'][0]['amount'],'USD'),
 	      );
 
       // Grant userpoints programmatically.
