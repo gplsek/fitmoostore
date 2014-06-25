@@ -158,18 +158,40 @@ function fitmoo_checkout_commisions(){
 		
 	);
 	
-    $form['seller'] = array(
+    $form['ccper'] = array(
     '#type' => 'textfield',
 	'#size' => 10,
-    '#title' => t('Seller %'),
-    '#default_value' => variable_get("seller_perc", ""),
+    '#title' => t('Credit Card %'),
+    '#default_value' => variable_get("ccper_perc", ""),
     
     );
+    $form['ccflat'] = array(
+    '#type' => 'textfield',
+	'#size' => 10,
+    '#title' => t('Credit Card Flat Fee'),
+    '#default_value' => variable_get("ccflat", ""),
+    
+    );
+	
+    // $form['seller'] = array(
+//     '#type' => 'textfield',
+// 	'#size' => 10,
+//     '#title' => t('Seller %'),
+//     '#default_value' => variable_get("seller_perc", ""),
+    
+    //);
     $form['buyer'] = array(
     '#type' => 'textfield',
 	'#size' => 10,
-    '#title' => t('Buer %'),
+    '#title' => t('Buyer %'),
     '#default_value' => variable_get("buyer_perc", ""),
+    
+    );
+    $form['refferer'] = array(
+    '#type' => 'textfield',
+	'#size' => 10,
+    '#title' => t('Referer %'),
+    '#default_value' => variable_get("refferer_perc", ""),
     
     );
     $form['fitmoo'] = array(
@@ -185,18 +207,25 @@ function fitmoo_checkout_commisions(){
 		 '#markup'=> t('Set percentage splits for Events'),
 		
 	);
-    $form['eventseller'] = array(
-    '#type' => 'textfield',
-	'#size' => 10,
-    '#title' => t('Seller %'),
-    '#default_value' => variable_get("seller_event_perc", ""),
+    // $form['eventseller'] = array(
+//     '#type' => 'textfield',
+// 	'#size' => 10,
+//     '#title' => t('Seller %'),
+//     '#default_value' => variable_get("seller_event_perc", ""),
     
-    );
+    //);
     $form['eventbuyer'] = array(
     '#type' => 'textfield',
 	'#size' => 10,
-    '#title' => t('Buer %'),
+    '#title' => t('Buyer %'),
     '#default_value' => variable_get("buyer_event_perc", ""),
+    
+    );
+    $form['eventrefferer'] = array(
+    '#type' => 'textfield',
+	'#size' => 10,
+    '#title' => t('Referer %'),
+    '#default_value' => variable_get("refferer_event_perc", ""),
     
     );
     $form['eventfitmoo'] = array(
@@ -297,10 +326,16 @@ function fitmoo_checkout_commisions_submit($form, &$form_state) {
         variable_set("seller_event_perc", $form_state['values']['eventseller']);
         variable_set("buyer_event_perc", $form_state['values']['eventbuyer']);
         variable_set("fitmoo_event_perc", $form_state['values']['eventfitmoo']);
+		variable_set("refferer_event_perc", $form_state['values']['eventrefferer']);
 		
         variable_set("seller_perc", $form_state['values']['seller']);
         variable_set("buyer_perc", $form_state['values']['buyer']);
         variable_set("fitmoo_perc", $form_state['values']['fitmoo']);
+		
+		
+        variable_set("refferer_perc", $form_state['values']['refferer']);
+        variable_set("ccper_perc", $form_state['values']['ccper']);
+        variable_set("ccflat", $form_state['values']['ccflat']);
 		
         drupal_set_message(t("Updated Commission Percentages."));
 
