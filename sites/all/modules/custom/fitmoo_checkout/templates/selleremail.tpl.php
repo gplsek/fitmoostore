@@ -333,7 +333,7 @@ setlocale(LC_MONETARY, 'en_US');
                             <div class="rcolumn"><?php print money_format('%i',$total);?></div>
                         </div>
                         <div>
-                            <div class="lcolumn">Fitmoo Service Charge(<?php print $fitfeeperc;?>%)</div>
+                            <div class="lcolumn">Fitmoo Service Charge</div>
                             <div class="rcolumn"><?php print money_format('%i',$fitfee);?></div>
                         </div>
                         <div>
