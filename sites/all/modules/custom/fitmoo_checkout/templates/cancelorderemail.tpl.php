@@ -250,7 +250,7 @@ $fitfeeperc = $buyperc + $fitperc;
                 <div class="content-div" style="padding-top: 20px;">
                 <h1>Order Details</h1>
                     <div style="float: left;">Order #: <a href="<?php print $redirect_base;?>/dashboard/orders/<?php print $orderID;?>"><?php print $orderID;?></a></div>
-                    <div style="float: right;">Placed on: <?php print date("M jS, Y", $orderDate);?> was canceled. Please check your dashboard for details. Ammount refunded to the credit card was: <?php print money_format('%i',$refund);?></div>
+                    <div style="float: right;">Placed on: <?php print date("M jS, Y", $orderDate);?> was canceled. Please check your dashboard for details. Amount refunded to the credit card was: $<?php print money_format('%i',$refund);?></div>
                 </div>
                 <div class="content-div" style="padding-top: 20px;">
                   
@@ -310,7 +310,7 @@ $fitfeeperc = $buyperc + $fitperc;
                             <div class="rcolumn">$<?php print $shipping;?></div>
                         </div>
                         <div>
-                            <div class="lcolumn">Order total</div>
+                            <div class="lcolumn">Refund total</div>
                             <div class="rcolumn">$<?php print $ordertotal;?></div>
                         </div>
                     </div>
