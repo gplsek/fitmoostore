@@ -593,7 +593,7 @@ foreach ($result as $record) {
 		  print "<Br>";
           $result = drupal_http_request('http://'.$redirect_base.'/api/update_stock', $options);
 		  print_r($result->data);
-		  print "<br/>"
+		  print "<br/>";
 		  
 }
 }
