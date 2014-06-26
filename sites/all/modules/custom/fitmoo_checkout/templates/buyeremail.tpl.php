@@ -295,7 +295,7 @@ $fitfeeperc = $buyperc + $fitperc;
                                                 <div class="fieldset-wrapper">
                                                     <div class="field-type-details">
                                                         <div class="field-label">Size:&nbsp;<?php print $size;?></div>
-                                                        <div class="field-label">Qty:&nbsp;<?php print $qty;?></div>
+                                                        <div class="field-label">Qty:&nbsp;<?php print number_format(floor($qty));?></div>
                                                     </div>
                                                 </div>
                                             </fieldset>
@@ -312,7 +312,7 @@ $fitfeeperc = $buyperc + $fitperc;
                     <div class="rcolumn">
                         <div>
                             <div class="lcolumn">Price</div>
-                            <div class="rcolumn">$<?php print $total;?></div>
+                            <div class="rcolumn">$<?php print $total*$qty;?></div>
                         </div>
                         <div>
                             <div class="lcolumn">Estimated Tax</div>
