@@ -507,7 +507,7 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
 	  $order->field_buyer_com['und'][0]['value'] = $commisions['buycom']*100;
 	  $order->field_fitmoo_com['und'][0]['value'] = $commisions['fitcom']*100;
 	  $order->field_fitmoo_fee['und'][0]['value'] = $fitmoo_fee;
-	  $order->field_new_total['und'][0]['value'] = ($product->commerce_price['und'][0]['amount']) - ($fitmoo_fee);
+	  $order->field_new_total['und'][0]['value'] = ($product->commerce_price['und'][0]['amount']*$qty) - ($fitmoo_fee);
 	  $order->field_seller_email['und'][0]['value'] = $seller->mail;
 	  $order->field_seller['und'][0]['uid'] = $product->uid;
 	  //send email to seller
