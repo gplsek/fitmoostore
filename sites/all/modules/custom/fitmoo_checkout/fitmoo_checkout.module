@@ -483,22 +483,23 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
     // We do not want to include shipping cost in userpoints.
     if ($line_item->type != 'shipping') {
       // Load commerce product by product id.
+	  $qty = $line_item->quantity;
       $temp = field_get_items('commerce_line_item', $line_item, 'commerce_product');
-	  
+	 
       $product = commerce_product_load($temp[0]['product_id']);
 	 
 
       // Create parameters.
       $params = array(
         'seller_uid' => $product->uid,  //seller uid
-        'total' => commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount'], $product->commerce_price['und'][0]['currency_code']),
+        'total' => commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount']*$qty, $product->commerce_price['und'][0]['currency_code']),
 		'buyer_uid' => $order->uid,
 		'orderID' => $order->order_id,
 		'productID' => $product->product_id,
 		'productType' => $product->type,
+		'qty' => $qty,
 		'ordertotal' => commerce_currency_amount_to_decimal($order->commerce_order_total['und'][0]['amount'],'USD'),
 	      );
-
       // Grant userpoints programmatically.
       $commisions = fitmoo_checkout_calc_comisions($params);
 	  $seller = user_load($product->uid);
@@ -1145,15 +1146,8 @@ function fitmoo_checkout_LabelEmail($seller_email,$buyer_uid,$info,$info_buyer){
 }
 
 function fitmoo_checkout_test_email(){
-	$order = commerce_order_load(440);
-	fitmoo_checkout_endiciaSendLabelTOSellerAndBuyer($order);
- 	//fitmoo_checkout_release_moola(74);
-	die();
-// $order = commerce_order_load(65);
+	$order = commerce_order_load(444);
 
-$random_hash = substr(md5(65), 8, 8);
-print $random_hash;
-die();
 
 $info = array();
 foreach (field_get_items('commerce_order', $order, 'commerce_line_items') as $line_item_id) {
@@ -1168,18 +1162,23 @@ foreach (field_get_items('commerce_order', $order, 'commerce_line_items') as $li
   
     $product = commerce_product_load($temp[0]['product_id']);
  
-
+    $qty = $line_item->quantity;
     // Create parameters.
     $params = array(
       'seller_uid' => $product->uid,  //seller uid
-      'total' => commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount'], $product->commerce_price['und'][0]['currency_code']),
+      'total' => commerce_currency_amount_to_decimal($product->commerce_price['und'][0]['amount']*$qty, $product->commerce_price['und'][0]['currency_code']),
 	'buyer_uid' => $order->uid,
 	'orderID' => $order->order_id,
 	'productID' => $product->product_id,
+	'productType' => $product->type,
+	'qty' => $qty,
+	'ordertotal' => commerce_currency_amount_to_decimal($order->commerce_order_total['und'][0]['amount'],'USD'),
       );
-
+	  print_r($params);
     // Grant userpoints programmatically.
     $commisions = fitmoo_checkout_calc_comisions($params);
+	
+	print_r($commisions);die();
   $seller = user_load($product->uid);
   $fitmoo_fee = $commisions['buycom'] + $commisions['fitcom'];
   $order->field_fitmoo_fee['und'][0]['value'] = $fitmoo_fee * 100;
