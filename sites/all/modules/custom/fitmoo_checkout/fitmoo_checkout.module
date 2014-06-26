@@ -539,6 +539,7 @@ function fitmoo_checkout_commerce_checkout_complete($order) {
       $info['buyperc'] = $commisions['buyperc'];
       $info['buycom'] = $commisions['buycom'];
 	  $info['fitfee'] =  $fitmoo_fee/100;
+	  $info['qty'] =  $qty;
   
   
       $shipping = commerce_customer_profile_load($order->commerce_customer_shipping['und'][0]['profile_id']);
