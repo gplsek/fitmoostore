@@ -36,8 +36,7 @@ function fitmoo_store_views_default_views() {
   $handler->display->display_options['header']['area']['id'] = 'area';
   $handler->display->display_options['header']['area']['table'] = 'views';
   $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['content'] = 'You are purchasing this...
-';
+  $handler->display->display_options['header']['area']['content'] = 'In your cart';
   $handler->display->display_options['header']['area']['format'] = 'filtered_html';
   /* Footer: Commerce Line Item: Line item summary */
   $handler->display->display_options['footer']['line_item_summary']['id'] = 'line_item_summary';
@@ -53,6 +52,17 @@ function fitmoo_store_views_default_views() {
   $handler->display->display_options['relationships']['commerce_line_items_line_item_id']['table'] = 'field_data_commerce_line_items';
   $handler->display->display_options['relationships']['commerce_line_items_line_item_id']['field'] = 'commerce_line_items_line_item_id';
   $handler->display->display_options['relationships']['commerce_line_items_line_item_id']['required'] = TRUE;
+  /* Field: Global: PHP */
+  $handler->display->display_options['fields']['php']['id'] = 'php';
+  $handler->display->display_options['fields']['php']['table'] = 'views';
+  $handler->display->display_options['fields']['php']['field'] = 'php';
+  $handler->display->display_options['fields']['php']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['php']['use_php_setup'] = 0;
+  $handler->display->display_options['fields']['php']['php_output'] = '<?php
+print fitmoo_checkout_sold_by();
+?>';
+  $handler->display->display_options['fields']['php']['use_php_click_sortable'] = '0';
+  $handler->display->display_options['fields']['php']['php_click_sortable'] = '';
   /* Field: Commerce Line item: Display path */
   $handler->display->display_options['fields']['commerce_display_path']['id'] = 'commerce_display_path';
   $handler->display->display_options['fields']['commerce_display_path']['table'] = 'field_data_commerce_display_path';
@@ -109,6 +119,13 @@ function fitmoo_store_views_default_views() {
   $handler->display->display_options['fields']['commerce_total']['settings'] = array(
     'calculation' => FALSE,
   );
+  /* Field: Commerce Order: Uid */
+  $handler->display->display_options['fields']['uid']['id'] = 'uid';
+  $handler->display->display_options['fields']['uid']['table'] = 'commerce_order';
+  $handler->display->display_options['fields']['uid']['field'] = 'uid';
+  $handler->display->display_options['fields']['uid']['label'] = 'Seller';
+  $handler->display->display_options['fields']['uid']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['uid']['alter']['text'] = '[php]';
   /* Sort criterion: Commerce Line Item: Line item ID */
   $handler->display->display_options['sorts']['line_item_id']['id'] = 'line_item_id';
   $handler->display->display_options['sorts']['line_item_id']['table'] = 'commerce_line_item';
@@ -118,8 +135,8 @@ function fitmoo_store_views_default_views() {
   $handler->display->display_options['arguments']['order_id']['id'] = 'order_id';
   $handler->display->display_options['arguments']['order_id']['table'] = 'commerce_order';
   $handler->display->display_options['arguments']['order_id']['field'] = 'order_id';
-  $handler->display->display_options['arguments']['order_id']['default_action'] = 'empty';
-  $handler->display->display_options['arguments']['order_id']['default_argument_type'] = 'fixed';
+  $handler->display->display_options['arguments']['order_id']['default_action'] = 'default';
+  $handler->display->display_options['arguments']['order_id']['default_argument_type'] = 'commerce_cart_current_cart_order_id';
   $handler->display->display_options['arguments']['order_id']['summary']['number_of_records'] = '0';
   $handler->display->display_options['arguments']['order_id']['summary']['format'] = 'default_summary';
   $handler->display->display_options['arguments']['order_id']['summary_options']['items_per_page'] = '25';
@@ -130,6 +147,9 @@ function fitmoo_store_views_default_views() {
   $handler->display->display_options['filters']['product_line_item_type']['relationship'] = 'commerce_line_items_line_item_id';
   $handler->display->display_options['filters']['product_line_item_type']['value'] = '1';
   $handler->display->display_options['filters']['product_line_item_type']['group'] = 0;
+
+  /* Display: Checkout Cart Form */
+  $handler = $view->new_display('block', 'Checkout Cart Form', 'block_1');
   $export['commerce_cart_form'] = $view;
 
   $view = new view();
