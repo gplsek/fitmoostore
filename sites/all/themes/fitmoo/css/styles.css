@@ -791,13 +791,13 @@ ol.inline.commerce-checkout-progress li:first-child {
 div.addressfield-container-inline > div.form-item {
   float: none; }
 
-#customer-profile-billing-ajax-wrapper {
-  clear: left; }
+/*#customer-profile-billing-ajax-wrapper {
+  clear: left; }*/
 
-#edit-buttons {
+/*#edit-buttons {
   width: 65%; }
-
-#edit-buttons, #edit-customer-profile-billing.no-parent, #customer-profile-shipping-ajax-wrapper, #customer-profile-billing-ajax-wrapper, #edit-commerce-payment {
+*/
+/*#edit-buttons, #edit-customer-profile-billing.no-parent, #customer-profile-shipping-ajax-wrapper, #customer-profile-billing-ajax-wrapper, #edit-commerce-payment {
   float: left;
   width: 41.94%; }
 #edit-buttons legend, #edit-customer-profile-billing.no-parent legend, #customer-profile-shipping-ajax-wrapper legend, #customer-profile-billing-ajax-wrapper legend, #edit-commerce-payment legend {
@@ -806,7 +806,7 @@ div.addressfield-container-inline > div.form-item {
 
 #commerce-checkout-form-checkout #edit-commerce-payment, #commerce-checkout-form-checkout #edit-buttons {
   clear: right;
-  float: right; }
+  float: right; }*/
 
 .messages.warning, .messages.error {
   background-color: #fff;
