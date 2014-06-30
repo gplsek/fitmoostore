@@ -22,7 +22,7 @@ function fitmoo_store_views_default_views() {
 
   /* Display: Defaults */
   $handler = $view->new_display('default', 'Defaults', 'default');
-  $handler->display->display_options['title'] = 'Shopping cart';
+  $handler->display->display_options['title'] = 'ORDER SUMMARY';
   $handler->display->display_options['use_more_always'] = FALSE;
   $handler->display->display_options['access']['type'] = 'none';
   $handler->display->display_options['cache']['type'] = 'none';
@@ -32,21 +32,6 @@ function fitmoo_store_views_default_views() {
   $handler->display->display_options['pager']['type'] = 'none';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Header: Global: Text area */
-  $handler->display->display_options['header']['area']['id'] = 'area';
-  $handler->display->display_options['header']['area']['table'] = 'views';
-  $handler->display->display_options['header']['area']['field'] = 'area';
-  $handler->display->display_options['header']['area']['content'] = 'In your cart';
-  $handler->display->display_options['header']['area']['format'] = 'filtered_html';
-  /* Footer: Commerce Line Item: Line item summary */
-  $handler->display->display_options['footer']['line_item_summary']['id'] = 'line_item_summary';
-  $handler->display->display_options['footer']['line_item_summary']['table'] = 'commerce_line_item';
-  $handler->display->display_options['footer']['line_item_summary']['field'] = 'line_item_summary';
-  $handler->display->display_options['footer']['line_item_summary']['label'] = 'Cart summary';
-  $handler->display->display_options['footer']['line_item_summary']['info'] = array(
-    'quantity' => 0,
-    'total' => 'total',
-  );
   /* Relationship: Commerce Order: Referenced line items */
   $handler->display->display_options['relationships']['commerce_line_items_line_item_id']['id'] = 'commerce_line_items_line_item_id';
   $handler->display->display_options['relationships']['commerce_line_items_line_item_id']['table'] = 'field_data_commerce_line_items';
@@ -150,6 +135,64 @@ print fitmoo_checkout_sold_by();
 
   /* Display: Checkout Cart Form */
   $handler = $view->new_display('block', 'Checkout Cart Form', 'block_1');
+  $handler->display->display_options['defaults']['fields'] = FALSE;
+  /* Field: Global: PHP */
+  $handler->display->display_options['fields']['php']['id'] = 'php';
+  $handler->display->display_options['fields']['php']['table'] = 'views';
+  $handler->display->display_options['fields']['php']['field'] = 'php';
+  $handler->display->display_options['fields']['php']['exclude'] = TRUE;
+  $handler->display->display_options['fields']['php']['use_php_setup'] = 0;
+  $handler->display->display_options['fields']['php']['php_output'] = '<?php
+print fitmoo_checkout_sold_by();
+?>';
+  $handler->display->display_options['fields']['php']['use_php_click_sortable'] = '0';
+  $handler->display->display_options['fields']['php']['php_click_sortable'] = '';
+  /* Field: Commerce Order: Order total */
+  $handler->display->display_options['fields']['commerce_order_total']['id'] = 'commerce_order_total';
+  $handler->display->display_options['fields']['commerce_order_total']['table'] = 'field_data_commerce_order_total';
+  $handler->display->display_options['fields']['commerce_order_total']['field'] = 'commerce_order_total';
+  $handler->display->display_options['fields']['commerce_order_total']['label'] = '';
+  $handler->display->display_options['fields']['commerce_order_total']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['commerce_order_total']['click_sort_column'] = 'amount';
+  $handler->display->display_options['fields']['commerce_order_total']['type'] = 'commerce_price_formatted_components';
+  $handler->display->display_options['fields']['commerce_order_total']['settings'] = array(
+    'calculation' => FALSE,
+  );
+  /* Field: Global: Custom text */
+  $handler->display->display_options['fields']['nothing']['id'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['table'] = 'views';
+  $handler->display->display_options['fields']['nothing']['field'] = 'nothing';
+  $handler->display->display_options['fields']['nothing']['label'] = '';
+  $handler->display->display_options['fields']['nothing']['alter']['text'] = 'IN YOUR CART';
+  $handler->display->display_options['fields']['nothing']['element_label_colon'] = FALSE;
+  /* Field: Commerce Line item: Product */
+  $handler->display->display_options['fields']['commerce_product']['id'] = 'commerce_product';
+  $handler->display->display_options['fields']['commerce_product']['table'] = 'field_data_commerce_product';
+  $handler->display->display_options['fields']['commerce_product']['field'] = 'commerce_product';
+  $handler->display->display_options['fields']['commerce_product']['relationship'] = 'commerce_line_items_line_item_id';
+  $handler->display->display_options['fields']['commerce_product']['label'] = '';
+  $handler->display->display_options['fields']['commerce_product']['element_label_colon'] = FALSE;
+  $handler->display->display_options['fields']['commerce_product']['type'] = 'commerce_product_reference_rendered_product';
+  $handler->display->display_options['fields']['commerce_product']['settings'] = array(
+    'view_mode' => 'commerce_line_item_display',
+    'page' => 0,
+  );
+  /* Field: Commerce Line Item: Quantity text field */
+  $handler->display->display_options['fields']['edit_quantity']['id'] = 'edit_quantity';
+  $handler->display->display_options['fields']['edit_quantity']['table'] = 'commerce_line_item';
+  $handler->display->display_options['fields']['edit_quantity']['field'] = 'edit_quantity';
+  $handler->display->display_options['fields']['edit_quantity']['relationship'] = 'commerce_line_items_line_item_id';
+  $handler->display->display_options['fields']['edit_quantity']['label'] = 'Qty';
+  $handler->display->display_options['fields']['edit_quantity']['alter']['word_boundary'] = FALSE;
+  $handler->display->display_options['fields']['edit_quantity']['alter']['ellipsis'] = FALSE;
+  $handler->display->display_options['fields']['edit_quantity']['element_label_colon'] = FALSE;
+  /* Field: Commerce Order: Uid */
+  $handler->display->display_options['fields']['uid']['id'] = 'uid';
+  $handler->display->display_options['fields']['uid']['table'] = 'commerce_order';
+  $handler->display->display_options['fields']['uid']['field'] = 'uid';
+  $handler->display->display_options['fields']['uid']['label'] = 'Seller';
+  $handler->display->display_options['fields']['uid']['alter']['alter_text'] = TRUE;
+  $handler->display->display_options['fields']['uid']['alter']['text'] = '[php]';
   $export['commerce_cart_form'] = $view;
 
   $view = new view();
