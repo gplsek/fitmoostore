@@ -773,7 +773,8 @@ function commerce_cardonfile_element_options_list($stored_cards, $element_type =
       '@card_exp_year' => $card_data->card_exp_year,
       '@instance_default' => !empty($card_data->instance_default) ? t('(default)') : '',
       );
-    $options[$card_id] = t('@card_type ending @card_number, Expires @card_exp_month/@card_exp_year @instance_default', $replacements);;
+    //$options[$card_id] = t('@card_type ending @card_number, Expires @card_exp_month/@card_exp_year @instance_default', $replacements);;
+	$options[$card_id] = t('XXXX-XXXX-XXXX-@card_number (@card_type)   @instance_default', $replacements);;
   }
 
   // Add an option to use a different credit card if specified.
