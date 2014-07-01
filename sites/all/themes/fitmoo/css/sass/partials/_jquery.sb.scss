@@ -95,6 +95,7 @@ jquery.sb.js fitmoo theme
 ----------------------------------*/
 
 .sb.selectbox {
+
   z-index:1;
   
   &,
@@ -103,7 +104,7 @@ jquery.sb.js fitmoo theme
   }
 
   .display {
-  	background:#d1d1d1;
+  	background:#fff;
   	float: none;
 		margin-left: 0;
 		margin-bottom:5px;
@@ -124,7 +125,7 @@ jquery.sb.js fitmoo theme
     	background:url('../images/arrow_down.png') 0 center no-repeat;
       border:0;
       float:right;
-      margin-right:15px;
+      margin-right:10px;
       width:14px;
       height:40px;
     }
@@ -133,21 +134,22 @@ jquery.sb.js fitmoo theme
 
 .display,
 ul.selectbox.items {
-	border: 1px solid #d9d9d9;
+	border: 1px solid #c4c4c4;
 	border-radius: 2px;
 	cursor: pointer;
 }
 
 // dropdown
 ul.selectbox.items {
-	background:#d1d1d1;
+	background:#7c868e;
 	border-radius: 0 0 2px 2px;
 	list-style: none;
 	margin: 0;
 	height:200px !important;
 	overflow-y: scroll;
 	padding: 5px 0;
-  width:100% !important;
+  // width:100% !important;
+  width:98% !important;
   z-index:2;
 
   li {
@@ -157,7 +159,10 @@ ul.selectbox.items {
     
     &:hover,
     &.selected {
-    	background:#b4b4b4;
+    	background:#7c868e;
+    	.text {
+    		color:#121212;
+    	}
     }
 
     .item {
@@ -167,15 +172,19 @@ ul.selectbox.items {
         cursor:pointer !important;
       }
     }
+
+    .text {
+    	color:#fff;
+    }
   }
 }
 
 #commerce-checkout-form-checkout .sb.selectbox .display {
-	height:35px;
+	height:33px;
 	.text {
-		line-height:35px;
+		line-height:33px;
 	}
 	.arrow_btn {
-		height:35px;
+		height:33px;
 	}
 }

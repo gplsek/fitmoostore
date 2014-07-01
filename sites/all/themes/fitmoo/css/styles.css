@@ -444,7 +444,7 @@ table.checkout-review .pane-data {
   clear: right;
   float: right; }
 .page-checkout-review .view-id-commerce_cart_summary.view-display-id-block_3 .views-row .views-field-nothing-1 {
-  background: #f1f1f1;
+  background: #f3f2f4;
   clear: both;
   margin-bottom: 30px;
   padding: 20px 2%; }
@@ -557,11 +557,14 @@ div.addressfield-container-inline > div.form-item, .form-item, .form-actions {
 .form-item {
   position: relative; }
 
-label, .views-label {
+label, .views-label, .selectbox.items .item .text {
   font-family: "bentonsansbook";
   font-size: 14px;
   line-height: 20px;
   margin-bottom: 5px;
+  -webkit-font-smoothing: antialiased; }
+
+label, .views-label {
   text-transform: uppercase; }
 
 .form-submit.checkout-cancel {
@@ -585,8 +588,15 @@ label, .views-label {
   clear: both;
   display: block; }
 
+.messages.warning, .messages.error {
+  background-color: #fff;
+  border: 1px solid #ddd;
+  color: #ff0000;
+  font: normal 14px/18px "bentonsansregular";
+  margin-bottom: 20px;
+  max-width: 90%; }
 .messages.status {
-  background: #f1f1f1;
+  background: #f3f2f4;
   border: 1px solid #d1d1d1;
   margin: 0 auto 20px;
   max-width: 1200px;
@@ -641,7 +651,7 @@ cart page
   margin-bottom: 10px; }
 
 .views-table {
-  background: #f1f1f1;
+  background: #f3f2f4;
   padding: 20px 0; }
 .views-table th, .views-table td {
   padding: 1% 2%; }
@@ -757,65 +767,40 @@ checkout forms
   line-height: 30px;
   padding-left: 40px; }
 
+#edit-customer-profile-billing > legend {
+  background: url("../images/iconStep1.png") 0 0 no-repeat; }
+
 #customer-profile-shipping-ajax-wrapper .customer_profile_shipping > legend {
   background: url("../images/iconStep2.png") 0 0 no-repeat; }
 
 #edit-commerce-payment > legend {
-  background: url("../images/iconStep3.png") 0 0 no-repeat; }
-
-#edit-customer-profile-billing > legend {
-  background: url("../images/iconStep1.png") 0 0 no-repeat; }
+  background: url("../images/iconStep3.png") 0 0 no-repeat;
+  display: none; }
 
 #edit-customer-profile-billing.no-parent, #customer-profile-billing-ajax-wrapper, #customer-profile-shipping-ajax-wrapper, #edit-commerce-payment, #edit-buttons {
-  background: #f1f1f1;
+  background: #f3f2f4;
   padding: 4%; }
 #edit-customer-profile-billing.no-parent .form-item label, #customer-profile-billing-ajax-wrapper .form-item label, #customer-profile-shipping-ajax-wrapper .form-item label, #edit-commerce-payment .form-item label, #edit-buttons .form-item label {
   clear: both;
   display: block; }
 
+#customer-profile-billing-ajax-wrapper {
+  padding-bottom: 0; }
+
 .page-checkout.path-review .region-content {
   border-right: 1px solid #a9a9a9;
   padding-right: 40px; }
-
-#edit-commerce-payment .form-item-commerce-payment-payment-method label, #edit-commerce-payment .form-item-commerce-payment-payment-method input {
-  clear: none;
-  float: left; }
 
 .form-item-commerce-payment-payment-details-credit-card-code {
   background: url("../images/seCode.png") right 26px no-repeat; }
 .form-item-commerce-payment-payment-details-credit-card-code input[type="text"] {
   width: 75%; }
 
-div.addressfield-container-inline > div.form-item {
-  float: none; }
-
-#customer-profile-billing-ajax-wrapper {
-  clear: left; }
-
-#edit-buttons {
-  width: 65%; }
-
-#edit-buttons, #edit-customer-profile-billing.no-parent, #customer-profile-shipping-ajax-wrapper, #customer-profile-billing-ajax-wrapper, #edit-commerce-payment {
-  float: left;
-  width: 41.94%; }
-#edit-buttons legend, #edit-customer-profile-billing.no-parent legend, #customer-profile-shipping-ajax-wrapper legend, #customer-profile-billing-ajax-wrapper legend, #edit-commerce-payment legend {
-  clear: both;
-  float: left; }
-
-#commerce-checkout-form-checkout #edit-commerce-payment, #commerce-checkout-form-checkout #edit-buttons {
-  clear: right;
-  float: right; }
-
-.messages.warning, .messages.error {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  color: #ff0000;
-  font: normal 14px/18px "bentonsansregular";
-  margin-bottom: 20px;
-  max-width: 90%; }
-
 #edit-commerce-payment .form-item-commerce-payment-payment-method {
   display: none; }
+#edit-commerce-payment .form-item-commerce-payment-payment-method label, #edit-commerce-payment .form-item-commerce-payment-payment-method input {
+  clear: none;
+  float: left; }
 
 #customer-profile-shipping-ajax-wrapper fieldset.form-wrapper.collapsed > legend {
   margin-bottom: 0; }
@@ -826,7 +811,7 @@ div.addressfield-container-inline > div.form-item {
 .region-content .fieldset-wrapper {
   clear: both;
   margin: 0 auto;
-  max-width: 330px; }
+  max-width: 565px; }
 
 .commerce-credit-card-expiration .commerce-month-year-divider, .commerce-credit-card-expiration .form-item {
   clear: none;
@@ -838,6 +823,71 @@ div.addressfield-container-inline > div.form-item {
   padding-top: 25px; }
 .commerce-credit-card-expiration .form-item-commerce-payment-payment-details-credit-card-exp-month, .commerce-credit-card-expiration .form-item-commerce-payment-payment-details-credit-card-exp-year {
   width: 100px; }
+
+/* updates 6.30.14 */
+.street-block, .locality-block {
+  clear: both;
+  display: block; }
+
+.street-block .form-item {
+  float: left;
+  width: 48.5%;
+  width: 277px; }
+.street-block .form-item:first-child {
+  width: 49.5%;
+  width: 277px;
+  margin-right: 2%;
+  margin-right: 10px; }
+
+.locality-block .form-type-textfield {
+  float: left;
+  width: 23%;
+  width: 134px; }
+.locality-block .form-type-textfield:first-child {
+  margin-right: 2%;
+  margin-right: 10px;
+  width: 49.5%;
+  width: 277px; }
+.locality-block .form-type-select {
+  float: left;
+  margin-right: 1.5% !important;
+  margin-right: 10px;
+  width: 23.5%;
+  width: 134px; }
+
+.form-type-checkbox input, .form-type-checkbox label {
+  clear: none !important;
+  float: left; }
+
+#payment-details .form-item-transaction-credit-card-number {
+  float: left;
+  margin-right: 2%;
+  margin-right: 10px;
+  width: 49.5%;
+  width: 277px; }
+#payment-details .form-item-transaction-credit-card-cvv, #payment-details .commerce-credit-card-expiration {
+  float: left;
+  width: 23%;
+  width: 134px; }
+#payment-details .form-item-transaction-credit-card-expiration-month, #payment-details .form-item-transaction-credit-card-expiration-year {
+  width: 59px; }
+#payment-details .form-item-transaction-credit-card-expiration-month .sb .display .arrow_btn, #payment-details .form-item-transaction-credit-card-expiration-year .sb .display .arrow_btn {
+  display: none; }
+#payment-details .form-item-transaction-credit-card-expiration-month {
+  margin-right: 8px; }
+#payment-details .form-item-transaction-credit-card-expiration-year {
+  margin: 0;
+  padding-top: 25px; }
+
+#commerce-checkout-form-checkout input[type="text"] {
+  width: 97.4%;
+  max-width: 100%; }
+
+.name-block .form-item {
+  float: none !important; }
+
+.form-item-customer-profile-billing-addressbook .sb.selectbox, .form-item-customer-profile-billing-addressbook .sb.selectbox .display {
+  width: 100% !important; }
 
 /* --------------------------------
 jquery form select configs
@@ -932,7 +982,7 @@ jquery.sb.js fitmoo theme
 .sb.selectbox, .sb.selectbox .display {
   width: 99% !important; }
 .sb.selectbox .display {
-  background: #d1d1d1;
+  background: #fff;
   float: none;
   margin-left: 0;
   margin-bottom: 5px;
@@ -948,42 +998,46 @@ jquery.sb.js fitmoo theme
   background: url("../images/arrow_down.png") 0 center no-repeat;
   border: 0;
   float: right;
-  margin-right: 15px;
+  margin-right: 10px;
   width: 14px;
   height: 40px; }
 
 .display, ul.selectbox.items {
-  border: 1px solid #d9d9d9;
+  border: 1px solid #c4c4c4;
   border-radius: 2px;
   cursor: pointer; }
 
 ul.selectbox.items {
-  background: #d1d1d1;
+  background: #7c868e;
   border-radius: 0 0 2px 2px;
   list-style: none;
   margin: 0;
   height: 200px !important;
   overflow-y: scroll;
   padding: 5px 0;
-  width: 100% !important;
+  width: 98% !important;
   z-index: 2; }
 ul.selectbox.items li {
   display: block;
   margin: 0;
   padding: 5px 10px; }
 ul.selectbox.items li:hover, ul.selectbox.items li.selected {
-  background: #b4b4b4; }
+  background: #7c868e; }
+ul.selectbox.items li:hover .text, ul.selectbox.items li.selected .text {
+  color: #121212; }
 ul.selectbox.items li .item {
   text-align: left; }
 ul.selectbox.items li .item:hover {
   cursor: pointer !important; }
+ul.selectbox.items li .text {
+  color: #fff; }
 
 #commerce-checkout-form-checkout .sb.selectbox .display {
-  height: 35px; }
+  height: 33px; }
 #commerce-checkout-form-checkout .sb.selectbox .display .text {
-  line-height: 35px; }
+  line-height: 33px; }
 #commerce-checkout-form-checkout .sb.selectbox .display .arrow_btn {
-  height: 35px; }
+  height: 33px; }
 
 @media only screen and (max-width: 1023px) {
   .one-sidebar #content, .one-sidebar #sidebar-second {
@@ -999,9 +1053,6 @@ ul.selectbox.items li .item:hover {
 
   .page-checkout .region-content {
     border: 0; }
-
-  #edit-customer-profile-billing.no-parent, #customer-profile-shipping-ajax-wrapper, #customer-profile-billing-ajax-wrapper, #edit-commerce-payment, #edit-buttons {
-    width: 41.9%; }
 
   .page-checkout.path-review .region-content {
     border: 0; }
@@ -1034,6 +1085,19 @@ ul.selectbox.items li .item:hover {
     margin: 0 auto 20px;
     width: 100%;
     max-width: 100%; }
+
+  .street-block .form-item, .street-block .form-item:first-child {
+    float: none;
+    width: 100%; }
+
+  .locality-block .form-type-textfield:first-child {
+    width: 49.5%; }
+
+  .locality-block .form-type-select {
+    width: 23.5%; }
+
+  .locality-block .form-type-textfield {
+    width: 23%; }
 
   .page-checkout .cart_contents_form .views-row .views-field-commerce-product {
     width: 45%; }
@@ -1096,4 +1160,7 @@ ul.selectbox.items li .item:hover {
 
   .checkout-buttons .btnSubmit, .checkout-buttons .form-submit, .checkout-buttons .form-submit {
     display: block;
-    margin: 0 auto; } }
+    margin: 0 auto; }
+
+  .locality-block .form-type-textfield {
+    width: 30%; } }

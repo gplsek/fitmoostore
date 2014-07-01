@@ -19,15 +19,15 @@
 		border:0;
 	}
 
-	// .customer_profile_billing,
-	// .customer_profile_shipping,
-	#edit-customer-profile-billing.no-parent,
-	#customer-profile-shipping-ajax-wrapper,
-	#customer-profile-billing-ajax-wrapper,
-	#edit-commerce-payment,
-	#edit-buttons {
-		width:41.9%;
-	}
+	// // .customer_profile_billing,
+	// // .customer_profile_shipping,
+	// #edit-customer-profile-billing.no-parent,
+	// #customer-profile-shipping-ajax-wrapper,
+	// #customer-profile-billing-ajax-wrapper,
+	// #edit-commerce-payment,
+	// #edit-buttons {
+	// 	width:41.9%;
+	// }
 
 	.page-checkout.path-review .region-content {
 		border:0;
@@ -78,6 +78,25 @@
 		@include fullScreen(100%, 20px);		
 	}
 
+	.street-block .form-item {
+		&,
+		&:first-child {
+			float:none;
+			width:100%;
+		}
+	}
+
+	.locality-block .form-type-textfield:first-child {
+		width:49.5%;
+	}
+
+	.locality-block .form-type-select {
+		width:23.5%;
+	}
+
+	.locality-block .form-type-textfield {
+		width:23%;
+	}
 	// .page-checkout-review .view-id-commerce_cart_summary.view-display-id-block_3 .views-row .views-field-commerce-unit-price,
 	// .page-checkout-review .view-id-commerce_cart_summary.view-display-id-block_3 .views-row .views-field-edit-quantity,
 	// .page-checkout-review .view-id-commerce_cart_summary.view-display-id-block_3 .views-row .views-field-commerce-total,
@@ -170,6 +189,10 @@
 	  	display:block;
 	  	margin:0 auto;
 	  }
+	}
+
+	.locality-block .form-type-textfield {
+		width:30%;
 	}
 }
 
