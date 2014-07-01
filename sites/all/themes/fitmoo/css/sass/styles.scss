@@ -1,7 +1,7 @@
-/*
-* fitmoo theme
-* Author: brian.anarell@gmail.com
-*/
+/* --------------------------------
+fitmoo theme .scss
+Author: brian.anarell@gmail.com
+----------------------------------*/
 
 @import "compass/css3";
 @import "compass/reset";
@@ -9,13 +9,11 @@
 @import "compass/utilities/general/clearfix";
 @import "compass/utilities/general/hacks";
 @import "compass/typography/text/replacement";
-//@import "compass/css3/transition";
-//@import "partials/normalize";
 
-/* Sprite Images */
-//$sprite-spacing:20px;
-//@import "sprite/*.png";
-//@include all-sprite-sprites;
+/* sprite
+$sprite-spacing:20px;
+@import "sprite/*.png";
+@include all-sprite-sprites;*/
 
 /* ui */
 @import "partials/vars";
@@ -24,5 +22,5 @@
 @import "partials/theme";
 @import "partials/pages";
 @import "partials/forms";
+@import "partials/jquery.sb";
 @import "partials/responsive";
-

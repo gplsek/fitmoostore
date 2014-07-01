@@ -1,7 +1,7 @@
-/*
-* fitmoo theme
-* Author: brian.anarell@gmail.com
-*/
+/* --------------------------------
+fitmoo theme .scss
+Author: brian.anarell@gmail.com
+----------------------------------*/
 html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
   margin: 0;
   padding: 0;
@@ -9,19 +9,6 @@ html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockq
   font: inherit;
   font-size: 100%;
   vertical-align: baseline; }
-
-.fieldset_collapsed {
-    background: url(/misc/menu-collapsed.png) 0px 50% no-repeat;
-    padding-left: 10px;
-    cursor: pointer;
-}
-
-.fieldset-expanded {
-    background: url(/misc/menu-expanded.png) 0px 50% no-repeat;
-    padding-left: 10px;
-    cursor: pointer;
-}
-
 
 html {
   line-height: 1; }
@@ -50,7 +37,10 @@ a img {
 article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section, summary {
   display: block; }
 
-/* Sprite Images */
+               /* sprite
+$sprite-spacing:20px;
+@import "sprite/*.png";
+@include all-sprite-sprites;*/
 /* ui */
 /* fonts */
 @font-face {
@@ -500,8 +490,7 @@ table.checkout-review .pane-data {
   float: left;
   width: 50%; }
 .page-checkout-review .view-id-commerce_cart_summary.view-display-id-block_3 .views-row .views-field-commerce-product .entity > h2, .page-checkout .cart_contents_form .views-row .views-field-commerce-product .entity > h2, .page-cart.path-cart .view-commerce-cart-form .views-row .views-field-commerce-product .entity > h2 {
-  margin-left: 0;//130px;
-  text-transform: capitalize;
+  margin-left: 130px;
   padding-top: 20px; }
 .page-checkout-review .view-id-commerce_cart_summary.view-display-id-block_3 .views-row .views-field-commerce-product .entity > h2 a, .page-checkout .cart_contents_form .views-row .views-field-commerce-product .entity > h2 a, .page-cart.path-cart .view-commerce-cart-form .views-row .views-field-commerce-product .entity > h2 a {
   color: #000;
@@ -543,6 +532,9 @@ table.checkout-review .pane-data {
 .page-checkout-review .view-id-commerce_cart_summary.view-display-id-block_3 #edit-submit, .page-checkout .cart_contents_form #edit-submit, .page-cart.path-cart .view-commerce-cart-form #edit-submit {
   margin-right: 20px; }
 
+/* --------------------------------
+global form styles
+----------------------------------*/
 input[type="text"], input[type="password"], input[type="email"] {
   background: #fff;
   border: 1px solid #c4c4c4;
@@ -606,9 +598,9 @@ label, .views-label {
 .messages.status a:hover {
   text-decoration: underline; }
 
-/* 
-* shopping cart pages
-*/
+/* --------------------------------
+shopping cart pages
+----------------------------------*/
 .cart_contents_form .views-form {
   display: table;
   margin-bottom: 20px;
@@ -624,9 +616,9 @@ label, .views-label {
   float: right;
   margin-top: 20px; }
 
-/*
-* cart views 
-*/
+/* --------------------------------
+cart views
+----------------------------------*/
 .views-table .views-field-nothing a, .page-checkout #contentWrapper a {
   color: #333;
   font-size: 18px;
@@ -635,7 +627,9 @@ label, .views-label {
 .views-table .views-field-nothing .cart_contents legend, .page-checkout #contentWrapper .cart_contents legend {
   display: none; }
 
-/* cart page */
+/* --------------------------------
+cart page
+----------------------------------*/
 .view-id-commerce_cart_form.view-display-id-default .views-table {
   float: left;
   width: 65%; }
@@ -661,7 +655,9 @@ label, .views-label {
   padding-left: 2%;
   width: 73%; }
 
-/* cart summary */
+/* --------------------------------
+cart summary
+----------------------------------*/
 ol.inline.commerce-checkout-progress li {
   margin-left: 20px;
   width: auto; }
@@ -744,7 +740,9 @@ ol.inline.commerce-checkout-progress li:first-child {
 .view-id-commerce_cart_summary.view-display-id-block_1 .views-field-commerce-order-total table td.component-total {
   font-family: "bentonsansbook"; }
 
-/* checkout form */
+/* --------------------------------
+checkout forms
+----------------------------------*/
 #commerce-checkout-form-checkout legend {
   clear: both;
   display: block;
@@ -791,13 +789,13 @@ ol.inline.commerce-checkout-progress li:first-child {
 div.addressfield-container-inline > div.form-item {
   float: none; }
 
-/*#customer-profile-billing-ajax-wrapper {
-  clear: left; }*/
+#customer-profile-billing-ajax-wrapper {
+  clear: left; }
 
-/*#edit-buttons {
+#edit-buttons {
   width: 65%; }
-*/
-/*#edit-buttons, #edit-customer-profile-billing.no-parent, #customer-profile-shipping-ajax-wrapper, #customer-profile-billing-ajax-wrapper, #edit-commerce-payment {
+
+#edit-buttons, #edit-customer-profile-billing.no-parent, #customer-profile-shipping-ajax-wrapper, #customer-profile-billing-ajax-wrapper, #edit-commerce-payment {
   float: left;
   width: 41.94%; }
 #edit-buttons legend, #edit-customer-profile-billing.no-parent legend, #customer-profile-shipping-ajax-wrapper legend, #customer-profile-billing-ajax-wrapper legend, #edit-commerce-payment legend {
@@ -806,7 +804,7 @@ div.addressfield-container-inline > div.form-item {
 
 #commerce-checkout-form-checkout #edit-commerce-payment, #commerce-checkout-form-checkout #edit-buttons {
   clear: right;
-  float: right; }*/
+  float: right; }
 
 .messages.warning, .messages.error {
   background-color: #fff;
@@ -830,10 +828,6 @@ div.addressfield-container-inline > div.form-item {
   margin: 0 auto;
   max-width: 330px; }
 
-.commerce-credit-card-expiration{
-   max-width: 59%;
-}
-
 .commerce-credit-card-expiration .commerce-month-year-divider, .commerce-credit-card-expiration .form-item {
   clear: none;
   float: left;
@@ -845,14 +839,9 @@ div.addressfield-container-inline > div.form-item {
 .commerce-credit-card-expiration .form-item-commerce-payment-payment-details-credit-card-exp-month, .commerce-credit-card-expiration .form-item-commerce-payment-payment-details-credit-card-exp-year {
   width: 100px; }
 
-.commerce-credit-card-expiration .commerce-month-year-divider, .commerce-credit-card-expiration .form-item-transaction-credit-card-expiration-year {
-    width: 81px;
-    top: 25px;
-}
-
-
-/* jquery SB configs */
-/* temporary selectbox styles */
+/* --------------------------------
+jquery form select configs
+----------------------------------*/
 .custom-select-menu label.opened {
   border-radius: 2px 2px 0 0;
   box-shadow: none; }
@@ -862,6 +851,9 @@ div.addressfield-container-inline > div.form-item {
 .form-select.has_sb, .webform-component-select.has_sb {
   position: absolute; }
 
+/* --------------------------------
+jquery.sb.js theme 
+----------------------------------*/
 .has_sb {
   position: absolute;
   left: -999999em;
@@ -932,6 +924,9 @@ div.addressfield-container-inline > div.form-item {
 .selectbox.items .value {
   display: none; }
 
+/* --------------------------------
+jquery.sb.js fitmoo theme
+----------------------------------*/
 .sb.selectbox {
   z-index: 1; }
 .sb.selectbox, .sb.selectbox .display {
@@ -948,10 +943,7 @@ div.addressfield-container-inline > div.form-item {
 .sb.selectbox .display .text {
   float: left;
   line-height: 40px;
-  padding-left: 20px; 
-  overflow-x: hidden;
-  width: 271px;
-}
+  padding-left: 20px; }
 .sb.selectbox .display .arrow_btn {
   background: url("../images/arrow_down.png") 0 center no-repeat;
   border: 0;
