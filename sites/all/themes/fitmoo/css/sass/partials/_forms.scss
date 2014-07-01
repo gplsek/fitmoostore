@@ -463,6 +463,8 @@ checkout forms
 #edit-customer-profile-billing,
 #edit-commerce-payment {
 	> legend {
+		clear:both;
+		float:left;
 		height:30px;
 		line-height:30px;
 		padding-left:40px;
@@ -507,8 +509,20 @@ checkout forms
 	}
 }
 
-#customer-profile-billing-ajax-wrapper {
+
+.page-checkout.section-checkout {
+	#customer-profile-shipping-ajax-wrapper,
+	#edit-commerce-payment {
+		padding-top:0;
+	}
+}
+
+#edit-customer-profile-billing.no-parent {
 	padding-bottom:0;
+}
+
+#customer-profile-billing-ajax-wrapper {
+ 	padding-bottom:0;
 }
 
 .page-checkout.path-review .region-content {
@@ -556,6 +570,7 @@ checkout forms
 	border-right:1px solid #cacaca;
 }
 
+#edit-customer-profile-billing,
 #customer-profile-billing-ajax-wrapper {
 	border-top:1px solid #cacaca;
 }
@@ -682,6 +697,7 @@ checkout forms
 	}
 }
 
+#payment, 
 #payment-details {
 	.form-item-transaction-credit-card-number {
 		float:left;
