@@ -558,7 +558,8 @@ function commerce_braintree_credit_card_form($payment_method) {
         '#required' => FALSE,
         '#maxlength' => 19,
         '#size' => 20,
-        '#name' => 'transaction[credit_card][number]'
+        '#name' => 'transaction[credit_card][number]',
+		'#prefix' => t('<div id="payment">')
     );
     // Add a field for the credit card number.
     // $form['commerce_payment']['payment_details']['credit_card']['owner'] = array(
@@ -607,6 +608,7 @@ function commerce_braintree_credit_card_form($payment_method) {
         '#maxlength' => 4,
         '#size' => 4,
         '#name' => 'transaction[credit_card][cvv]',
+		'#suffix' => '</div>',
     );
 
     return $form;

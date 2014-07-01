@@ -8,7 +8,7 @@ $(document).ready(function(){
     //$("#edit-customer-profile-shipping-commerce-customer-address").css('display','none');
     var temp = $("#edit-customer-profile-shipping > legend >span");
     //temp.addClass("fieldset_collapsed");
-
+    $("#payment").css('display','none');
     $("#edit-number").attr("disabled",true).css("background-color","rgb(235, 235, 228)");
     $("#edit-owner").attr("disabled",true).css("background-color","rgb(235, 235, 228)");
     $("#edit-code").attr("disabled",true).css("background-color","rgb(235, 235, 228)");
@@ -67,14 +67,16 @@ $(document).ready(function(){
     $(".form-select").change(function () {
         var val = $(this).val();
         if (val == "new") {
-            $("#edit-number").css('display','block');
-            $("#edit-owner").css('display','block');
-            $("#edit-code").css('display','block');
+			$("#payment").css('display','block');
+		    $("#edit-number").attr("disabled",false).css("background-color","#fff");
+		    $("#edit-owner").attr("disabled",false).css("background-color","#fff");
+		    $("#edit-code").attr("disabled",false).css("background-color","#fff");
 
         } else {
-            $("#edit-number").css('display','none');
-            $("#edit-owner").css('display','none');
-            $("#edit-code").css('display','none');
+            $("#payment").css('display','none');
+		    $("#edit-number").attr("disabled",true).css("background-color","rgb(235, 235, 228)");
+		    $("#edit-owner").attr("disabled",true).css("background-color","rgb(235, 235, 228)");
+		    $("#edit-code").attr("disabled",true).css("background-color","rgb(235, 235, 228)");
         }
     });
 	
