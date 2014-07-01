@@ -78,6 +78,12 @@
 		@include fullScreen(100%, 20px);		
 	}
 
+	#customer-profile-billing-ajax-wrapper .field-name-field-customer-name,
+	#customer-profile-billing-ajax-wrapper .field-name-field-phone {
+		float:none;
+		width:100%;
+	}
+
 	.street-block .form-item {
 		&,
 		&:first-child {
@@ -191,8 +197,24 @@
 	  }
 	}
 
+	.locality-block .form-type-select {
+		width:100%;
+	}
 	.locality-block .form-type-textfield {
-		width:30%;
+		&,
+		&:first-child {
+			width:100% !important;
+		}
+	}
+
+	.sb.selectbox, .sb.selectbox .display {
+		&.state {
+			width:100% !important;
+		}
+	}
+
+	.locality-block .form-type-textfield {
+		width:100% !important;
 	}
 }
 

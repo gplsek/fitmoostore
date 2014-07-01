@@ -437,6 +437,15 @@ ol.inline.commerce-checkout-progress li {
 /* --------------------------------
 checkout forms
 ----------------------------------*/
+//sidebar review
+#block-views-commerce-cart-form-block-1 {
+	> h2 {
+		background:#8d99a0;
+		color:#fff;
+		margin-bottom:0;
+		padding:19px 24px;
+	}
+}
 
 #commerce-checkout-form-checkout {
 	legend {
@@ -461,15 +470,15 @@ checkout forms
 }
 
 #edit-customer-profile-billing > legend {
-	background:url('../images/iconStep1.png') 0 0 no-repeat;	
+	// background:url('../images/iconStep1.png') 0 0 no-repeat;	
 }
 
 #customer-profile-shipping-ajax-wrapper .customer_profile_shipping > legend {
-	background:url('../images/iconStep2.png') 0 0 no-repeat;	
+	// background:url('../images/iconStep2.png') 0 0 no-repeat;	
 }
 
 #edit-commerce-payment > legend {
-	background:url('../images/iconStep3.png') 0 0 no-repeat;
+	// background:url('../images/iconStep3.png') 0 0 no-repeat;
 	display:none;
 }
 
@@ -507,6 +516,11 @@ checkout forms
 	padding-right:40px;
 }
 
+.page-checkout.one-sidebar #sidebar-second .region-sidebar-second {
+	margin-left:0;
+	width:100%;
+}
+
 // cc code
 .form-item-commerce-payment-payment-details-credit-card-code {
 	background:url('../images/seCode.png') right 26px no-repeat;
@@ -532,11 +546,23 @@ checkout forms
 	}
 }
 
-
+#commerce-checkout-form-checkout #edit-buttons,
 #edit-customer-profile-billing.no-parent,
 #edit-commerce-payment.left-column,
+#edit-commerce-payment,
+#customer-profile-shipping-ajax-wrapper,
 #customer-profile-billing-ajax-wrapper {
+	border-left:1px solid #cacaca;
 	border-right:1px solid #cacaca;
+}
+
+#customer-profile-billing-ajax-wrapper {
+	border-top:1px solid #cacaca;
+}
+
+#commerce-checkout-form-checkout #edit-buttons {
+	border-bottom:1px solid #cacaca;
+	margin-bottom:30px;
 }
 
 .region-content .fieldset-wrapper {
@@ -586,6 +612,26 @@ checkout forms
 .locality-block {
 	clear:both;
 	display:block;
+}
+
+#customer-profile-billing-ajax-wrapper {
+	.field-name-field-customer-name,
+	.field-name-field-phone {
+		float:left;
+		width:277px;
+	}
+
+	.field-name-field-customer-name {
+		margin-right:10px;
+	}
+}
+
+
+.sb.selectbox, .sb.selectbox .display {
+	#payment-details &,
+	&.country {
+		width:100% !important;
+	}
 }
 
 .street-block {
@@ -642,7 +688,8 @@ checkout forms
 		margin-right:2%;
 		margin-right:10px;
 		width:49.5%;
-		width:277px;
+		// width:277px;
+		width:286px;
 	}
 
 	.form-item-transaction-credit-card-cvv,
