@@ -869,7 +869,7 @@ checkout forms
   border-left: 1px solid #cacaca;
   border-right: 1px solid #cacaca; }
 
-#edit-customer-profile-billing, #customer-profile-billing-ajax-wrapper {
+#customer-profile-billing-ajax-wrapper {
   border-top: 1px solid #cacaca; }
 
 #commerce-checkout-form-checkout #edit-buttons {
