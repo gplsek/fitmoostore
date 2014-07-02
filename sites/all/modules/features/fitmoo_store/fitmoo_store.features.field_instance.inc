@@ -330,14 +330,48 @@ function fitmoo_store_field_default_field_instances() {
         ),
         'format_handlers' => array(
           'address' => 'address',
-          'name-oneline' => 'name-oneline',
-          'address-hide-country' => 0,
+          'address-hide-country' => 'address-hide-country',
           'organisation' => 0,
           'name-full' => 0,
+          'name-oneline' => 0,
         ),
       ),
       'type' => 'addressfield_standard',
-      'weight' => -10,
+      'weight' => 2,
+    ),
+  );
+
+  // Exported field_instance: 'commerce_customer_profile-billing-field_customer_name'
+  $field_instances['commerce_customer_profile-billing-field_customer_name'] = array(
+    'bundle' => 'billing',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => -8,
+      ),
+    ),
+    'entity_type' => 'commerce_customer_profile',
+    'field_name' => 'field_customer_name',
+    'label' => 'Name',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 0,
     ),
   );
 
@@ -371,7 +405,7 @@ function fitmoo_store_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => -8,
+      'weight' => 1,
     ),
   );
 
@@ -695,14 +729,48 @@ function fitmoo_store_field_default_field_instances() {
         ),
         'format_handlers' => array(
           'address' => 'address',
-          'name-oneline' => 'name-oneline',
-          'address-hide-country' => 0,
+          'address-hide-country' => 'address-hide-country',
           'organisation' => 0,
           'name-full' => 0,
+          'name-oneline' => 0,
         ),
       ),
       'type' => 'addressfield_standard',
-      'weight' => -10,
+      'weight' => 2,
+    ),
+  );
+
+  // Exported field_instance: 'commerce_customer_profile-shipping-field_customer_name'
+  $field_instances['commerce_customer_profile-shipping-field_customer_name'] = array(
+    'bundle' => 'shipping',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => -8,
+      ),
+    ),
+    'entity_type' => 'commerce_customer_profile',
+    'field_name' => 'field_customer_name',
+    'label' => 'Name',
+    'required' => 0,
+    'settings' => array(
+      'text_processing' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'text',
+      'settings' => array(
+        'size' => 60,
+      ),
+      'type' => 'text_textfield',
+      'weight' => 0,
     ),
   );
 
@@ -736,7 +804,7 @@ function fitmoo_store_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => -9,
+      'weight' => 1,
     ),
   );
 
@@ -1352,13 +1420,13 @@ function fitmoo_store_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'commerce_line_item_display' => array(
-        'label' => 'hidden',
+        'label' => 'inline',
         'module' => 'commerce_price',
         'settings' => array(
           'calculation' => 'calculated_sell_price',
         ),
         'type' => 'commerce_price_formatted_amount',
-        'weight' => 0,
+        'weight' => 2,
       ),
       'commerce_line_item_token' => array(
         'label' => 'hidden',
@@ -1481,6 +1549,12 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 4,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'number',
@@ -1532,6 +1606,16 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => 'thumbnail',
+        ),
+        'type' => 'image',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'image',
@@ -1598,6 +1682,13 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'inline',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_plain',
+        'weight' => 1,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'taxonomy',
@@ -1648,6 +1739,12 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'physical',
@@ -1922,13 +2019,13 @@ function fitmoo_store_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'commerce_line_item_display' => array(
-        'label' => 'hidden',
+        'label' => 'inline',
         'module' => 'commerce_price',
         'settings' => array(
           'calculation' => 'calculated_sell_price',
         ),
         'type' => 'commerce_price_formatted_amount',
-        'weight' => 0,
+        'weight' => 1,
       ),
       'default' => array(
         'label' => 'hidden',
@@ -1995,6 +2092,12 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => NULL,
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'number',
@@ -2045,6 +2148,19 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'above',
+        'module' => 'date',
+        'settings' => array(
+          'format_type' => 'long',
+          'fromto' => 'both',
+          'multiple_from' => '',
+          'multiple_number' => '',
+          'multiple_to' => '',
+        ),
+        'type' => 'date_default',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'date',
@@ -2105,6 +2221,12 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 4,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -2151,6 +2273,12 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 6,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'number',
@@ -2203,6 +2331,13 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'inline',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 2,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -2250,13 +2385,13 @@ function fitmoo_store_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'commerce_line_item_display' => array(
-        'label' => 'hidden',
+        'label' => 'inline',
         'module' => 'commerce_price',
         'settings' => array(
           'calculation' => 'calculated_sell_price',
         ),
         'type' => 'commerce_price_formatted_amount',
-        'weight' => 0,
+        'weight' => 1,
       ),
       'commerce_line_item_token' => array(
         'label' => 'hidden',
@@ -2379,6 +2514,12 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 2,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'number',
@@ -2431,6 +2572,13 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'inline',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 4,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -2476,6 +2624,12 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 6,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'date',
@@ -2535,6 +2689,16 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => 'thumbnail',
+        ),
+        'type' => 'image',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'image',
@@ -2596,6 +2760,13 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'inline',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 3,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -2642,6 +2813,12 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 7,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'number',
@@ -2695,6 +2872,15 @@ function fitmoo_store_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'commerce_line_item_display' => array(
+        'label' => 'hidden',
+        'module' => 'commerce_price',
+        'settings' => array(
+          'calculation' => 'calculated_sell_price',
+        ),
+        'type' => 'commerce_price_formatted_amount',
+        'weight' => 0,
+      ),
+      'commerce_line_item_token' => array(
         'label' => 'hidden',
         'module' => 'commerce_price',
         'settings' => array(
@@ -2800,6 +2986,18 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_token' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 2,
+          'thousand_separator' => ' ',
+        ),
+        'type' => 'number_decimal',
+        'weight' => 2,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'number',
@@ -2852,6 +3050,18 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_token' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 0,
+          'thousand_separator' => ' ',
+        ),
+        'type' => 'number_integer',
+        'weight' => 3,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'number',
@@ -2904,6 +3114,13 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_token' => array(
+        'label' => 'above',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 4,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -2955,6 +3172,13 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_token' => array(
+        'label' => 'above',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_link',
+        'weight' => 6,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'taxonomy',
@@ -2999,13 +3223,13 @@ function fitmoo_store_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'commerce_line_item_display' => array(
-        'label' => 'hidden',
+        'label' => 'inline',
         'module' => 'commerce_price',
         'settings' => array(
           'calculation' => 'calculated_sell_price',
         ),
         'type' => 'commerce_price_formatted_amount',
-        'weight' => 0,
+        'weight' => 2,
       ),
       'default' => array(
         'label' => 'hidden',
@@ -3069,6 +3293,12 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => NULL,
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'number',
@@ -3119,6 +3349,16 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => 'thumbnail',
+        ),
+        'type' => 'image',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'image',
@@ -3185,6 +3425,13 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'inline',
+        'module' => 'taxonomy',
+        'settings' => array(),
+        'type' => 'taxonomy_term_reference_plain',
+        'weight' => 1,
+      ),
       'default' => array(
         'label' => 'above',
         'settings' => array(),
@@ -3233,13 +3480,13 @@ function fitmoo_store_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'commerce_line_item_display' => array(
-        'label' => 'hidden',
+        'label' => 'inline',
         'module' => 'commerce_price',
         'settings' => array(
           'calculation' => 'calculated_sell_price',
         ),
         'type' => 'commerce_price_formatted_amount',
-        'weight' => 0,
+        'weight' => 1,
       ),
       'commerce_line_item_token' => array(
         'label' => 'hidden',
@@ -3362,6 +3609,12 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 5,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -3407,6 +3660,19 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'above',
+        'module' => 'date',
+        'settings' => array(
+          'format_type' => 'long',
+          'fromto' => 'both',
+          'multiple_from' => '',
+          'multiple_number' => '',
+          'multiple_to' => '',
+        ),
+        'type' => 'date_default',
+        'weight' => 2,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'date',
@@ -3466,6 +3732,16 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => 'thumbnail',
+        ),
+        'type' => 'image',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'image',
@@ -3527,6 +3803,13 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'inline',
+        'module' => 'text',
+        'settings' => array(),
+        'type' => 'text_default',
+        'weight' => 4,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'text',
@@ -3573,6 +3856,12 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'number',
@@ -3626,13 +3915,13 @@ function fitmoo_store_field_default_field_instances() {
     'description' => '',
     'display' => array(
       'commerce_line_item_display' => array(
-        'label' => 'hidden',
+        'label' => 'inline',
         'module' => 'commerce_price',
         'settings' => array(
           'calculation' => 'calculated_sell_price',
         ),
         'type' => 'commerce_price_formatted_amount',
-        'weight' => 0,
+        'weight' => 1,
       ),
       'default' => array(
         'label' => 'hidden',
@@ -3728,6 +4017,12 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 3,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'number',
@@ -3779,6 +4074,16 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => 'thumbnail',
+        ),
+        'type' => 'image',
+        'weight' => 0,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'image',
@@ -3845,6 +4150,16 @@ function fitmoo_store_field_default_field_instances() {
     'deleted' => 0,
     'description' => '',
     'display' => array(
+      'commerce_line_item_display' => array(
+        'label' => 'inline',
+        'module' => 'entityreference',
+        'settings' => array(
+          'links' => TRUE,
+          'view_mode' => 'default',
+        ),
+        'type' => 'entityreference_entity_view',
+        'weight' => 2,
+      ),
       'default' => array(
         'label' => 'above',
         'module' => 'entityreference',
@@ -5499,6 +5814,7 @@ function fitmoo_store_field_default_field_instances() {
   t('Line items');
   t('Location');
   t('Membership');
+  t('Name');
   t('New Total');
   t('Number of billing periods for the subscription. Enter 2 or more. Leave blank for indefinite subscription that will only expire once cancelled.');
   t('Order total');

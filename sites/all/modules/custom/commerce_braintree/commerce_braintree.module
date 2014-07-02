@@ -558,27 +558,28 @@ function commerce_braintree_credit_card_form($payment_method) {
         '#required' => FALSE,
         '#maxlength' => 19,
         '#size' => 20,
-        '#name' => 'transaction[credit_card][number]'
+        '#name' => 'transaction[credit_card][number]',
+		'#prefix' => t('<div id="payment">')
     );
     // Add a field for the credit card number.
-    $form['commerce_payment']['payment_details']['credit_card']['owner'] = array(
-        '#type' => 'textfield',
-        '#title' => t('Name on Card'),
-        '#default_value' => '',
-        '#attributes' => array('autocomplete' => 'off'),
-        '#required' => FALSE,
-        '#size' => 50,
-        '#name' => 'transaction[credit_card][cardholder_name]'
-    );
+    // $form['commerce_payment']['payment_details']['credit_card']['owner'] = array(
+//         '#type' => 'textfield',
+//         '#title' => t('Card owner'),
+//         '#default_value' => '',
+//         '#attributes' => array('autocomplete' => 'off'),
+//         '#required' => FALSE,
+//         '#size' => 50,
+//         '#name' => 'transaction[credit_card][cardholder_name]'
+//     );
 
     // Add fields for the credit card expiration date.
     $form['commerce_payment']['payment_details']['credit_card']['exp_month'] = array(
         '#type' => 'select',
-        '#title' => t('Exp Month'),
+        '#title' => t('Expiration'),
         '#options' => drupal_map_assoc(array_keys(commerce_months())),
         '#default_value' => strlen($default['exp_month']) == 1 ? '0' . $default['exp_month'] : $default['exp_month'],
         '#required' => FALSE,
-        '#prefix' => '<div class="commerce-credit-card-expiration" style="float: left;">',
+        '#prefix' => '<div class="commerce-credit-card-expiration">',
         '#suffix' => '<span class="commerce-month-year-divider">/</span>',
         '#name' => 'transaction[credit_card][expiration_month]',
     );
@@ -592,12 +593,10 @@ function commerce_braintree_credit_card_form($payment_method) {
 
     $form['commerce_payment']['payment_details']['credit_card']['exp_year'] = array(
         '#type' => 'select',
-	'#title' => 'Exp Year',
         '#options' => $options,
         '#default_value' => $default['exp_year'],
         '#suffix' => '</div>',
         '#name' => 'transaction[credit_card][expiration_year]',
-        '#prefix' => '<div class="commerce-credit-card-expiration" style="float: left;">',
     );
 
     $form['commerce_payment']['payment_details']['credit_card']['code'] = array(
@@ -609,6 +608,7 @@ function commerce_braintree_credit_card_form($payment_method) {
         '#maxlength' => 4,
         '#size' => 4,
         '#name' => 'transaction[credit_card][cvv]',
+		'#suffix' => '</div>',
     );
 
     return $form;
@@ -674,7 +674,7 @@ function commerce_braintree_form_commerce_cardonfile_update_form_alter(&$form, &
 
     // Adjust the names of form elements to match the requirements of Braintree's
     // Transparent Redirect API.
-    $form['credit_card']['owner']['#name'] = 'credit_card[cardholder_name]';
+    //$form['credit_card']['owner']['#name'] = 'credit_card[cardholder_name]';
     $form['credit_card']['number']['#name'] = 'credit_card[number]';
     $form['credit_card']['exp_month']['#name'] = 'credit_card[expiration_month]';
     $form['credit_card']['exp_year']['#name'] = 'credit_card[expiration_year]';

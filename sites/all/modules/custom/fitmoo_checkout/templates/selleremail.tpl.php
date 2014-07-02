@@ -330,7 +330,7 @@ setlocale(LC_MONETARY, 'en_US');
 						<div style="font-weight: bold;">How much did you make?</div>
                         <div>
                             <div class="lcolumn">Product Listing Price</div>
-                            <div class="rcolumn"><?php print money_format('%i',$total*(floor($qty));?></div>
+                            <div class="rcolumn"><?php print money_format('%i',$total*(floor($qty)));?></div>
                         </div>
                         <div>
                             <div class="lcolumn">Fitmoo Service Charge</div>

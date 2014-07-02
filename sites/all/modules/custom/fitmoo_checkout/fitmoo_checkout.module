@@ -82,6 +82,36 @@ function fitmoo_checkout_theme() {
     ),
  );
 }
+
+
+//commerce_cart_form_checkout_pane_checkout_form
+
+function fitmoo_checkout_block_info() {
+
+    $blocks['checkout-cart'] = array(
+      'info' => t('Custom: Checkout Cart'),
+    );
+	return $blocks;
+}
+
+function fitmoo_checkout_block_view($delta='') {
+    $block = array();
+    switch ($delta) {
+	    case 'checkout-cart':
+            $block['subject'] = '';
+            $block['content'] = drupal_get_form('commerce_cart_form_checkout_pane_checkout_form');
+		break;
+
+		
+    }
+		return $block;
+}
+
+
+
+
+
+
 //cancelorderemail
 //function fitmoo_checkout_userlogin($sessionID){
 //	global $user;
@@ -755,7 +785,20 @@ function fitmoo_checkout_commerce_checkout_progress_items_alter(&$items){
 	
 }
 
+
+
 function fitmoo_checkout_form_alter(&$form, &$form_state, $form_id) {
+  
+	if($form_id == 'views_form_commerce_cart_form_block_1'){
+
+		
+		$form['actions']['submit']['#attributes'] = array('style'=>"display:none");
+		unset($form['actions']['checkout']);
+		$form['edit_quantity'][0]['#ajax'] = array('callback' => 'fitmoo_checkout_update_cart','method' => 'replace','wrapper' => 'block-views-commerce-cart-form-block-1',);
+		
+		
+	   
+	}
   
   if ($form_id == 'commerce_checkout_form_checkout') {
     $form['buttons']['cancel']['#submit'][] = 'fitmoo_checkout_form_cancel_submit';  
@@ -767,10 +810,45 @@ function fitmoo_checkout_form_alter(&$form, &$form_state, $form_id) {
   }
 }
 
+function fitmoo_checkout_update_cart($form, &$form_state){
+	
+	
+	global $user;
+	$uid = $user->uid;
+	$order = commerce_cart_order_load($uid);
+	//
+	
+    $zzz = field_get_items('commerce_order', $order, 'commerce_line_items');
+
+    foreach ($zzz as $line_item_id) {
+
+      // Load commerce line item by line item id.
+      $line_item = commerce_line_item_load($line_item_id['line_item_id']);
+
+     
+      if ($line_item->type != 'shipping') {
+        // Load commerce product by product id.
+        $line_item->quantity = $form_state['values']['edit_quantity'][0];
+	  
+        commerce_line_item_save($line_item);
+		
+	  }
+  }
+	
+	commerce_order_save($order);
+	$ret =  '<script>';
+	    $ret .= 'jQuery(document).ready(function($) {';
+	    $ret .= '  location.reload(true);';
+	    $ret .= '});';
+	    $ret .= '</script>';
+	return $ret;
+	
+	
+}
 
 /**
  * Modifying the commerce_cart_checkout_form_cancel_submit function in commerce_cart.module
- */
+ */;
 function fitmoo_checkout_form_cancel_submit($form, &$form_state) {
   global $user;
   // Update the order to the cart status.
@@ -1147,7 +1225,7 @@ function fitmoo_checkout_LabelEmail($seller_email,$buyer_uid,$info,$info_buyer){
 }
 
 function fitmoo_checkout_test_email(){
-	$order = commerce_order_load(444);
+	$order = commerce_order_load(445);
 
 
 $info = array();

@@ -1,0 +1,190 @@
+/* --------------------------------
+jquery.sb.js theme 
+----------------------------------*/
+.has_sb{position:absolute;left:-999999em;text-indent:-999999em;}
+.ui-state-default,
+.ui-widget-content .ui-state-default,
+.ui-widget-header .ui-state-default {
+  border:none;
+}
+
+.selectbox {
+	display:inline-block;
+  *display:inline;
+  font-family:arial;
+  font-size:1em;
+  position:relative;
+  vertical-align:middle;
+  zoom:1;
+  
+  .display {
+	  cursor:default;
+	  display:block;
+	  font-weight:normal;
+	  line-height:1.46em;
+	  outline:none;
+	  position:relative;
+	  text-decoration:none;
+	  overflow:hidden;
+		
+		.arrow_btn {
+	    display:block;
+	    position:absolute;
+	    right:0;
+	    text-align:center;
+	    top:0;
+
+			.arrow {
+		    display:inline-block;*display:inline;
+		    position:absolute;
+		    width:7px;
+		    zoom:1;
+			}
+		}
+	}
+	.value{
+		display:none;
+	}
+
+	// dropdown styles
+	&.items {
+	  display:block;
+	  font-family:arial;
+	  font-size:1em;
+	  list-style-type:none;
+	  margin:0;
+	  overflow-x:hidden;
+	  overflow-y:auto;
+	  padding:0 0 1px 0;
+	  z-index:99999;
+
+		li {
+			display:block;
+			margin:0;
+			padding:0;
+
+			&.first {
+				margin-top:0;
+			}
+
+			>	.item {
+				color:#000;
+				cursor:default;
+				display:block;
+				padding:3px 6px;
+				text-decoration:none;
+				>	.text {
+					display:inline-block;
+					*display:inline;zoom:1;
+				}
+			}
+			
+			&.disabled > .item {
+				color:#999;
+			}
+		}
+
+		.value{
+			display:none;
+		}
+	}
+}
+
+/* --------------------------------
+jquery.sb.js fitmoo theme
+----------------------------------*/
+
+.sb.selectbox {
+
+  z-index:1;
+  
+  &,
+  .display {
+   width:99% !important;
+  }
+
+  .display {
+  	background:#fff;
+  	float: none;
+		margin-left: 0;
+		margin-bottom:5px;
+		text-align: left;
+    height:40px;
+
+    &:hover {
+      cursor:pointer;
+    }
+
+    .text {
+      float:left;
+      line-height:40px;
+      padding-left:20px;
+    }
+
+    .arrow_btn {
+    	background:url('../images/arrow_down.png') 0 center no-repeat;
+      border:0;
+      float:right;
+      margin-right:10px;
+      width:14px;
+      height:40px;
+    }
+  }
+}
+
+.display,
+ul.selectbox.items {
+	border: 1px solid #c4c4c4;
+	border-radius: 2px;
+	cursor: pointer;
+}
+
+// dropdown
+ul.selectbox.items {
+	background:#7c868e;
+	border-radius: 0 0 2px 2px;
+	list-style: none;
+	margin: 0;
+	height:200px !important;
+	overflow-y: scroll;
+	padding: 5px 0;
+  // width:100% !important;
+  width:98% !important;
+  z-index:2;
+
+  li {
+    display:block;
+  	margin: 0;
+		padding: 5px 10px;
+    
+    &:hover,
+    &.selected {
+    	background:#7c868e;
+    	.text {
+    		color:#121212;
+    	}
+    }
+
+    .item {
+      text-align:left;
+
+      &:hover {
+        cursor:pointer !important;
+      }
+    }
+
+    .text {
+    	color:#fff;
+    }
+  }
+}
+
+#commerce-checkout-form-checkout .sb.selectbox .display {
+	height:33px;
+	.text {
+		line-height:33px;
+	}
+	.arrow_btn {
+		height:33px;
+	}
+}

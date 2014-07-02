@@ -28,11 +28,11 @@ function fitmoo_store_context_default_contexts() {
   $context->reactions = array(
     'block' => array(
       'blocks' => array(
-        'views-commerce_cart_summary-block_1' => array(
+        'views-commerce_cart_form-block_1' => array(
           'module' => 'views',
-          'delta' => 'commerce_cart_summary-block_1',
+          'delta' => 'commerce_cart_form-block_1',
           'region' => 'sidebar_second',
-          'weight' => '-10',
+          'weight' => '-9',
         ),
       ),
     ),
