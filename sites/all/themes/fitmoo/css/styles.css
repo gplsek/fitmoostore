@@ -989,7 +989,7 @@ ul.selectbox.items li .item:hover {
 #commerce-checkout-form-checkout .sb.selectbox .display {
   height: 35px; }
 #commerce-checkout-form-checkout .sb.selectbox .display .text {
-  line-height: 35px; }
+  line-height: 35px; width: 60px}
 #commerce-checkout-form-checkout .sb.selectbox .display .arrow_btn {
   height: 35px; }
 
