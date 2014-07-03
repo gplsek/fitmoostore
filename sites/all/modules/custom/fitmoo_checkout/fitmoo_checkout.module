@@ -828,8 +828,19 @@ function fitmoo_checkout_update_cart($form, &$form_state){
      
       if ($line_item->type != 'shipping') {
         // Load commerce product by product id.
+		if($form_state['values']['edit_quantity'][0] < 0){
+			
+			drupal_set_message('Please enter a valid quantity amount, you entered: '.$form_state['values']['edit_quantity'][0]);
+			$ret =  '<script>';
+			    $ret .= 'jQuery(document).ready(function($) {';
+			    $ret .= '  location.reload(true);';
+			    $ret .= '});';
+			    $ret .= '</script>';
+			return $ret;
+		}
+		
         $line_item->quantity = $form_state['values']['edit_quantity'][0];
-	  
+	    
         commerce_line_item_save($line_item);
 		
 	  }
