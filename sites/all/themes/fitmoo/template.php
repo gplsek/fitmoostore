@@ -116,8 +116,9 @@ function fitmoo_preprocess_page(&$vars) {
  	    if ($redirect_base == $base_url) {
  	      return;
  	    }
-	  // Redirect.
- 	  drupal_goto($redirect_base);
+
+ 	    // Redirect. 
+ 	    drupal_goto($redirect_base);
 	 }
 	}
 	
