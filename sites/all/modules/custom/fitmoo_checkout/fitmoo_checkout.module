@@ -791,7 +791,7 @@ function fitmoo_checkout_form_alter(&$form, &$form_state, $form_id) {
   
 	if($form_id == 'views_form_commerce_cart_form_block_1'){
 
-		
+		$form['actions']['submit']['#ajax'] = array('callback' => 'fitmoo_checkout_update_cart','method' => 'replace','wrapper' => 'block-views-commerce-cart-form-block-1',);
 		$form['actions']['submit']['#attributes'] = array('style'=>"display:none");
 		unset($form['actions']['checkout']);
 		$form['edit_quantity'][0]['#ajax'] = array('callback' => 'fitmoo_checkout_update_cart','method' => 'replace','wrapper' => 'block-views-commerce-cart-form-block-1',);
@@ -827,10 +827,15 @@ function fitmoo_checkout_update_cart($form, &$form_state){
 
      
       if ($line_item->type != 'shipping') {
+		  if($form_state['values']['edit_quantity'][0] == 0){
+		  	
+			$form_state['redirect'] = $_SESSION['callback']; //the page you want to redirect to.
+		  }
         // Load commerce product by product id.
 		if($form_state['values']['edit_quantity'][0] < 0){
 			
 			drupal_set_message('Please enter a valid quantity amount, you entered: '.$form_state['values']['edit_quantity'][0]);
+			
 			$ret =  '<script>';
 			    $ret .= 'jQuery(document).ready(function($) {';
 			    $ret .= '  location.reload(true);';
