@@ -12,6 +12,7 @@ $(document).ready(function(){
     $("#edit-number").attr("disabled",true).css("background-color","rgb(235, 235, 228)");
     $("#edit-owner").attr("disabled",true).css("background-color","rgb(235, 235, 228)");
     $("#edit-code").attr("disabled",true).css("background-color","rgb(235, 235, 228)");
+	
     var viewform = false;
 
     // var switchdisplay = function( ) {

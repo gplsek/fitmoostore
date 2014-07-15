@@ -834,11 +834,11 @@ function fitmoo_checkout_update_cart($form, &$form_state){
         // Load commerce product by product id.
 		if($form_state['values']['edit_quantity'][0] < 0){
 			
-			drupal_set_message('Please enter a valid quantity amount, you entered: '.$form_state['values']['edit_quantity'][0]);
+			$message = "Please enter a valid quantity amount, you entered: ".$form_state['values']['edit_quantity'][0];
 			
 			$ret =  '<script>';
 			    $ret .= 'jQuery(document).ready(function($) {';
-			    $ret .= '  location.reload(true);';
+				$ret .= '  location.reload(true);';
 			    $ret .= '});';
 			    $ret .= '</script>';
 			return $ret;
@@ -1037,14 +1037,16 @@ function fitmoo_checkout_cronShippingStatus(){
 	$path = drupal_get_path('module', 'commerce_services');
 	
 	require_once( $path.'/resources/endicia.inc'); 
-	
+	echo "Get Order with status Shipped\n";
     $orders = commerce_order_load_multiple(array(), array('status'=>'Shipping: shipped'), $reset = FALSE);
-
+    echo "Found: ".count($orders)." to process\n";
     foreach ($orders as $order) {
+		echo "Order: ".$order->order_id." tracking no.: ".$order->field_tracking['und'][0]['value']."\n";
         $track = commerce_services_endicia_update($order->field_tracking['und'][0]['value'], false, false);
         $order->field_tracking_status['und'][0]['value'] = serialize($track);
         foreach ($track as $array_item) {
             if (preg_match('/delivered/ism',$array_item[0],$matches)) {
+				echo "Order: ".$order->order_id." is delivered , set status to delivered \n";
                $order->status = 'Shipping: Delivered';
             }
         }
