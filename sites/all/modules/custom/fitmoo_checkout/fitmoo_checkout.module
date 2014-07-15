@@ -1045,6 +1045,8 @@ function fitmoo_checkout_cronShippingStatus(){
         $track = commerce_services_endicia_update($order->field_tracking['und'][0]['value'], false, false);
         $order->field_tracking_status['und'][0]['value'] = serialize($track);
         foreach ($track as $array_item) {
+			print_r($array_item);
+			echo "/n";
             if (preg_match('/delivered/ism',$array_item[0],$matches)) {
 				echo "Order: ".$order->order_id." is delivered , set status to delivered \n";
                $order->status = 'Shipping: Delivered';
