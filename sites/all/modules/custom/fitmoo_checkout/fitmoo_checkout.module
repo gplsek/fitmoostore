@@ -80,6 +80,10 @@ function fitmoo_checkout_theme() {
       'template' => 'templates/cancelorderemail',
       'arguments' => array('data' => NULL),
     ),
+    'checkoutheader' => array(
+      'template' => 'templates/checkoutheader',
+      //'arguments' => array('data' => NULL),
+    ),
  );
 }
 
@@ -91,6 +95,11 @@ function fitmoo_checkout_block_info() {
     $blocks['checkout-cart'] = array(
       'info' => t('Custom: Checkout Cart'),
     );
+	
+    $blocks['checkout-header'] = array(
+      'info' => t('Custom: Checkout Header'),
+    );
+	
 	return $blocks;
 }
 
@@ -101,6 +110,10 @@ function fitmoo_checkout_block_view($delta='') {
             $block['subject'] = '';
             $block['content'] = drupal_get_form('commerce_cart_form_checkout_pane_checkout_form');
 		break;
+	    case 'checkout-header':
+            $block['subject'] = '';
+            $block['content'] = fitmoo_checkout_header();
+		break;
 
 		
     }
@@ -108,7 +121,10 @@ function fitmoo_checkout_block_view($delta='') {
 }
 
 
-
+function fitmoo_checkout_header(){
+	
+	return theme('checkoutheader');
+}
 
 
 
