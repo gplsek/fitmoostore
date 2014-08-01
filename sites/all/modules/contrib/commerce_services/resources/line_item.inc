@@ -134,6 +134,11 @@ function commerce_services_line_item_create($data, $flatten_fields) {
 
   $order = commerce_order_load($order_id);
 
+  if (!empty($data['endorser_drupal_id'])){
+     $_SESSION['endorser_drupal_id'] = $data['endorser_drupal_id'];
+     unset($data['endorser_drupal_id']);
+  }
+
   if ($data['type'] != 'shipping') {
 
       $product = commerce_product_load($data['commerce_product']);
