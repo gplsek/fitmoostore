@@ -523,7 +523,7 @@ print fitmoo_checkout_sold_by();
   $handler->display->display_options['pager']['options']['items_per_page'] = '5';
   $handler->display->display_options['style_plugin'] = 'default';
   $handler->display->display_options['row_plugin'] = 'fields';
-  /* Field: Commerce Order: Billing information */
+  /* Field: Commerce Order: Payment information */
   $handler->display->display_options['fields']['commerce_customer_billing']['id'] = 'commerce_customer_billing';
   $handler->display->display_options['fields']['commerce_customer_billing']['table'] = 'field_data_commerce_customer_billing';
   $handler->display->display_options['fields']['commerce_customer_billing']['field'] = 'commerce_customer_billing';

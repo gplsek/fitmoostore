@@ -838,7 +838,7 @@ function fitmoo_store_field_default_field_instances() {
     ),
     'entity_type' => 'commerce_order',
     'field_name' => 'commerce_customer_billing',
-    'label' => 'Billing information',
+    'label' => 'Payment information',
     'required' => FALSE,
     'settings' => array(
       'user_register_form' => FALSE,
@@ -1151,7 +1151,7 @@ function fitmoo_store_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 14,
+      'weight' => 16,
     ),
   );
 
@@ -1231,7 +1231,7 @@ function fitmoo_store_field_default_field_instances() {
       'module' => 'number',
       'settings' => array(),
       'type' => 'number',
-      'weight' => 8,
+      'weight' => 9,
     ),
   );
 
@@ -1271,7 +1271,82 @@ function fitmoo_store_field_default_field_instances() {
       'module' => 'number',
       'settings' => array(),
       'type' => 'number',
-      'weight' => 9,
+      'weight' => 10,
+    ),
+  );
+
+  // Exported field_instance: 'commerce_order-commerce_order-field_referer'
+  $field_instances['commerce_order-commerce_order-field_referer'] = array(
+    'bundle' => 'commerce_order',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'user_reference',
+        'settings' => array(),
+        'type' => 'user_reference_default',
+        'weight' => 16,
+      ),
+    ),
+    'entity_type' => 'commerce_order',
+    'field_name' => 'field_referer',
+    'label' => 'referer',
+    'required' => 0,
+    'settings' => array(
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'user_reference',
+      'settings' => array(
+        'autocomplete_match' => 'contains',
+        'autocomplete_path' => 'user_reference/autocomplete',
+        'size' => 60,
+      ),
+      'type' => 'user_reference_autocomplete',
+      'weight' => 15,
+    ),
+  );
+
+  // Exported field_instance: 'commerce_order-commerce_order-field_referer_com'
+  $field_instances['commerce_order-commerce_order-field_referer_com'] = array(
+    'bundle' => 'commerce_order',
+    'default_value' => NULL,
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'above',
+        'module' => 'number',
+        'settings' => array(
+          'decimal_separator' => '.',
+          'prefix_suffix' => TRUE,
+          'scale' => 2,
+          'thousand_separator' => ' ',
+        ),
+        'type' => 'number_decimal',
+        'weight' => 17,
+      ),
+    ),
+    'entity_type' => 'commerce_order',
+    'field_name' => 'field_referer_com',
+    'label' => 'Referer Com',
+    'required' => 0,
+    'settings' => array(
+      'max' => '',
+      'min' => '',
+      'prefix' => '',
+      'suffix' => '',
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 0,
+      'module' => 'number',
+      'settings' => array(),
+      'type' => 'number',
+      'weight' => 8,
     ),
   );
 
@@ -1306,7 +1381,7 @@ function fitmoo_store_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'user_reference_autocomplete',
-      'weight' => 13,
+      'weight' => 14,
     ),
   );
 
@@ -1340,7 +1415,7 @@ function fitmoo_store_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 12,
+      'weight' => 13,
     ),
   );
 
@@ -1374,7 +1449,7 @@ function fitmoo_store_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 11,
+      'weight' => 12,
     ),
   );
 
@@ -1408,7 +1483,7 @@ function fitmoo_store_field_default_field_instances() {
         'size' => 60,
       ),
       'type' => 'text_textfield',
-      'weight' => 10,
+      'weight' => 11,
     ),
   );
 
@@ -4440,6 +4515,76 @@ function fitmoo_store_field_default_field_instances() {
     ),
   );
 
+  // Exported field_instance: 'commerce_product-tops-field_image'
+  $field_instances['commerce_product-tops-field_image'] = array(
+    'bundle' => 'tops',
+    'deleted' => 0,
+    'description' => '',
+    'display' => array(
+      'default' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => 'medium',
+        ),
+        'type' => 'image',
+        'weight' => 9,
+      ),
+      'line_item' => array(
+        'label' => 'above',
+        'settings' => array(),
+        'type' => 'hidden',
+        'weight' => 0,
+      ),
+      'node_teaser' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => 'thumbnail',
+        ),
+        'type' => 'image',
+        'weight' => 0,
+      ),
+      'token' => array(
+        'label' => 'hidden',
+        'module' => 'image',
+        'settings' => array(
+          'image_link' => '',
+          'image_style' => 'medium',
+        ),
+        'type' => 'image',
+        'weight' => 9,
+      ),
+    ),
+    'entity_type' => 'commerce_product',
+    'field_name' => 'field_image',
+    'label' => 'Image',
+    'required' => 0,
+    'settings' => array(
+      'alt_field' => 0,
+      'default_image' => 0,
+      'file_directory' => '',
+      'file_extensions' => 'png gif jpg jpeg',
+      'max_filesize' => '',
+      'max_resolution' => '',
+      'min_resolution' => '',
+      'title_field' => 0,
+      'user_register_form' => FALSE,
+    ),
+    'widget' => array(
+      'active' => 1,
+      'module' => 'image',
+      'settings' => array(
+        'preview_image_style' => 'thumbnail',
+        'progress_indicator' => 'throbber',
+      ),
+      'type' => 'image_image',
+      'weight' => 2,
+    ),
+  );
+
   // Exported field_instance: 'commerce_product-tops-field_size'
   $field_instances['commerce_product-tops-field_size'] = array(
     'bundle' => 'tops',
@@ -5794,7 +5939,6 @@ function fitmoo_store_field_default_field_instances() {
   t('Bank Account Number');
   t('Bank Name');
   t('Bank Rounting number');
-  t('Billing information');
   t('Body');
   t('BrainTreeMerchant ID');
   t('Brand');
@@ -5820,10 +5964,12 @@ function fitmoo_store_field_default_field_instances() {
   t('Order total');
   t('PayPal billing periods');
   t('PayPal recurring billing');
+  t('Payment information');
   t('Phone');
   t('Price');
   t('Product');
   t('Product variations');
+  t('Referer Com');
   t('Seller');
   t('Seller Email');
   t('Service Type');
@@ -5838,6 +5984,7 @@ function fitmoo_store_field_default_field_instances() {
   t('fitmooID');
   t('image');
   t('image_url');
+  t('referer');
   t('shipping label url');
   t('tracking');
   t('weight');

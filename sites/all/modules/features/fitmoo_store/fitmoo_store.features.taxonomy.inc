@@ -36,7 +36,7 @@ function fitmoo_store_taxonomy_default_vocabularies() {
       'name' => 'clothing size',
       'machine_name' => 'clothing_size',
       'description' => '',
-      'hierarchy' => 0,
+      'hierarchy' => 1,
       'module' => 'taxonomy',
       'weight' => 0,
       'rdf_mapping' => array(
